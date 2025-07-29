@@ -1,0 +1,8 @@
+name: pocketa_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.8.1
+
+workspace:
+  - apps/app
