@@ -23,8 +23,7 @@ lib/
         ├── insights/
         ├── search/
         ├── home/
-        ├── export/
-        └── splash/
+        └── exports/
 ```
 
 ## Inner Structure
