@@ -3,5 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/app.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(ProviderScope(child: App()));
 }

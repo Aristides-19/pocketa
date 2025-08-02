@@ -23,6 +23,7 @@ class NavItem extends StatelessWidget {
     return IconButton(
       onPressed: () => context.go(route),
       tooltip: tooltip,
+      constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
       icon: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),
         transitionBuilder: (child, animation) =>

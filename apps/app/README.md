@@ -6,7 +6,7 @@ lib/
     ├── widgets/
     ├── constants/
     ├── localization/
-    ├── routing/
+    ├── router/
     ├── utils/
     └── features/
         # Core

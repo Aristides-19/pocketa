@@ -32,12 +32,15 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final systemPadding = MediaQuery.of(context).viewPadding.bottom;
+
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 60,
+          height: 60 + systemPadding,
+          padding: EdgeInsets.only(bottom: systemPadding),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             border: Border(
