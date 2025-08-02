@@ -24,6 +24,40 @@
         "showReuseMessage": true,
         "clear": false
       }
+    },
+    {
+      "label": "Build Locale Keys and Codegen Loader",
+      "type": "shell",
+      "command": "dart run easy_localization:generate -S assets/langs -O lib/src/localization -o locale_keys.g.dart -f keys; dart run easy_localization:generate -S assets/langs -O lib/src/localization",
+      "group": "build",
+      "options": { "cwd": "apps/app" },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Audit Locale Keys",
+      "type": "shell",
+      "command": "dart run easy_localization:audit -t assets/langs -s lib/src/localization",
+      "group": "test",
+      "options": { "cwd": "apps/app" },
+    },
+    {
+      "label": "Build Generated Code",
+      "type": "shell",
+      "dependsOn": [
+        "Build Runner",
+        "Build Locale Keys and Codegen Loader"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

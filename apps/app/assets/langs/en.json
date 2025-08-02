@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "home": "Home",
+    "transactions": "Transactions",
+    "add_transaction": "Add Transaction",
+    "insights": "Insights",
+    "profile": "Profile"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel"
+  }
+}

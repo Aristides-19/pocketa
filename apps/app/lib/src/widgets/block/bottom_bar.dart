@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pocketa/src/localization/locale_keys.g.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
 import 'package:pocketa/src/widgets/block/nav_item.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key});
@@ -11,22 +13,22 @@ class BottomBar extends StatelessWidget {
     {
       'icon': FontAwesomeIcons.house,
       'route': RoutePaths.home,
-      'tooltip': 'Home',
+      'tooltip': LocaleKeys.nav_home.tr(),
     },
     {
       'icon': FontAwesomeIcons.moneyBillTransfer,
       'route': RoutePaths.transactions.path,
-      'tooltip': 'Transactions',
+      'tooltip': LocaleKeys.nav_transactions.tr(),
     },
     {
       'icon': FontAwesomeIcons.chartLine,
       'route': RoutePaths.insights,
-      'tooltip': 'Insights',
+      'tooltip': LocaleKeys.nav_insights.tr(),
     },
     {
       'icon': FontAwesomeIcons.solidUser,
       'route': RoutePaths.user,
-      'tooltip': 'Profile',
+      'tooltip': LocaleKeys.nav_profile.tr(),
     },
   ];
 
@@ -83,7 +85,7 @@ class BottomBar extends StatelessWidget {
         Positioned(
           top: -20,
           child: FloatingActionButton(
-            tooltip: 'Add Transaction',
+            tooltip: LocaleKeys.nav_add_transaction.tr(),
             onPressed: () {
               context.go(RoutePaths.transactions.add);
             },

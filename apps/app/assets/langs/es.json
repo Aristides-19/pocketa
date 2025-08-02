@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "transactions": "Transacciones",
+    "add_transaction": "Añadir Transacción",
+    "insights": "Gráficos",
+    "profile": "Perfil"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  }
+}
