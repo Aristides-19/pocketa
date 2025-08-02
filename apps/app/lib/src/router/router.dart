@@ -12,7 +12,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return AppLayout(child: child);
       },
-      routes: <GoRoute>[homeRoute],
+      routes: <GoRoute>[homeRoute, transactionsRoute, insightsRoute, userRoute],
     ),
   ],
 );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocketa/src/constants/constants.dart';
+import 'package:pocketa/src/widgets/block/block.dart';
 
 class AppLayout extends StatelessWidget {
   const AppLayout({super.key, required this.child});
@@ -18,12 +19,7 @@ class AppLayout extends StatelessWidget {
 
       body: child,
 
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: ''),
-        ],
-      ),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 }
