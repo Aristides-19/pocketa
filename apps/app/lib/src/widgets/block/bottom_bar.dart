@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
-import 'package:collection/collection.dart';
 import 'package:pocketa/src/widgets/block/nav_item.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,11 +55,10 @@ class BottomBar extends StatelessWidget {
               // Left side icons
               ...items
                   .sublist(0, items.length ~/ 2)
-                  .mapIndexed(
-                    (index, item) => NavItem(
+                  .map(
+                    (item) => NavItem(
                       icon: item['icon'],
                       route: item['route'],
-                      index: index,
                       tooltip: item['tooltip'],
                     ),
                   ),
@@ -68,11 +66,10 @@ class BottomBar extends StatelessWidget {
               // Right side icons
               ...items
                   .sublist(items.length ~/ 2)
-                  .mapIndexed(
-                    (index, item) => NavItem(
+                  .map(
+                    (item) => NavItem(
                       icon: item['icon'],
                       route: item['route'],
-                      index: index + items.length ~/ 2,
                       tooltip: item['tooltip'],
                     ),
                   ),

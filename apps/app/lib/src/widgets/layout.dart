@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/widgets/block/block.dart';
 
 class AppLayout extends StatelessWidget {
@@ -10,12 +9,7 @@ class AppLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppInfo.appName,
-          style: TextStyle(fontWeight: FontWeight.w900),
-        ),
-      ),
+      appBar: const PAppBar(),
 
       body: child,
 
