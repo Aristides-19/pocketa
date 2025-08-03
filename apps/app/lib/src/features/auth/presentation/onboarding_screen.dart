@@ -1,0 +1,65 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pocketa/src/constants/constants.dart';
+import 'package:pocketa/src/localization/locale_keys.g.dart';
+import 'package:pocketa/src/router/routes/route_paths.dart';
+import 'package:pocketa/src/widgets/widgets.dart';
+
+class OnboardingScreen extends StatelessWidget {
+  const OnboardingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Stack(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset('assets/icon/logo.svg', width: 150),
+                    const SizedBox(height: 27),
+                    Text.rich(
+                      TextSpan(
+                        style: textTheme.displayLarge,
+                        children: <TextSpan>[
+                          TextSpan(text: LocaleKeys.onboarding_welcome.tr()),
+                          TextSpan(
+                            text: AppInfo.appName,
+                            style: TextStyle(color: theme.colorScheme.primary),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      LocaleKeys.onboarding_description.tr(),
+                      style: textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+              ),
+
+              Align(
+                alignment: const Alignment(0.0, 0.7),
+                child: Button(
+                  label: LocaleKeys.onboarding_get_started.tr(),
+                  onPressed: () => context.go(RoutePaths.login),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

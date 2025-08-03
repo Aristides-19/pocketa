@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 final GoRouter router = GoRouter(
   navigatorKey: rootNavigatorKey,
-  initialLocation: RoutePaths.home,
-  routes: <ShellRoute>[
+  initialLocation: RoutePaths.onboarding,
+  routes: [
+    GoRoute(
+      path: RoutePaths.onboarding,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const OnboardingScreen(),
+    ),
     ShellRoute(
       navigatorKey: shellNavigatorKey,
       builder: (BuildContext context, GoRouterState state, Widget child) {

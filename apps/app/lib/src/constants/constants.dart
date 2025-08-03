@@ -1,3 +1,3 @@
-export 'info.dart';
 export 'colors.dart';
+export 'info.dart';
 export 'theme.dart';

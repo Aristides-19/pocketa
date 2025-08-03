@@ -1,4 +1,9 @@
-{
+{ 
+  "onboarding": {
+    "welcome": "Bienvenido a ",
+    "description": "Tu espacio de finanzas personales.",
+    "get_started": "Empezar"
+  },
   "nav": {
     "home": "Inicio",
     "transactions": "Transacciones",

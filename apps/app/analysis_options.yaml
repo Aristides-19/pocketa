@@ -6,7 +6,29 @@ linter:
     prefer_single_quotes: true
     prefer_final_fields: true
     avoid_unused_constructor_parameters: true
-    
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    directives_ordering: true
+    sort_child_properties_last: true
+    always_use_package_imports: true
+    sized_box_for_whitespace: true
+    no_logic_in_create_state: true
+    use_key_in_widget_constructors: true
+    require_trailing_commas: true
+    cascade_invocations: true
+    always_declare_return_types: true
+    avoid_init_to_null: true
+    avoid_shadowing_type_parameters: true
+    avoid_types_as_parameter_names: true
+    cancel_subscriptions: true
+    empty_catches: true
+    exhaustive_cases: true
+    empty_statements: true
+    no_duplicate_case_values: true
+    prefer_typing_uninitialized_variables: true
+    package_names: true
+    avoid_web_libraries_in_flutter: true
+
 analyzer:
   plugins:
     - custom_lint

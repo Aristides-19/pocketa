@@ -1,4 +1,9 @@
-{
+{ 
+  "onboarding": {
+    "welcome": "Welcome to ",
+    "description": "Your personal finance tracker.",
+    "get_started": "Get Started"
+  },
   "nav": {
     "home": "Home",
     "transactions": "Transactions",

@@ -5,6 +5,7 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
+devtools_options.yaml
 
 # VS Code
 .vscode/*

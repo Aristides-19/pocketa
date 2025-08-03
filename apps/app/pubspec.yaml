@@ -27,6 +27,7 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   collection: ^1.19.1
   easy_localization: ^3.0.8
+  flutter_svg: ^2.2.0
   
 dev_dependencies:
   flutter_test:
@@ -44,6 +45,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/langs/
+    - assets/icon/logo.svg
 
 flutter_launcher_icons:
   image_path: assets/icon/icon.png

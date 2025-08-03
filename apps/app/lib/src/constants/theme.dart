@@ -7,7 +7,27 @@ class AppTheme {
     brightness: Brightness.light,
     primaryColor: AppColors.darkSky,
     scaffoldBackgroundColor: AppColors.lightGray,
-    textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+    textTheme: TextTheme(
+      displayLarge: _ibm(Colors.black87, FontWeight.w900), // Muy destacado
+      displayMedium: _ibm(Colors.black87, FontWeight.w700),
+      displaySmall: _ibm(Colors.black87, FontWeight.w600),
+
+      headlineLarge: _ibm(Colors.black87, FontWeight.w600),
+      headlineMedium: _ibm(Colors.black87, FontWeight.w500),
+      headlineSmall: _ibm(Colors.black87, FontWeight.w500),
+
+      titleLarge: _ibm(Colors.black87, FontWeight.w500),
+      titleMedium: _ibm(AppColors.midGray, FontWeight.w500),
+      titleSmall: _ibm(AppColors.midGray, FontWeight.w400),
+
+      bodyLarge: _ibm(Colors.black87, FontWeight.w400),
+      bodyMedium: _ibm(AppColors.midGray, FontWeight.w400),
+      bodySmall: _ibm(AppColors.midGray, FontWeight.w300),
+
+      labelLarge: _ibm(Colors.black87, FontWeight.w500),
+      labelMedium: _ibm(AppColors.midGray, FontWeight.w400),
+      labelSmall: _ibm(AppColors.midGray, FontWeight.w300),
+    ),
     useMaterial3: true,
     iconTheme: const IconThemeData(color: AppColors.darkSky, size: 18),
     colorScheme: const ColorScheme(
@@ -40,4 +60,9 @@ class AppTheme {
       ),
     ),
   );
+
+  static TextStyle _ibm(Color color, FontWeight fontWeight) =>
+      GoogleFonts.ibmPlexSans(
+        textStyle: TextStyle(color: color, fontWeight: fontWeight),
+      );
 }

@@ -7,5 +7,6 @@ class AppColors {
   static const vividSky = Color(0xFF14ADCC);
   static const lightSky = Color(0xFFC4EDF3);
   static const red = Color(0xFFA64741);
+  static const midGray = Color(0xFF878787);
   static const opaqueDarkSky = Color(0x0B1E445C);
 }
