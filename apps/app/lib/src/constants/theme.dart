@@ -17,7 +17,7 @@ class AppTheme {
       headlineSmall: _ibm(Colors.black87, FontWeight.w500),
 
       titleLarge: _ibm(Colors.black87, FontWeight.w500),
-      titleMedium: _ibm(AppColors.midGray, FontWeight.w500),
+      titleMedium: _ibm(Colors.black87, FontWeight.w500),
       titleSmall: _ibm(AppColors.midGray, FontWeight.w400),
 
       bodyLarge: _ibm(Colors.black87, FontWeight.w400),
@@ -59,6 +59,10 @@ class AppTheme {
         borderRadius: BorderRadius.circular(8),
       ),
     ),
+  );
+
+  static const BorderRadius borderRadius = BorderRadius.all(
+    Radius.circular(15),
   );
 
   static TextStyle _ibm(Color color, FontWeight fontWeight) =>
