@@ -28,6 +28,8 @@ dependencies:
   collection: ^1.19.1
   easy_localization: ^3.0.8
   flutter_svg: ^2.2.0
+  flutter_form_builder: ^10.1.0
+  form_builder_validators: ^11.2.0
   
 dev_dependencies:
   flutter_test:

@@ -4,6 +4,17 @@
     "description": "Tu espacio de finanzas personales.",
     "get_started": "Empezar"
   },
+  "auth": {
+    "login": "Acceder",
+    "signup": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "have_account": "¿Ya tienes una cuenta?",
+    "no_account": "¿No tienes una cuenta?",
+    "or": "o"
+  },
   "nav": {
     "home": "Inicio",
     "transactions": "Transacciones",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pocketa/src/constants/constants.dart';
@@ -10,12 +11,13 @@ class FormInput extends HookWidget {
     required this.keyboardType,
     required this.textInputAction,
     required this.autofillHints,
+    required this.name,
     this.isPassword = false,
     this.maxLength,
     this.validator,
-    this.controller,
   });
 
+  final String name;
   final String label;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
@@ -23,16 +25,15 @@ class FormInput extends HookWidget {
   final bool isPassword;
   final int? maxLength;
   final FormFieldValidator<String>? validator;
-  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     final isObscured = useState(isPassword);
     final iconTheme = IconTheme.of(context);
 
-    return TextFormField(
+    return FormBuilderTextField(
+      name: name,
       keyboardType: keyboardType,
-      controller: controller,
       textInputAction: textInputAction,
       autofillHints: autofillHints,
       obscureText: isObscured.value,

@@ -1,14 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/localization/locale_keys.g.dart';
 import 'package:pocketa/src/router/routes/route_paths.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
-class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({super.key});
+class OnboardScreen extends StatelessWidget {
+  const OnboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class OnboardingScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset('assets/icon/logo.svg', width: 150),
+                    const Logo(width: 150),
                     const SizedBox(height: 27),
                     Text.rich(
                       TextSpan(

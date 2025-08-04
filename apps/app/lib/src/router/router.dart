@@ -12,7 +12,13 @@ final GoRouter router = GoRouter(
       path: RoutePaths.onboarding,
       parentNavigatorKey: rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) =>
-          const OnboardingScreen(),
+          const OnboardScreen(),
+    ),
+    GoRoute(
+      path: RoutePaths.login,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) =>
+          const LoginScreen(),
     ),
     ShellRoute(
       navigatorKey: shellNavigatorKey,

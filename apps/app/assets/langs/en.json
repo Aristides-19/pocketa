@@ -4,6 +4,17 @@
     "description": "Your personal finance tracker.",
     "get_started": "Get Started"
   },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email Address",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "forgot_password": "Forgot Password?",
+    "have_account": "Already have an account?",
+    "no_account": "Don't have an account?",
+    "or": "or"
+  },
   "nav": {
     "home": "Home",
     "transactions": "Transactions",
