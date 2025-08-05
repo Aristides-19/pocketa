@@ -28,12 +28,15 @@ linter:
     prefer_typing_uninitialized_variables: true
     package_names: true
     avoid_web_libraries_in_flutter: true
+    curly_braces_in_flow_control_structures: true
+    unawaited_futures: true
 
 analyzer:
   plugins:
     - custom_lint
   errors:
     invalid_annotation_target: ignore
+    unawaited_futures: error
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"

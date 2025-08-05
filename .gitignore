@@ -18,6 +18,7 @@ devtools_options.yaml
 *.tmp
 *.swp
 *.swo
+*.env
 
 # Coverage
 coverage/
