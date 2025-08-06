@@ -87,7 +87,7 @@ class BottomBar extends StatelessWidget {
           child: FloatingActionButton(
             tooltip: LocaleKeys.nav_add_transaction.tr(),
             onPressed: () {
-              context.go(RoutePaths.transactions.add);
+              context.push(RoutePaths.transactions.add);
             },
             child: const FaIcon(FontAwesomeIcons.plus),
           ),

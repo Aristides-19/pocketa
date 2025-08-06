@@ -37,6 +37,18 @@ class SessionNotFoundException extends AppException {
   bool matches(AppwriteException e) => e.type == 'user_session_not_found';
 }
 
+class SessionRequiredException extends AppException {
+  const SessionRequiredException();
+  @override
+  bool matches(AppwriteException e) => e.type == 'general_unauthorized_scope';
+}
+
+class UnauthorizedException extends AppException {
+  const UnauthorizedException();
+  @override
+  bool matches(AppwriteException e) => e.type == 'user_unauthorized';
+}
+
 class NetworkException extends AppException {
   const NetworkException();
 
@@ -65,16 +77,20 @@ class UnknownException extends AppException {
 /// Maps a function that may throw an [AppwriteException] to a custom [AppException].
 Future<T> guardCall<T>(
   Future<T> Function() call, {
-  required Set<AppException> possibleExceptions,
+  Set<AppException> possibleExceptions = const {},
 }) async {
   try {
     return await call();
   } on AppwriteException catch (e) {
     log(
       'Appwrite call failed: (type: ${e.type}, code: ${e.code}) - ${e.message}',
-      error: e,
+      name: 'RequestGuard',
     );
-    const defaultExceptions = {NetworkException(), RateLimitException()};
+    const defaultExceptions = {
+      SessionRequiredException(),
+      NetworkException(),
+      RateLimitException(),
+    };
     final allExceptions = {...possibleExceptions, ...defaultExceptions};
 
     final matchedException = allExceptions.firstWhereOrNull(
