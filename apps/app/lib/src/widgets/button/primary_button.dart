@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pocketa/src/constants/constants.dart';
 
 class Button extends StatelessWidget {
@@ -7,11 +8,13 @@ class Button extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.width = 160,
+    this.isLoading = false,
   });
 
   final String label;
   final VoidCallback onPressed;
   final double width;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +34,27 @@ class Button extends StatelessWidget {
         ],
       ),
       child: FilledButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: FilledButton.styleFrom(
           minimumSize: Size(width, 60),
           backgroundColor: theme.colorScheme.primary,
           shape: const RoundedRectangleBorder(
             borderRadius: AppTheme.borderRadius,
           ),
+          disabledBackgroundColor: theme.colorScheme.primary,
         ),
-        child: Text(
-          label,
-          style: textTheme.titleMedium!.copyWith(
-            color: theme.colorScheme.onPrimary,
-            fontSize: 20,
-          ),
-        ),
+        child: isLoading
+            ? LoadingAnimationWidget.progressiveDots(
+                color: theme.colorScheme.onPrimary,
+                size: 30,
+              )
+            : Text(
+                label,
+                style: textTheme.titleMedium!.copyWith(
+                  color: theme.colorScheme.onPrimary,
+                  fontSize: 20,
+                ),
+              ),
       ),
     );
   }

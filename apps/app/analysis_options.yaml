@@ -30,6 +30,7 @@ linter:
     avoid_web_libraries_in_flutter: true
     curly_braces_in_flow_control_structures: true
     unawaited_futures: true
+    avoid_catches_without_on_clauses: true
 
 analyzer:
   plugins:
