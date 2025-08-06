@@ -44,6 +44,12 @@ GoRouter router(Ref ref) {
         builder: (BuildContext context, GoRouterState state) =>
             const LoginScreen(),
       ),
+      GoRoute(
+        path: RoutePaths.signup,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (BuildContext context, GoRouterState state) =>
+            const SignupScreen(),
+      ),
       ShellRoute(
         navigatorKey: shellNavigatorKey,
         builder: (BuildContext context, GoRouterState state, Widget child) {

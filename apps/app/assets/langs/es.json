@@ -7,9 +7,11 @@
   "auth": {
     "login": "Acceder",
     "signup": "Registrarse",
+    "username": "Nombre de usuario",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "confirm_password": "Confirmar contraseña",
+    "password_not_match": "Las contraseñas no coinciden",
     "forgot_password": "¿Olvidaste tu contraseña?",
     "have_account": "¿Ya tienes una cuenta?",
     "no_account": "¿No tienes una cuenta?",

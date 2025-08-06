@@ -7,9 +7,11 @@
   "auth": {
     "login": "Login",
     "signup": "Sign Up",
+    "username": "Username",
     "email": "Email Address",
     "password": "Password",
     "confirm_password": "Confirm Password",
+    "password_not_match": "Passwords do not match",
     "forgot_password": "Forgot Password?",
     "have_account": "Already have an account?",
     "no_account": "Don't have an account?",

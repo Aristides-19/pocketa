@@ -16,4 +16,12 @@ class AuthController extends _$AuthController {
       ref.invalidate(authServiceProvider);
     });
   }
+
+  Future<void> signUp(String username, String email, String password) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(authRepositoryProvider).signUp(username, email, password);
+      ref.invalidate(authServiceProvider);
+    });
+  }
 }
