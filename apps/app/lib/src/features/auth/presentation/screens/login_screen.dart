@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -6,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/presentation/controller.dart';
 import 'package:pocketa/src/features/auth/presentation/validators.dart';
-import 'package:pocketa/src/localization/locale_keys.g.dart';
+import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
