@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:appwrite/appwrite.dart';
-import 'package:collection/collection.dart';
 
 /// Base class for all Appwrite responses exceptions.
 /// UI should catch it and show a i18n message.
@@ -72,33 +69,4 @@ class UnknownException extends AppException {
   final String message;
   @override
   bool matches(AppwriteException e) => false;
-}
-
-/// Maps a function that may throw an [AppwriteException] to a custom [AppException].
-Future<T> guardCall<T>(
-  Future<T> Function() call, {
-  Set<AppException> possibleExceptions = const {},
-}) async {
-  try {
-    return await call();
-  } on AppwriteException catch (e) {
-    log(
-      'Appwrite call failed: (type: ${e.type}, code: ${e.code}) - ${e.message}',
-      name: 'RequestGuard',
-    );
-    const defaultExceptions = {
-      SessionRequiredException(),
-      NetworkException(),
-      RateLimitException(),
-    };
-    final allExceptions = {...possibleExceptions, ...defaultExceptions};
-
-    final matchedException = allExceptions.firstWhereOrNull(
-      (exception) => exception.matches(e),
-    );
-
-    if (matchedException != null) throw matchedException;
-
-    throw UnknownException(e.message ?? 'An unknown error occurred.');
-  }
 }
