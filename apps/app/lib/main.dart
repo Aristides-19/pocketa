@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/app.dart';
 import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/utils/appwrite/providers.dart';
+import 'package:toastification/toastification.dart';
 
 void main() async {
   await dotenv.load();
@@ -22,7 +23,7 @@ void main() async {
         path: 'assets/langs',
         fallbackLocale: const Locale('en'),
         assetLoader: const CodegenLoader(),
-        child: const App(),
+        child: const ToastificationWrapper(child: App()),
       ),
     ),
   );

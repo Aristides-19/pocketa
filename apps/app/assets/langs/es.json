@@ -15,7 +15,15 @@
     "forgot_password": "¿Olvidaste tu contraseña?",
     "have_account": "¿Ya tienes una cuenta?",
     "no_account": "¿No tienes una cuenta?",
-    "or": "o"
+    "or": "o",
+    "login_success": {
+      "title": "Inicio de sesión exitoso",
+      "message": "¡Bienvenido de nuevo!"
+    },
+    "signup_success": {
+      "title": "Registro exitoso",
+      "message": "¡Bienvenido! Tu cuenta ha sido creada."
+    }
   },
   "nav": {
     "home": "Inicio",
@@ -27,5 +35,43 @@
   "actions": {
     "save": "Guardar",
     "cancel": "Cancelar"
+  },
+  "errors": {
+    "credentials_mismatch" : {
+      "title": "Inicio de sesión fallido",
+      "message": "El correo electrónico y la contraseña no coinciden."
+    },
+    "email_in_use": {
+      "title": "Correo en uso",
+      "message": "La dirección de correo ya está asociada a otra cuenta."
+    },
+    "session_exists": {
+      "title": "Sesión ya existente",
+      "message": "Ya existe una sesión para este dispositivo."
+    },
+    "session_not_found": {
+      "title": "Sesión no encontrada",
+      "message": "No se encontró una sesión para este usuario."
+    },
+    "session_required": {
+      "title": "Se requiere sesión",
+      "message": "Por favor inicia sesión o regístrate para continuar."
+    },
+    "unauthorized": {
+      "title": "No autorizado",
+      "message": "No tienes permiso para acceder a este recurso."
+    },
+    "network": {
+      "title": "Error de red",
+      "message": "Comprueba tu conexión a Internet e inténtalo de nuevo."
+    },
+    "rate_limit": {
+      "title": "Límite de peticiones excedido",
+      "message": "Has excedido el número de solicitudes permitidas. Inténtalo más tarde."
+    },
+    "unknown": {
+      "title": "Error desconocido",
+      "message": "Ocurrió un error desconocido. Contacta al desarrollador."
+    }
   }
 }

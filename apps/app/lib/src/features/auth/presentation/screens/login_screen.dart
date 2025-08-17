@@ -3,10 +3,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/features/auth/presentation/controller.dart';
 import 'package:pocketa/src/features/auth/presentation/validators.dart';
 import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
+import 'package:pocketa/src/utils/services/toaster_service.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class LoginScreen extends HookConsumerWidget {
@@ -29,6 +31,18 @@ class LoginScreen extends HookConsumerWidget {
     final textTheme = TextTheme.of(context);
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
     final asyncAuth = ref.watch(authControllerProvider);
+
+    ref.listen(authServiceProvider, (_, current) {
+      if (current.valueOrNull != null) {
+        ref
+            .read(toasterServiceProvider)
+            .add(
+              ToasterMode.success,
+              LocaleKeys.auth_login_success_title.tr(),
+              LocaleKeys.auth_login_success_message.tr(),
+            );
+      }
+    });
 
     return Scaffold(
       body: AppForm(

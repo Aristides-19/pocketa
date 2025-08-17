@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
+import 'package:pocketa/src/router/keys.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -69,10 +70,3 @@ GoRouter router(Ref ref) {
 
   return router;
 }
-
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'root',
-);
-final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'shell',
-);

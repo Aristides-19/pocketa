@@ -15,7 +15,15 @@
     "forgot_password": "Forgot Password?",
     "have_account": "Already have an account?",
     "no_account": "Don't have an account?",
-    "or": "or"
+    "or": "or",
+    "login_success": {
+      "title": "Login Successful",
+      "message": "Welcome back! You are now logged in."
+    },
+    "signup_success": {
+      "title": "Signup Successful",
+      "message": "Welcome! Your account has been created."
+    }
   },
   "nav": {
     "home": "Home",
@@ -27,5 +35,43 @@
   "actions": {
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "errors": {
+    "credentials_mismatch" : {
+      "title": "Login Failed",
+      "message": "Your email and password do not match."
+    },
+    "email_in_use": {
+      "title": "Email Already in Use",
+      "message": "The email address is already associated with another account."
+    },
+    "session_exists": {
+      "title": "Session Already Exists",
+      "message": "A session for this device already exists."
+    },
+    "session_not_found": {
+      "title": "Session Not Found",
+      "message": "No session found for this user."
+    },
+    "session_required": {
+      "title": "Session Required",
+      "message": "Please log in or sign up to continue."
+    },
+    "unauthorized": {
+      "title": "Unauthorized",
+      "message": "You do not have permission to access this resource."
+    },
+    "network": {
+      "title": "Network Error",
+      "message": "Please check your internet connection and try again."
+    },
+    "rate_limit": {
+      "title": "Rate Limit Exceeded",
+      "message": "You have exceeded the number of allowed requests. Please try again later."
+    },
+    "unknown": {
+      "title": "Unknown Error",
+      "message": "An unknown error occurred. Contact the developer."
+    }
   }
 }

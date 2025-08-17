@@ -15,7 +15,7 @@ class AuthRepository {
   final RequestGuard requestGuard;
 
   Future<void> logInWithEmail(String email, String password) async {
-    return requestGuard.call(
+    return requestGuard.callToaster(
       () async {
         await account.createEmailPasswordSession(
           email: email,
@@ -30,7 +30,7 @@ class AuthRepository {
   }
 
   Future<void> signUp(String username, String email, String password) {
-    return requestGuard.call(() async {
+    return requestGuard.callToaster(() async {
       await account.create(
         userId: ID.unique(),
         email: email,
@@ -46,7 +46,7 @@ class AuthRepository {
 
   Future<Auth?> getCurrentUser() async {
     try {
-      return requestGuard.call(() async {
+      return requestGuard.callToaster(() async {
         final user = await account.get();
         return Auth(email: user.email, name: user.name);
       }, invalidateOnSessionRequired: false);

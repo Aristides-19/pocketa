@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/constants/constants.dart';
+import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/router/routes/route_paths.dart';
+import 'package:pocketa/src/utils/services/toaster_service.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
-class OnboardScreen extends StatelessWidget {
+class OnboardScreen extends ConsumerWidget {
   const OnboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
+    ref.listen(authServiceProvider, (_, current) {
+      if (current.valueOrNull != null) {
+        ref
+            .read(toasterServiceProvider)
+            .add(
+              ToasterMode.success,
+              LocaleKeys.auth_login_success_title.tr(),
+              LocaleKeys.auth_login_success_message.tr(),
+            );
+      }
+    });
 
     return Scaffold(
       body: SafeArea(
