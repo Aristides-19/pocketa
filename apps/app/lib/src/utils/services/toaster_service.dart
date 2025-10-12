@@ -28,7 +28,7 @@ class Toaster {
 }
 
 @Riverpod(keepAlive: true)
-Toaster toasterService(Ref ref) {
+Toaster toast(Ref ref) {
   return const Toaster();
 }
 

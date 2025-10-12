@@ -13,7 +13,7 @@ class AuthController extends _$AuthController {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).logInWithEmail(email, password);
-      ref.invalidate(authServiceProvider);
+      ref.invalidate(authProvider);
     });
   }
 
@@ -21,7 +21,7 @@ class AuthController extends _$AuthController {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await ref.read(authRepositoryProvider).signUp(username, email, password);
-      ref.invalidate(authServiceProvider);
+      ref.invalidate(authProvider);
     });
   }
 }

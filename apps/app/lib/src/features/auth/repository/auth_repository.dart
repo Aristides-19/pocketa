@@ -58,6 +58,6 @@ class AuthRepository {
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) {
   final account = ref.read(appwriteAccountProvider);
-  final requestGuard = ref.read(requestGuardServiceProvider);
+  final requestGuard = ref.read(reqGuardProvider);
   return AuthRepository(account, requestGuard);
 }

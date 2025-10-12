@@ -11,7 +11,7 @@ part 'router.g.dart';
 @Riverpod(keepAlive: true)
 GoRouter router(Ref ref) {
   String? redirect(GoRouterState state) {
-    final authState = ref.read(authServiceProvider);
+    final authState = ref.read(authProvider);
 
     if (authState.isLoading || authState.hasError) return null;
 
@@ -65,7 +65,7 @@ GoRouter router(Ref ref) {
     ],
   );
 
-  ref.listen(authServiceProvider, (_, _) => router.refresh());
+  ref.listen(authProvider, (_, _) => router.refresh());
 
   return router;
 }

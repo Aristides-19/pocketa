@@ -15,10 +15,10 @@ class OnboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    ref.listen(authServiceProvider, (_, current) {
+    ref.listen(authProvider, (_, current) {
       if (current.value != null) {
         ref
-            .read(toasterServiceProvider)
+            .read(toastProvider)
             .add(
               ToasterMode.success,
               LocaleKeys.auth_login_success_title.tr(),

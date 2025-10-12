@@ -5,11 +5,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_service.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, name: 'authProvider')
 class AuthService extends _$AuthService {
   @override
   Future<Auth?> build() async {
-    ref.read(loggerServiceProvider).i('AuthService initialized');
+    ref.read(loggerProvider).i('AuthService initialized');
     return await ref.read(authRepositoryProvider).getCurrentUser();
   }
 }

@@ -39,7 +39,7 @@ class RequestGuard {
 
       if (matchedException is SessionRequiredException &&
           invalidateOnSessionRequired) {
-        ref.invalidate(authServiceProvider);
+        ref.invalidate(authProvider);
       }
 
       if (matchedException != null) throw matchedException;
@@ -79,10 +79,6 @@ class RequestGuard {
 }
 
 @Riverpod(keepAlive: true)
-RequestGuard requestGuardService(Ref ref) {
-  return RequestGuard(
-    ref,
-    ref.read(loggerServiceProvider),
-    ref.read(toasterServiceProvider),
-  );
+RequestGuard reqGuard(Ref ref) {
+  return RequestGuard(ref, ref.read(loggerProvider), ref.read(toastProvider));
 }

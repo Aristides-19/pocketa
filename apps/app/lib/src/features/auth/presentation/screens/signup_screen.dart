@@ -33,10 +33,10 @@ class SignupScreen extends HookConsumerWidget {
     final textTheme = TextTheme.of(context);
     final asyncAuth = ref.watch(authControllerProvider);
 
-    ref.listen(authServiceProvider, (_, current) {
+    ref.listen(authProvider, (_, current) {
       if (current.value != null) {
         ref
-            .read(toasterServiceProvider)
+            .read(toastProvider)
             .add(
               ToasterMode.success,
               LocaleKeys.auth_signup_success_title.tr(),

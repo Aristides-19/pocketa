@@ -4,6 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'prefs_service.g.dart';
 
 @Riverpod(keepAlive: true)
-SharedPreferencesAsync preferencesService(Ref ref) {
+SharedPreferencesAsync prefs(Ref ref) {
   return SharedPreferencesAsync();
 }
