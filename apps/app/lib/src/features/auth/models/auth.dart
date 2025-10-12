@@ -4,5 +4,9 @@ part 'auth.freezed.dart';
 
 @freezed
 abstract class Auth with _$Auth {
-  const factory Auth({required String email, String? name}) = _Auth;
+  const factory Auth({
+    required String email,
+    required String $id,
+    String? name,
+  }) = _Auth;
 }

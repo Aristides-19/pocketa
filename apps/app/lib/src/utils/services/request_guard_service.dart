@@ -1,6 +1,5 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:collection/collection.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/utils/appwrite/exceptions.dart';

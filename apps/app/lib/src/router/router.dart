@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/router/keys.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
@@ -16,7 +15,7 @@ GoRouter router(Ref ref) {
 
     if (authState.isLoading || authState.hasError) return null;
 
-    final isLoggedIn = authState.valueOrNull != null;
+    final isLoggedIn = authState.value != null;
     final isGoingToPublicRoute = [
       RoutePaths.onboarding,
       RoutePaths.login,

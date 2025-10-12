@@ -16,7 +16,7 @@ class OnboardScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     ref.listen(authServiceProvider, (_, current) {
-      if (current.valueOrNull != null) {
+      if (current.value != null) {
         ref
             .read(toasterServiceProvider)
             .add(

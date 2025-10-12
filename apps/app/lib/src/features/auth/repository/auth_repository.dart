@@ -1,5 +1,4 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/utils/appwrite/exceptions.dart';
 import 'package:pocketa/src/utils/appwrite/providers.dart';
@@ -14,7 +13,7 @@ class AuthRepository {
   final Account account;
   final RequestGuard requestGuard;
 
-  Future<void> logInWithEmail(String email, String password) async {
+  Future<void> logInWithEmail(String email, String password) {
     return requestGuard.callToaster(
       () async {
         await account.createEmailPasswordSession(
@@ -48,7 +47,7 @@ class AuthRepository {
     try {
       return requestGuard.callToaster(() async {
         final user = await account.get();
-        return Auth(email: user.email, name: user.name);
+        return Auth(email: user.email, $id: user.$id, name: user.name);
       }, invalidateOnSessionRequired: false);
     } on SessionRequiredException {
       return null;
@@ -56,7 +55,7 @@ class AuthRepository {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) {
   final account = ref.read(appwriteAccountProvider);
   final requestGuard = ref.read(requestGuardServiceProvider);

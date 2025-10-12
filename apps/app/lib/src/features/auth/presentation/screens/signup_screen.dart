@@ -34,7 +34,7 @@ class SignupScreen extends HookConsumerWidget {
     final asyncAuth = ref.watch(authControllerProvider);
 
     ref.listen(authServiceProvider, (_, current) {
-      if (current.valueOrNull != null) {
+      if (current.value != null) {
         ref
             .read(toasterServiceProvider)
             .add(
