@@ -70,7 +70,7 @@ class LoginScreen extends HookConsumerWidget {
             keyboardType: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
             autofillHints: const [AutofillHints.password],
-            isPassword: true,
+            obscure: true,
             maxLength: 30,
             validator: loginPasswordValidator(),
           ),

@@ -12,7 +12,7 @@ class FormInput extends HookWidget {
     required this.textInputAction,
     required this.autofillHints,
     required this.name,
-    this.isPassword = false,
+    this.obscure = false,
     this.maxLength,
     this.validator,
   });
@@ -22,13 +22,13 @@ class FormInput extends HookWidget {
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final List<String> autofillHints;
-  final bool isPassword;
+  final bool obscure;
   final int? maxLength;
   final FormFieldValidator<String>? validator;
 
   @override
   Widget build(BuildContext context) {
-    final isObscured = useState(isPassword);
+    final isObscured = useState(obscure);
     final iconTheme = IconTheme.of(context);
 
     return FormBuilderTextField(
@@ -50,7 +50,7 @@ class FormInput extends HookWidget {
           vertical: 18,
         ),
 
-        suffixIcon: isPassword
+        suffixIcon: obscure
             ? IconButton(
                 icon: FaIcon(
                   isObscured.value
