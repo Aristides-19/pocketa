@@ -1,5 +1,6 @@
 import 'package:pocketa/src/features/auth/models/auth_state.dart';
 import 'package:pocketa/src/features/auth/repository/auth_repository.dart';
+import 'package:pocketa/src/features/crypto/crypto.dart';
 import 'package:pocketa/src/utils/services/logger_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,6 +29,9 @@ class AuthService extends _$AuthService {
       await _repo.logInWithEmail(email, password);
 
       final auth = await _repo.getCurrentUser();
+      await ref
+          .read(cryptoProvider)
+          .init(password: password, userId: auth!.$id);
       return AuthState(user: auth, reason: AuthChangeReason.login);
     });
   }
@@ -36,6 +40,7 @@ class AuthService extends _$AuthService {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final id = _repo.genId();
+      await ref.read(cryptoProvider).createKey(password, id);
       final auth = await _repo.signUp(username, email, password, id);
       return AuthState(user: auth, reason: AuthChangeReason.signup);
     });
