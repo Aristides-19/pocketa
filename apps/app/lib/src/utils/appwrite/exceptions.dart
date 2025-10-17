@@ -72,6 +72,26 @@ class UnauthorizedException extends AppException {
   String message() => LocaleKeys.errors_unauthorized_message.tr();
 }
 
+class RowUpdateConflictException extends AppException {
+  const RowUpdateConflictException();
+  @override
+  bool matches(AppwriteException e) => e.type == 'row_update_conflict';
+  @override
+  String title() => LocaleKeys.errors_row_update_conflict_title.tr();
+  @override
+  String message() => LocaleKeys.errors_row_update_conflict_message.tr();
+}
+
+class RowNotFoundException extends AppException {
+  const RowNotFoundException();
+  @override
+  bool matches(AppwriteException e) => e.type == 'row_not_found';
+  @override
+  String title() => LocaleKeys.errors_row_not_found_title.tr();
+  @override
+  String message() => LocaleKeys.errors_row_not_found_message.tr();
+}
+
 class NetworkException extends AppException {
   const NetworkException();
 

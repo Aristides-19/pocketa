@@ -30,6 +30,9 @@ class RequestGuard {
         SessionRequiredException(),
         NetworkException(),
         RateLimitException(),
+        UnauthorizedException(),
+        RowNotFoundException(),
+        RowUpdateConflictException(),
       };
       final allExceptions = {...possibleExceptions, ...defaultExceptions};
 
@@ -39,12 +42,16 @@ class RequestGuard {
 
       if (matchedException is SessionRequiredException &&
           invalidateOnSessionRequired) {
+        logger.i('Session required, invalidating authProvider');
         ref.invalidate(authProvider);
       }
 
       if (matchedException != null) throw matchedException;
 
       throw UnknownException(e.message ?? 'An unknown error occurred.');
+    } on Exception catch (e) {
+      logger.e('Non-Appwrite exception occurred', error: e);
+      throw UnknownException(e.toString());
     }
   }
 

@@ -5,7 +5,7 @@ part 'providers.g.dart';
 
 @Riverpod(keepAlive: true)
 Client appwriteClient(Ref ref) {
-  throw UnimplementedError('Override appwriteClientProvider in start');
+  throw UnimplementedError('Override appwriteClientProvider in main');
 }
 
 @Riverpod(keepAlive: true)
@@ -15,7 +15,7 @@ Account appwriteAccount(Ref ref) {
 }
 
 @Riverpod(keepAlive: true)
-Databases appwriteDatabases(Ref ref) {
+TablesDB appwriteDb(Ref ref) {
   final client = ref.watch(appwriteClientProvider);
-  return Databases(client);
+  return TablesDB(client);
 }
