@@ -4,11 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
-import 'package:pocketa/src/features/auth/presentation/controller.dart';
 import 'package:pocketa/src/features/auth/presentation/validators.dart';
 import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/router/routes/routes.dart';
-import 'package:pocketa/src/utils/services/toaster_service.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class SignupScreen extends HookConsumerWidget {
@@ -24,26 +22,14 @@ class SignupScreen extends HookConsumerWidget {
     final username = form.fields['username']?.value as String;
     final email = form.fields['email']?.value as String;
     final password = form.fields['password']?.value as String;
-    ref.read(authControllerProvider.notifier).signUp(username, email, password);
+    ref.read(authProvider.notifier).signUp(username, email, password);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
     final textTheme = TextTheme.of(context);
-    final asyncAuth = ref.watch(authControllerProvider);
-
-    ref.listen(authProvider, (_, current) {
-      if (current.value != null) {
-        ref
-            .read(toastProvider)
-            .add(
-              ToasterMode.success,
-              LocaleKeys.auth_signup_success_title.tr(),
-              LocaleKeys.auth_signup_success_message.tr(),
-            );
-      }
-    });
+    final asyncAuth = ref.watch(authProvider);
 
     return Scaffold(
       body: AppForm(

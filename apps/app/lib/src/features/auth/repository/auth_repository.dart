@@ -28,10 +28,15 @@ class AuthRepository {
     );
   }
 
-  Future<void> signUp(String username, String email, String password) {
+  Future<Auth> signUp(
+    String username,
+    String email,
+    String password,
+    String id,
+  ) {
     return requestGuard.callToaster(() async {
       await account.create(
-        userId: ID.unique(),
+        userId: id,
         email: email,
         password: password,
         name: username,
@@ -40,18 +45,23 @@ class AuthRepository {
         email: email,
         password: password,
       );
+      return Auth(email: email, $id: id, name: username);
     }, possibleExceptions: const {EmailInUseException()});
   }
 
   Future<Auth?> getCurrentUser() async {
     try {
-      return requestGuard.callToaster(() async {
+      return await requestGuard.callToaster(() async {
         final user = await account.get();
         return Auth(email: user.email, $id: user.$id, name: user.name);
       }, invalidateOnSessionRequired: false);
     } on SessionRequiredException {
       return null;
     }
+  }
+
+  String genId() {
+    return ID.unique();
   }
 }
 

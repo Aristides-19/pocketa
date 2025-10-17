@@ -15,7 +15,7 @@ GoRouter router(Ref ref) {
 
     if (authState.isLoading || authState.hasError) return null;
 
-    final isLoggedIn = authState.value != null;
+    final isLoggedIn = authState.value?.user != null;
     final isGoingToPublicRoute = [
       RoutePaths.onboarding,
       RoutePaths.login,
