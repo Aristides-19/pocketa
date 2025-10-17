@@ -23,6 +23,10 @@
     "signup_success": {
       "title": "Registro exitoso",
       "message": "¡Bienvenido! Tu cuenta ha sido creada."
+    },
+    "logout_success": {
+      "title": "Cierre de sesión exitoso",
+      "message": "Has cerrado sesión."
     }
   },
   "nav": {
@@ -47,7 +51,7 @@
     },
     "session_exists": {
       "title": "Sesión ya existente",
-      "message": "Ya existe una sesión para este dispositivo."
+      "message": "Ya existe una sesión en este dispositivo. Intenta reiniciar la app."
     },
     "session_not_found": {
       "title": "Sesión no encontrada",
@@ -60,6 +64,14 @@
     "unauthorized": {
       "title": "No autorizado",
       "message": "No tienes permiso para acceder a este recurso."
+    },
+    "row_update_conflict": {
+      "title": "Conflicto de actualización",
+      "message": "Estás intentando actualizar datos modificados en otro proceso. Inténtalo de nuevo."
+    },
+    "row_not_found": {
+      "title": "Datos no encontrados",
+      "message": "No se pudieron encontrar los datos solicitados."
     },
     "network": {
       "title": "Error de red",

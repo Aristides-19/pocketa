@@ -23,6 +23,10 @@
     "signup_success": {
       "title": "Signup Successful",
       "message": "Welcome! Your account has been created."
+    },
+    "logout_success": {
+      "title": "Logout Successful",
+      "message": "You have been logged out."
     }
   },
   "nav": {
@@ -47,7 +51,7 @@
     },
     "session_exists": {
       "title": "Session Already Exists",
-      "message": "A session for this device already exists."
+      "message": "A session for this device already exists. Try to restart the app."
     },
     "session_not_found": {
       "title": "Session Not Found",
@@ -60,6 +64,14 @@
     "unauthorized": {
       "title": "Unauthorized",
       "message": "You do not have permission to access this resource."
+    },
+    "row_update_conflict" : {
+      "title": "Update Conflict",
+      "message": "You are trying to update data modified by another process. Please refresh and try again."
+    },
+    "row_not_found": {
+      "title": "Data Not Found",
+      "message": "The requested data could not be found."
     },
     "network": {
       "title": "Network Error",
