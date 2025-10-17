@@ -18,6 +18,7 @@ void main() async {
 
   runApp(
     ProviderScope(
+      retry: (_, _) => null,
       overrides: [appwriteClientProvider.overrideWithValue(client)],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('es')],
