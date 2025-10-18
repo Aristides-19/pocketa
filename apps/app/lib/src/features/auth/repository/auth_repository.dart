@@ -56,6 +56,12 @@ class AuthRepository {
     });
   }
 
+  Future<void> logout() {
+    return request.call(() async {
+      await account.deleteSession(sessionId: 'current');
+    });
+  }
+
   String genId() {
     return ID.unique();
   }

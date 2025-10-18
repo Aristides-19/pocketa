@@ -52,7 +52,8 @@ class App extends ConsumerWidget {
         final val = curr.unwrapPrevious().value;
         if (val != null && val.reason == AuthChangeReason.sessionRestore) {
           await crypto.init();
-        } else if (val == null) {
+        } else if (val?.user == null ||
+            val?.reason == AuthChangeReason.logout) {
           await crypto.logout();
         }
       });

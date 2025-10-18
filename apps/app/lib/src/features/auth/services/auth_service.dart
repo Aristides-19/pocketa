@@ -47,4 +47,11 @@ class AuthService extends _$AuthService with AsyncNotifierMixin {
       return AuthState(user: auth, reason: AuthChangeReason.signup);
     });
   }
+
+  Future<void> logout() async {
+    await mutateState(() async {
+      await _repo.logout();
+      return AuthState(user: null, reason: AuthChangeReason.logout);
+    });
+  }
 }
