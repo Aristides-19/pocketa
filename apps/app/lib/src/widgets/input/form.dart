@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:pocketa/src/widgets/widgets.dart';
 
 /// Children must include [FormInput] widgets and Submit Button. For full screens.
 class AppForm extends StatelessWidget {
@@ -18,13 +19,9 @@ class AppForm extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: height),
         child: AutofillGroup(
-          child: SingleChildScrollView(
+          child: ScrollableScreen(
             padding: const EdgeInsets.symmetric(horizontal: 33, vertical: 65),
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: children,
-            ),
+            children: children,
           ),
         ),
       ),
