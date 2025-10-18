@@ -1,6 +1,8 @@
 import 'package:pocketa/src/features/auth/models/auth_state.dart';
 import 'package:pocketa/src/features/auth/repository/auth_repository.dart';
 import 'package:pocketa/src/features/crypto/crypto.dart';
+import 'package:pocketa/src/utils/appwrite/exceptions.dart';
+import 'package:pocketa/src/utils/riverpod/async_notifier_mixin.dart';
 import 'package:pocketa/src/utils/services/logger_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,7 +10,7 @@ part 'auth_service.g.dart';
 
 // TODO - Add retry logic for network errors
 @Riverpod(keepAlive: true, name: 'authProvider')
-class AuthService extends _$AuthService {
+class AuthService extends _$AuthService with AsyncNotifierMixin<AuthState> {
   late AuthRepository _repo;
 
   @override
@@ -16,16 +18,16 @@ class AuthService extends _$AuthService {
     ref.read(loggerProvider).i('AuthService initialized');
     _repo = ref.read(authRepositoryProvider);
 
-    final user = await _repo.getCurrentUser();
-    return AuthState(
-      user: user,
-      reason: user != null ? AuthChangeReason.sessionRestore : null,
-    );
+    try {
+      final user = await _repo.getCurrentUser();
+      return AuthState(user: user, reason: AuthChangeReason.sessionRestore);
+    } on SessionRequiredException {
+      return AuthState(user: null, reason: null);
+    }
   }
 
   Future<void> logIn(String email, String password) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    await mutateState(() async {
       await _repo.logInWithEmail(email, password);
 
       final auth = await _repo.getCurrentUser();
@@ -37,8 +39,7 @@ class AuthService extends _$AuthService {
   }
 
   Future<void> signUp(String username, String email, String password) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
+    await mutateState(() async {
       final id = _repo.genId();
       await ref.read(cryptoProvider).createKey(password, id);
       final auth = await _repo.signUp(username, email, password, id);

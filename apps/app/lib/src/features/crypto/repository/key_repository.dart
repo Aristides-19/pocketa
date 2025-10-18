@@ -21,15 +21,16 @@ class KeyRepository {
     this.ref,
     this.db,
     this.securePrefs,
-    this.requestGuard,
+    this.request,
     this._engine,
   );
 
   final Ref ref;
   final TablesDB db;
   final FlutterSecureStorage securePrefs;
-  final RequestGuard requestGuard;
+  final RequestGuard request;
   final CryptoEngine _engine;
+
   final _storageKey = 'private_key';
   final _saltKey = 'salt_key';
 
@@ -56,7 +57,7 @@ class KeyRepository {
     List<int> salt, {
     String? userId,
   }) {
-    return requestGuard.callToaster(() async {
+    return request.call(() async {
       final id = userId ?? ref.read(authProvider).value!.user!.$id;
 
       final key = Key(
@@ -83,7 +84,7 @@ class KeyRepository {
   }
 
   Future<(SecretKey, List<int>)> get(String? password, String? userId) {
-    return requestGuard.callToaster(() async {
+    return request.call(() async {
       final [privateKeyb64, saltb64] = await Future.wait([
         securePrefs.read(key: _storageKey),
         securePrefs.read(key: _saltKey),
@@ -119,7 +120,7 @@ class KeyRepository {
   }
 
   Future<void> logout() {
-    return requestGuard.callToaster(() async {
+    return request.call(() async {
       await Future.wait([
         securePrefs.delete(key: _storageKey),
         securePrefs.delete(key: _saltKey),
@@ -132,7 +133,7 @@ class KeyRepository {
 KeyRepository keyRepository(Ref ref) {
   final db = ref.read(appwriteDbProvider);
   final securePrefs = ref.read(securePrefsProvider);
-  final requestGuard = ref.read(reqGuardProvider);
+  final request = ref.read(reqGuardProvider);
   final engine = ref.read(cryptoEngineProvider);
-  return KeyRepository(ref, db, securePrefs, requestGuard, engine);
+  return KeyRepository(ref, db, securePrefs, request, engine);
 }

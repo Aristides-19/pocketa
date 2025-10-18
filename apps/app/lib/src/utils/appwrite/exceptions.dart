@@ -119,13 +119,13 @@ class RateLimitException extends AppException {
 }
 
 class UnknownException extends AppException {
-  const UnknownException(this.unknownMessage);
+  const UnknownException(this._unknownMessage);
 
-  final String unknownMessage;
+  final String _unknownMessage;
   @override
   bool matches(AppwriteException e) => false;
   @override
   String title() => LocaleKeys.errors_unknown_title.tr();
   @override
-  String message() => LocaleKeys.errors_unknown_message.tr();
+  String message() => _unknownMessage + LocaleKeys.errors_unknown_message.tr();
 }

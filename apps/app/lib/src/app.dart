@@ -17,9 +17,15 @@ class App extends ConsumerWidget {
 
     ref
       ..listen(authProvider, (_, curr) {
-        if (curr.isLoading || curr.hasError) return;
-
+        if (curr.isLoading) return;
         final toast = ref.read(toastProvider);
+
+        final e = curr.error;
+        if (e is Exception) {
+          toast.showException(e);
+          return;
+        }
+
         if (curr.value?.reason == AuthChangeReason.login ||
             curr.value?.reason == AuthChangeReason.sessionRestore) {
           toast.add(

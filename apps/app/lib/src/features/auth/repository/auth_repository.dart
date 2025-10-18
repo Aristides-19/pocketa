@@ -8,20 +8,20 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_repository.g.dart';
 
 class AuthRepository {
-  const AuthRepository(this.account, this.requestGuard);
+  const AuthRepository(this.account, this.request);
 
   final Account account;
-  final RequestGuard requestGuard;
+  final RequestGuard request;
 
   Future<void> logInWithEmail(String email, String password) {
-    return requestGuard.callToaster(
+    return request.call(
       () async {
         await account.createEmailPasswordSession(
           email: email,
           password: password,
         );
       },
-      possibleExceptions: const {
+      exceptions: const {
         CredentialsMismatchException(),
         SessionExistsException(),
       },
@@ -34,7 +34,7 @@ class AuthRepository {
     String password,
     String id,
   ) {
-    return requestGuard.callToaster(() async {
+    return request.call(() async {
       await account.create(
         userId: id,
         email: email,
@@ -46,18 +46,14 @@ class AuthRepository {
         password: password,
       );
       return Auth(email: email, $id: id, name: username);
-    }, possibleExceptions: const {EmailInUseException()});
+    }, exceptions: const {EmailInUseException()});
   }
 
   Future<Auth?> getCurrentUser() async {
-    try {
-      return await requestGuard.callToaster(() async {
-        final user = await account.get();
-        return Auth(email: user.email, $id: user.$id, name: user.name);
-      }, invalidateOnSessionRequired: false);
-    } on SessionRequiredException {
-      return null;
-    }
+    return request.call(() async {
+      final user = await account.get();
+      return Auth(email: user.email, $id: user.$id, name: user.name);
+    });
   }
 
   String genId() {
@@ -68,6 +64,6 @@ class AuthRepository {
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) {
   final account = ref.read(appwriteAccountProvider);
-  final requestGuard = ref.read(reqGuardProvider);
-  return AuthRepository(account, requestGuard);
+  final request = ref.read(reqGuardProvider);
+  return AuthRepository(account, request);
 }
