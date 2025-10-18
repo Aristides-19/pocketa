@@ -6,6 +6,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'crypto_service.g.dart';
 
+// TODO - Add handling for orphan users (users without keys).
+//  E.g. request password when trying to create encrypted data to gen a new key.
 class CryptoService {
   CryptoService(this._engine, this._repo);
 
