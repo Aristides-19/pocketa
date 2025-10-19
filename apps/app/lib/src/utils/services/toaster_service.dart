@@ -10,8 +10,15 @@ part 'toaster_service.g.dart';
 class Toaster {
   const Toaster();
 
-  void add(ToasterMode mode, String subject, String body, [int duration = 5]) {
+  void add(
+    ToasterMode mode,
+    String subject,
+    String body, [
+    int duration = 5,
+    bool dismissAll = false,
+  ]) {
     final theme = Theme.of(rootNavigatorKey.currentContext!);
+    if (dismissAll) toastification.dismissAll();
     toastification.show(
       type: mode.toToastificationType,
       style: ToastificationStyle.flat,
@@ -27,12 +34,12 @@ class Toaster {
     );
   }
 
-  void showException(Exception e) {
+  void showException(Exception e, [int duration = 5, bool dismissAll = false]) {
     if (e is! AppException) {
-      add(ToasterMode.error, 'Error', e.toString());
+      add(ToasterMode.error, 'Error', e.toString(), duration, dismissAll);
       return;
     }
-    add(ToasterMode.error, e.title(), e.message());
+    add(ToasterMode.error, e.title(), e.message(), duration, dismissAll);
   }
 }
 

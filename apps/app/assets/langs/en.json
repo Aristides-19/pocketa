@@ -97,6 +97,10 @@
     "unknown": {
       "title": "Unknown Error",
       "message": "An unknown error occurred. Contact the developer."
+    },
+    "password_required": {
+      "title": "Password Required",
+      "message": "Your password is required to access your private key. Please re-enter your password."
     }
   }
 }

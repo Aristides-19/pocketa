@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
+import 'package:pocketa/src/features/crypto/crypto.dart';
 import 'package:pocketa/src/features/crypto/models/key.dart';
 import 'package:pocketa/src/features/crypto/utils/crypto_engine.dart';
 import 'package:pocketa/src/features/crypto/utils/utils.dart';
@@ -93,13 +95,33 @@ class KeyRepository {
         return (secretKeyFromBase64(privateKeyb64), base64Decode(saltb64));
       }
 
-      if (password == null) throw Exception('Password is required to load key');
+      if (password == null) throw const PasswordRequiredException();
+      if (userId == null) {
+        throw Exception('userId is required to fetch the key.');
+      }
 
-      final document = await db.getRow(
-        databaseId: AppEnv.databaseId,
-        tableId: AppEnv.keysCollectionId,
-        rowId: userId!,
-      );
+      Row? document;
+      try {
+        document = await db.getRow(
+          databaseId: AppEnv.databaseId,
+          tableId: AppEnv.keysCollectionId,
+          rowId: userId,
+        );
+      } on AppwriteException catch (e) {
+        if (e.type != 'row_not_found') rethrow;
+      }
+
+      if (document == null) {
+        final results = await Future.wait([
+          _engine.deriveKey(password),
+          _engine.genPrivateKey(),
+        ]);
+
+        final (derivedKey, salt) = results[0] as (SecretKey, List<int>);
+        final privateKey = results[1] as SecretKey;
+        await create(privateKey, derivedKey, salt, userId);
+        return (privateKey, salt);
+      }
 
       var key = Key.fromJson(document.data);
       final encryptedKey = secretBoxFromBase64(key.encryptedKeyb64!);

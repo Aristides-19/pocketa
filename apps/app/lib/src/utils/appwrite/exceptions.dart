@@ -1,12 +1,12 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:pocketa/src/localization/locale.dart';
 
-/// Base class for all Appwrite responses exceptions.
-sealed class AppException implements Exception {
+/// Base class for all App exceptions.
+abstract class AppException implements Exception {
   const AppException();
 
   /// Checks if the exception matches a waiting AppwriteException.
-  bool matches(AppwriteException e);
+  bool matches(AppwriteException e) => false;
   String title();
   String message();
 }
@@ -122,8 +122,6 @@ class UnknownException extends AppException {
   const UnknownException(this._unknownMessage);
 
   final String _unknownMessage;
-  @override
-  bool matches(AppwriteException e) => false;
   @override
   String title() => LocaleKeys.errors_unknown_title.tr();
   @override

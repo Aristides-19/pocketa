@@ -97,6 +97,10 @@
     "unknown": {
       "title": "Error desconocido",
       "message": "Ocurrió un error desconocido. Contacta al desarrollador."
+    },
+    "password_required": {
+      "title": "Se requiere contraseña",
+      "message": "Se requiere tu contraseña para acceder a tu clave privada. Por favor, vuelve a introducir tu contraseña."
     }
   }
 }

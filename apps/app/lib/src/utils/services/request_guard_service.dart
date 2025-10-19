@@ -40,6 +40,10 @@ class RequestGuard {
 
       throw UnknownException(e.message ?? 'An unknown error occurred.');
     } on Exception catch (e) {
+      if (e is AppException) {
+        logger.e('Non-Appwrite App exception occurred', error: e);
+        rethrow;
+      }
       logger.e('Non-Appwrite exception occurred', error: e);
       throw UnknownException(e.toString());
     }

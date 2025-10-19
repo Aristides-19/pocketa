@@ -48,10 +48,18 @@ class App extends ConsumerWidget {
         }
       })
       ..listen(authProvider, (_, curr) async {
+        if (curr.isLoading) return;
+
         final crypto = ref.read(cryptoProvider);
         final val = curr.unwrapPrevious().value;
+
         if (val != null && val.reason == AuthChangeReason.sessionRestore) {
-          await crypto.init();
+          try {
+            await crypto.init();
+          } on PasswordRequiredException catch (e) {
+            await ref.read(authProvider.notifier).logout();
+            ref.read(toastProvider).showException(e, 10, true);
+          }
         } else if (val?.user == null ||
             val?.reason == AuthChangeReason.logout) {
           await crypto.logout();
