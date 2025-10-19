@@ -30,6 +30,14 @@ class LoginScreen extends HookConsumerWidget {
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
     final asyncAuth = ref.watch(authProvider);
 
+    if (formKey.currentState?.fields['email'] == null) {
+      ref.read(authProvider.notifier).getLastSessionEmail().then((email) {
+        if (email != null && email.isNotEmpty) {
+          formKey.currentState?.fields['email']?.didChange(email);
+        }
+      });
+    }
+
     return Scaffold(
       body: AppForm(
         formKey: formKey,

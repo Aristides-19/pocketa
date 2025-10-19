@@ -22,7 +22,7 @@ class AuthService extends _$AuthService with AsyncNotifierMixin {
       final user = await _repo.getCurrentUser();
       return AuthState(user: user, reason: AuthChangeReason.sessionRestore);
     } on SessionRequiredException {
-      return AuthState(user: null, reason: null);
+      return const AuthState(user: null, reason: null);
     }
   }
 
@@ -51,7 +51,11 @@ class AuthService extends _$AuthService with AsyncNotifierMixin {
   Future<void> logout() async {
     await mutateState(() async {
       await _repo.logout();
-      return AuthState(user: null, reason: AuthChangeReason.logout);
+      return const AuthState(user: null, reason: AuthChangeReason.logout);
     });
+  }
+
+  Future<String?> getLastSessionEmail() async {
+    return _repo.getLastSessionEmail();
   }
 }
