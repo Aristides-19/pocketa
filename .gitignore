@@ -10,6 +10,7 @@ devtools_options.yaml
 # VS Code
 .vscode/*
 !.vscode/tasks.json
+!.vscode/settings.json
 
 # Other
 .idea/
