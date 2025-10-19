@@ -30,6 +30,7 @@ class PAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       elevation: 0,
+      scrolledUnderElevation: 0,
       centerTitle: true,
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,

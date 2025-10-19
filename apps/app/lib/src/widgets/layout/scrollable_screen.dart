@@ -8,9 +8,14 @@ class ScrollableScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultPadding =
+        padding ?? const EdgeInsets.symmetric(horizontal: 18, vertical: 8);
+    final systemPadding = MediaQuery.of(context).padding;
+
     return SingleChildScrollView(
-      padding:
-          padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: defaultPadding.add(
+        EdgeInsets.only(bottom: systemPadding.bottom),
+      ),
       physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -11,18 +11,12 @@ class AppForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height - mediaQuery.padding.bottom;
-
     return FormBuilder(
       key: formKey,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: height),
-        child: AutofillGroup(
-          child: ScrollableScreen(
-            padding: const EdgeInsets.symmetric(horizontal: 33, vertical: 65),
-            children: children,
-          ),
+      child: AutofillGroup(
+        child: ScrollableScreen(
+          padding: const EdgeInsets.symmetric(horizontal: 33, vertical: 65),
+          children: children,
         ),
       ),
     );
