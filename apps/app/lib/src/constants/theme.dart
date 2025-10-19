@@ -21,7 +21,7 @@ class AppTheme {
       titleSmall: _ibm(AppColors.midGray, FontWeight.w400),
 
       bodyLarge: _ibm(Colors.black87, FontWeight.w400),
-      bodyMedium: _ibm(AppColors.midGray, FontWeight.w400),
+      bodyMedium: _ibm(Colors.black87, FontWeight.w400),
       bodySmall: _ibm(AppColors.midGray, FontWeight.w300),
 
       labelLarge: _ibm(Colors.black87, FontWeight.w500),
@@ -36,7 +36,7 @@ class AppTheme {
       onPrimary: AppColors.white,
       secondary: AppColors.vividSky,
       onSecondary: AppColors.darkSky,
-      surface: AppColors.white,
+      surface: AppColors.lightGray,
       onSurface: Colors.black87,
       error: AppColors.red,
       onError: AppColors.white,
