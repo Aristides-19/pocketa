@@ -15,6 +15,7 @@
     "forgot_password": "¿Olvidaste tu contraseña?",
     "have_account": "¿Ya tienes una cuenta?",
     "no_account": "¿No tienes una cuenta?",
+    "logout": "Cerrar sesión",
     "or": "o",
     "login_success": {
       "title": "Inicio de sesión exitoso",
@@ -28,6 +29,18 @@
       "title": "Cierre de sesión exitoso",
       "message": "Has cerrado sesión."
     }
+  },
+  "profile": {
+    "section_account": "Mi cuenta",
+    "personal_data": "Datos personales",
+    "security": "Seguridad",
+    "notifications": "Notificaciones",
+    "categories": "Administrar categorías",
+    "section_current_profile": "Perfil actual",
+    "edit_profile": "Editar perfil",
+    "section_options": "Opciones",
+    "dark_mode": "Modo oscuro",
+    "language": "Idioma"
   },
   "nav": {
     "home": "Inicio",

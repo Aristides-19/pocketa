@@ -15,6 +15,7 @@
     "forgot_password": "Forgot Password?",
     "have_account": "Already have an account?",
     "no_account": "Don't have an account?",
+    "logout": "Logout",
     "or": "or",
     "login_success": {
       "title": "Login Successful",
@@ -28,6 +29,18 @@
       "title": "Logout Successful",
       "message": "You have been logged out."
     }
+  },
+  "profile": {
+    "section_account": "My Account",
+    "personal_data": "Personal data",
+    "security": "Security",
+    "notifications": "Notifications",
+    "categories": "Manage categories",
+    "section_current_profile": "Current Profile",
+    "edit_profile": "Edit profile",
+    "section_options": "Options",
+    "dark_mode": "Dark mode",
+    "language": "Language"
   },
   "nav": {
     "home": "Home",
