@@ -38,6 +38,7 @@ class AppTheme {
       onSecondary: AppColors.darkSky,
       surface: AppColors.lightGray,
       onSurface: Colors.black87,
+      surfaceContainer: AppColors.lightWhite,
       error: AppColors.red,
       onError: AppColors.white,
       tertiary: AppColors.lightSky,
