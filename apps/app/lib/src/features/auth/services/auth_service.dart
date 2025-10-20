@@ -19,17 +19,18 @@ class AuthService extends _$AuthService with AsyncNotifierMixin {
 
     try {
       final user = await _repo.getCurrentUser();
-      if (_isInitializing) {
-        _isInitializing = false;
-      }
+      if (_isInitializing) _isInitializing = false;
       return AuthState(
         user: user,
         reason: _isInitializing
-            ? AuthChangeReason.sessionRestore
+            ? AuthChangeReason.restore
             : AuthChangeReason.refresh,
       );
     } on SessionRequiredException {
-      return const AuthState(user: null, reason: null);
+      return AuthState(
+        user: null,
+        reason: !_isInitializing ? AuthChangeReason.expired : null,
+      );
     }
   }
 

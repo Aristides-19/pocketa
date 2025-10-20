@@ -28,6 +28,10 @@
     "logout_success": {
       "title": "Logout Successful",
       "message": "You have been logged out."
+    },
+    "session_expired": {
+      "title": "Session Expired",
+      "message": "Your session has expired. Please log in again."
     }
   },
   "profile": {

@@ -27,7 +27,7 @@ class App extends ConsumerWidget {
         }
 
         if (curr.value?.reason == AuthChangeReason.login ||
-            curr.value?.reason == AuthChangeReason.sessionRestore) {
+            curr.value?.reason == AuthChangeReason.restore) {
           toast.add(
             ToasterMode.success,
             LocaleKeys.auth_login_success_title.tr(),
@@ -45,6 +45,12 @@ class App extends ConsumerWidget {
             LocaleKeys.auth_logout_success_title.tr(),
             LocaleKeys.auth_logout_success_message.tr(),
           );
+        } else if (curr.value?.reason == AuthChangeReason.expired) {
+          toast.add(
+            ToasterMode.warning,
+            LocaleKeys.auth_session_expired_title.tr(),
+            LocaleKeys.auth_session_expired_message.tr(),
+          );
         }
       })
       ..listen(authProvider, (_, curr) async {
@@ -53,7 +59,7 @@ class App extends ConsumerWidget {
         final crypto = ref.read(cryptoProvider);
         final val = curr.unwrapPrevious().value;
 
-        if (val != null && val.reason == AuthChangeReason.sessionRestore) {
+        if (val != null && val.reason == AuthChangeReason.restore) {
           try {
             await crypto.init();
           } on PasswordRequiredException catch (e) {

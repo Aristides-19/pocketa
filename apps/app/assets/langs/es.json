@@ -28,6 +28,10 @@
     "logout_success": {
       "title": "Cierre de sesión exitoso",
       "message": "Has cerrado sesión."
+    },
+    "session_expired": {
+      "title": "Sesión Expirada",
+      "message": "Tu sesión ha expirado. Por favor, inicia sesión de nuevo."
     }
   },
   "profile": {

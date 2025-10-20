@@ -1,7 +1,6 @@
 import 'package:cryptography/cryptography.dart';
 import 'package:pocketa/src/features/crypto/repository/key_repository.dart';
 import 'package:pocketa/src/features/crypto/utils/crypto_engine.dart';
-import 'package:pocketa/src/utils/services/logger_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'crypto_service.g.dart';
@@ -48,10 +47,7 @@ class CryptoService {
 }
 
 @Riverpod(keepAlive: true)
-CryptoService crypto(Ref ref) {
-  ref.read(loggerProvider).i('CryptoService initialized');
-  return CryptoService(
-    ref.read(cryptoEngineProvider),
-    ref.read(keyRepositoryProvider),
-  );
-}
+CryptoService crypto(Ref ref) => CryptoService(
+  ref.read(cryptoEngineProvider),
+  ref.read(keyRepositoryProvider),
+);

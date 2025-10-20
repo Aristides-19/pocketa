@@ -11,4 +11,4 @@ abstract class AuthState with _$AuthState {
   }) = _AuthState;
 }
 
-enum AuthChangeReason { sessionRestore, login, signup, logout, refresh }
+enum AuthChangeReason { restore, login, signup, logout, refresh, expired }
