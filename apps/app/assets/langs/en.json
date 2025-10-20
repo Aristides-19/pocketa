@@ -31,6 +31,10 @@
     }
   },
   "profile": {
+    "base_currency": "Base Currency",
+    "display_currency": "Conversion Currency",
+    "change_profile": "Switch Profile",
+    "profile_load_error": "Unable to load profile.", 
     "section_account": "My Account",
     "personal_data": "Personal data",
     "security": "Security",
@@ -51,7 +55,8 @@
   },
   "actions": {
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "retry": "Retry"
   },
   "errors": {
     "credentials_mismatch" : {

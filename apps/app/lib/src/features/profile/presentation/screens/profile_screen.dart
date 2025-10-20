@@ -5,7 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/features/profile/presentation/widgets/widgets.dart';
+import 'package:pocketa/src/features/profile/services/profile_service.dart';
 import 'package:pocketa/src/localization/locale.dart';
+import 'package:pocketa/src/utils/services/toaster_service.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -97,6 +99,9 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ),
 
+        const SizedBox(height: 16),
+        const SizedBox(width: double.infinity, child: ProfileCard()),
+
         const SizedBox(height: 24),
         ItemSection(section: sections['account']!),
 
@@ -123,6 +128,110 @@ class ProfileScreen extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ProfileCard extends ConsumerWidget {
+  const ProfileCard({super.key});
+
+  Widget _buildSkeleton() {
+    return CommonCard(
+      child: Skeletonizer(
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(width: 120, height: 20, color: Colors.white),
+                const SizedBox(height: 6),
+                Container(width: 150, height: 16, color: Colors.white),
+                const SizedBox(height: 4),
+                Container(width: 160, height: 16, color: Colors.white),
+              ],
+            ),
+            const Spacer(),
+            PIconButton(
+              icon: const FaIcon(FontAwesomeIcons.shuffle),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildError(WidgetRef ref, AsyncValue profile) {
+    final theme = Theme.of(ref.context);
+
+    return CommonCard(
+      child: Row(
+        children: [
+          const SizedBox(width: 6),
+          FaIcon(FontAwesomeIcons.xmark, color: theme.colorScheme.error),
+
+          const SizedBox(width: 20),
+          Expanded(child: Text(LocaleKeys.profile_profile_load_error.tr())),
+
+          LabelButton(
+            label: LocaleKeys.actions_retry.tr(),
+            onPressed: () => ref.refresh(profileProvider),
+            color: theme.colorScheme.error,
+            isLoading: profile.isLoading,
+            showLoading: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final profile = ref.watch(profileProvider);
+
+    ref.listen((profileProvider), (_, curr) {
+      if (curr.hasError && !curr.isLoading) {
+        final e = curr.error;
+        if (e is Exception) ref.read(toastProvider).showException(e);
+      }
+    });
+
+    return profile.when(
+      loading: () => _buildSkeleton(),
+      error: (_, _) => _buildError(ref, profile),
+      data: (profile) => CommonCard(
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(profile.name, style: theme.textTheme.titleMedium),
+                const SizedBox(height: 4),
+                Text(
+                  '${LocaleKeys.profile_base_currency.tr()}: ${profile.baseCurrencyCode}',
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                    color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${LocaleKeys.profile_display_currency.tr()}: ${profile.displayCurrencyCode}',
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                    color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            PIconButton(
+              icon: const FaIcon(FontAwesomeIcons.shuffle),
+              onPressed: () {},
+              tooltip: LocaleKeys.profile_change_profile.tr(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
