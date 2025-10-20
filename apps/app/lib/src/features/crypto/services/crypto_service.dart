@@ -32,7 +32,7 @@ class CryptoService {
   /// Password can be null if the key is already stored locally (e.g. session restore).
   /// Else, password is required to decrypt the key.
   Future<void> init({String? password, String? userId}) async {
-    _privateKey = (await _repo.get(password, userId)).$1;
+    _privateKey = (await _repo.getOrElseCreate(password, userId)).$1;
   }
 
   /// Rotate the private key encryption by re-encrypting it with a new key derived from the new password.

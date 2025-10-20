@@ -85,7 +85,10 @@ class KeyRepository {
     });
   }
 
-  Future<(SecretKey, List<int>)> get(String? password, String? userId) {
+  Future<(SecretKey, List<int>)> getOrElseCreate(
+    String? password,
+    String? userId,
+  ) {
     return request.call(() async {
       final [privateKeyb64, saltb64] = await Future.wait([
         securePrefs.read(key: _storageKey),
