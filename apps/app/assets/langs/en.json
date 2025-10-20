@@ -59,7 +59,11 @@
     "retry": "Retry"
   },
   "errors": {
-    "credentials_mismatch" : {
+    "screen": {
+      "title": "Something went wrong",
+      "message": "An error occurred while loading this screen. Please try again."
+    },
+    "credentials_mismatch": {
       "title": "Login Failed",
       "message": "Your email and password do not match."
     },

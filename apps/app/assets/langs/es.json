@@ -59,7 +59,11 @@
     "retry": "Reintentar"
   },
   "errors": {
-    "credentials_mismatch" : {
+    "screen": {
+      "title": "Algo salió mal",
+      "message": "Ocurrió un error al cargar esta pantalla. Por favor, inténtalo de nuevo."
+    },
+    "credentials_mismatch": {
       "title": "Inicio de sesión fallido",
       "message": "El correo electrónico y la contraseña no coinciden."
     },
