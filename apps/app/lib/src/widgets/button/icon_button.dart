@@ -5,14 +5,14 @@ class PIconButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.onPressed,
-    required this.tooltip,
+    this.tooltip,
     this.isLoading = false,
     this.iconSize = 18,
   });
 
   final Widget icon;
   final VoidCallback onPressed;
-  final String tooltip;
+  final String? tooltip;
   final double iconSize;
   final bool isLoading;
 
