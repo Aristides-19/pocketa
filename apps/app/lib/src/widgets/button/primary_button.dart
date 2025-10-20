@@ -8,12 +8,16 @@ class Button extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.width = 160,
+    this.height = 60,
+    this.fontSize = 20,
     this.isLoading = false,
   });
 
   final String label;
   final VoidCallback onPressed;
   final double width;
+  final double height;
+  final double fontSize;
   final bool isLoading;
 
   @override
@@ -36,7 +40,7 @@ class Button extends StatelessWidget {
       child: FilledButton(
         onPressed: isLoading ? null : onPressed,
         style: FilledButton.styleFrom(
-          minimumSize: Size(width, 60),
+          minimumSize: Size(width, height),
           backgroundColor: theme.colorScheme.primary,
           shape: const RoundedRectangleBorder(
             borderRadius: AppTheme.borderRadius,
@@ -46,13 +50,13 @@ class Button extends StatelessWidget {
         child: isLoading
             ? LoadingAnimationWidget.progressiveDots(
                 color: theme.colorScheme.onPrimary,
-                size: 30,
+                size: height / 2,
               )
             : Text(
                 label,
                 style: textTheme.titleMedium!.copyWith(
                   color: theme.colorScheme.onPrimary,
-                  fontSize: 20,
+                  fontSize: fontSize,
                 ),
               ),
       ),
