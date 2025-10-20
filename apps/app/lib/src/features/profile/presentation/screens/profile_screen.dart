@@ -65,69 +65,72 @@ class ProfileScreen extends ConsumerWidget {
     final auth = ref.watch(authProvider);
     final theme = Theme.of(context);
 
-    return ScrollableScreen(
-      children: [
-        Center(
-          child: Column(
-            children: [
-              SizedBox(
-                width: 84,
-                child: BoringAvatar(
-                  name: auth.value?.user?.$id ?? '',
-                  type: BoringAvatarType.beam,
-                  shape: OvalBorder(
-                    side: BorderSide(
-                      width: 2,
-                      color: theme.colorScheme.primary,
+    return RefreshableScreen(
+      onRefresh: () async {},
+      child: ScrollableScreen(
+        children: [
+          Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 84,
+                  child: BoringAvatar(
+                    name: auth.value?.user?.$id ?? '',
+                    type: BoringAvatarType.beam,
+                    shape: OvalBorder(
+                      side: BorderSide(
+                        width: 2,
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                auth.value?.user?.name ?? '',
-                style: theme.textTheme.titleLarge,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                auth.value?.user?.email ?? '',
-                style: theme.textTheme.bodyMedium!.copyWith(
-                  color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
+                const SizedBox(height: 8),
+                Text(
+                  auth.value?.user?.name ?? '',
+                  style: theme.textTheme.titleLarge,
                 ),
-              ),
-            ],
+                const SizedBox(height: 6),
+                Text(
+                  auth.value?.user?.email ?? '',
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                    color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
 
-        const SizedBox(height: 16),
-        const SizedBox(width: double.infinity, child: ProfileCard()),
+          const SizedBox(height: 16),
+          const SizedBox(width: double.infinity, child: ProfileCard()),
 
-        const SizedBox(height: 24),
-        ItemSection(section: sections['account']!),
+          const SizedBox(height: 24),
+          ItemSection(section: sections['account']!),
 
-        const SizedBox(height: 16),
-        ItemSection(section: sections['current_profile']!),
+          const SizedBox(height: 16),
+          ItemSection(section: sections['current_profile']!),
 
-        const SizedBox(height: 16),
-        ItemSection(section: sections['options']!),
+          const SizedBox(height: 16),
+          ItemSection(section: sections['options']!),
 
-        const SizedBox(height: 48),
-        Item(
-          text: LocaleKeys.auth_logout.tr(),
-          trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
-          onTap: () {
-            if (!auth.isLoading) ref.read(authProvider.notifier).logout();
-          },
-        ),
-
-        const SizedBox(height: 10),
-        Text(
-          'v${AppInfo.appVersion}',
-          style: theme.textTheme.bodyLarge!.copyWith(
-            color: theme.textTheme.bodyMedium?.color?.withAlpha(72),
+          const SizedBox(height: 48),
+          Item(
+            text: LocaleKeys.auth_logout.tr(),
+            trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
+            onTap: () {
+              if (!auth.isLoading) ref.read(authProvider.notifier).logout();
+            },
           ),
-        ),
-      ],
+
+          const SizedBox(height: 10),
+          Text(
+            'v${AppInfo.appVersion}',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              color: theme.textTheme.bodyMedium?.color?.withAlpha(72),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

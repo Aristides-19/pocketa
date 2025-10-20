@@ -16,7 +16,9 @@ class ScrollableScreen extends StatelessWidget {
       padding: defaultPadding.add(
         EdgeInsets.only(bottom: systemPadding.bottom),
       ),
-      physics: const BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: children,
