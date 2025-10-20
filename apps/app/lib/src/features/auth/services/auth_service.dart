@@ -3,7 +3,6 @@ import 'package:pocketa/src/features/auth/repository/auth_repository.dart';
 import 'package:pocketa/src/features/crypto/crypto.dart';
 import 'package:pocketa/src/utils/appwrite/exceptions.dart';
 import 'package:pocketa/src/utils/riverpod/async_notifier_mixin.dart';
-import 'package:pocketa/src/utils/services/logger_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_service.g.dart';
@@ -12,21 +11,30 @@ part 'auth_service.g.dart';
 @Riverpod(keepAlive: true, name: 'authProvider')
 class AuthService extends _$AuthService with AsyncNotifierMixin {
   late AuthRepository _repo;
+  var _isInitializing = true;
 
   @override
   Future<AuthState> build() async {
-    ref.read(loggerProvider).i('AuthService initialized');
     _repo = ref.read(authRepositoryProvider);
 
     try {
       final user = await _repo.getCurrentUser();
-      return AuthState(user: user, reason: AuthChangeReason.sessionRestore);
+      if (_isInitializing) {
+        _isInitializing = false;
+      }
+      return AuthState(
+        user: user,
+        reason: _isInitializing
+            ? AuthChangeReason.sessionRestore
+            : AuthChangeReason.refresh,
+      );
     } on SessionRequiredException {
       return const AuthState(user: null, reason: null);
     }
   }
 
   Future<void> logIn(String email, String password) async {
+    if (state.isLoading) return;
     await mutateState(() async {
       await _repo.logInWithEmail(email, password);
 
@@ -39,6 +47,7 @@ class AuthService extends _$AuthService with AsyncNotifierMixin {
   }
 
   Future<void> signUp(String username, String email, String password) async {
+    if (state.isLoading) return;
     await mutateState(() async {
       final id = _repo.genId();
 
@@ -49,6 +58,7 @@ class AuthService extends _$AuthService with AsyncNotifierMixin {
   }
 
   Future<void> logout() async {
+    if (state.isLoading) return;
     await mutateState(() async {
       await _repo.logout();
       return const AuthState(user: null, reason: AuthChangeReason.logout);
