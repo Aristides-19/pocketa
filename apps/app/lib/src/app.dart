@@ -23,6 +23,10 @@ class App extends ConsumerWidget {
 
           final e = curr.error;
           if (e is Exception) {
+            if (e is PasswordRequiredException) {
+              toast.showException(e, dismissAll: true, duration: 10);
+              return;
+            }
             toast.showException(e);
             return;
           }
