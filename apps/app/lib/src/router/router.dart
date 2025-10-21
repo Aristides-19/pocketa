@@ -11,7 +11,7 @@ part 'router.g.dart';
 @Riverpod(keepAlive: true)
 GoRouter router(Ref ref) {
   String? redirect(GoRouterState state) {
-    final authState = ref.read(authProvider);
+    final authState = ref.read(authStreamProvider);
 
     if (authState.isLoading || authState.hasError) return null;
 
@@ -22,7 +22,7 @@ GoRouter router(Ref ref) {
       RoutePaths.signup,
     ].contains(state.matchedLocation);
 
-    if (!isLoggedIn && !isGoingToPublicRoute) return RoutePaths.onboarding;
+    if (!isLoggedIn && !isGoingToPublicRoute) return RoutePaths.login;
     if (isLoggedIn && isGoingToPublicRoute) return RoutePaths.home;
     return null;
   }
@@ -65,7 +65,7 @@ GoRouter router(Ref ref) {
     ],
   );
 
-  ref.listen(authProvider, (_, _) => router.refresh());
+  ref.listen(authStreamProvider, (_, _) => router.refresh());
 
   return router;
 }

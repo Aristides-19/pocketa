@@ -62,22 +62,19 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(authProvider);
+    final auth = ref.watch(authStreamProvider);
     final theme = Theme.of(context);
 
     return auth.when(
       loading: () => const SizedBox.shrink(),
       error: (_, _) => ErrorScreen(
         onRetry: () async {
-          await Future.wait([ref.refresh(authProvider.future)]);
+          await Future.value();
         },
       ),
       data: (auth) => RefreshableScreen(
         onRefresh: () async {
-          await Future.wait([
-            ref.refresh(authProvider.future),
-            ref.refresh(profileProvider.future),
-          ]);
+          await Future.wait([ref.refresh(profileProvider.future)]);
         },
         child: ScrollableScreen(
           children: [
@@ -129,7 +126,7 @@ class ProfileScreen extends ConsumerWidget {
             Item(
               text: LocaleKeys.auth_logout.tr(),
               trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
-              onTap: () => ref.read(authProvider.notifier).logout(),
+              onTap: () => ref.read(authMutationProvider.notifier).logout(),
             ),
 
             const SizedBox(height: 10),

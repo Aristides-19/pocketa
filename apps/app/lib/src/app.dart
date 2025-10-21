@@ -16,44 +16,53 @@ class App extends ConsumerWidget {
     final router = ref.read(routerProvider);
 
     ref
-      ..listen(authProvider, (_, curr) {
-        if (curr.isLoading) return;
-        final toast = ref.read(toastProvider);
+      ..listen(authStreamProvider, (_, curr) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (curr.isLoading) return;
+          final toast = ref.read(toastProvider);
 
+          final e = curr.error;
+          if (e is Exception) {
+            toast.showException(e);
+            return;
+          }
+
+          if (curr.value?.reason == AuthChangeReason.login ||
+              curr.value?.reason == AuthChangeReason.restore) {
+            toast.add(
+              ToasterMode.success,
+              LocaleKeys.auth_login_success_title.tr(),
+              LocaleKeys.auth_login_success_message.tr(),
+            );
+          } else if (curr.value?.reason == AuthChangeReason.signup) {
+            toast.add(
+              ToasterMode.success,
+              LocaleKeys.auth_signup_success_title.tr(),
+              LocaleKeys.auth_signup_success_message.tr(),
+            );
+          } else if (curr.value?.reason == AuthChangeReason.logout) {
+            toast.add(
+              ToasterMode.info,
+              LocaleKeys.auth_logout_success_title.tr(),
+              LocaleKeys.auth_logout_success_message.tr(),
+            );
+          } else if (curr.value?.reason == AuthChangeReason.expired) {
+            toast.add(
+              ToasterMode.warning,
+              LocaleKeys.auth_session_expired_title.tr(),
+              LocaleKeys.auth_session_expired_message.tr(),
+            );
+          }
+        });
+      })
+      ..listen(authMutationProvider, (_, curr) {
+        if (curr.isLoading) return;
         final e = curr.error;
         if (e is Exception) {
-          toast.showException(e);
-          return;
-        }
-
-        if (curr.value?.reason == AuthChangeReason.login ||
-            curr.value?.reason == AuthChangeReason.restore) {
-          toast.add(
-            ToasterMode.success,
-            LocaleKeys.auth_login_success_title.tr(),
-            LocaleKeys.auth_login_success_message.tr(),
-          );
-        } else if (curr.value?.reason == AuthChangeReason.signup) {
-          toast.add(
-            ToasterMode.success,
-            LocaleKeys.auth_signup_success_title.tr(),
-            LocaleKeys.auth_signup_success_message.tr(),
-          );
-        } else if (curr.value?.reason == AuthChangeReason.logout) {
-          toast.add(
-            ToasterMode.info,
-            LocaleKeys.auth_logout_success_title.tr(),
-            LocaleKeys.auth_logout_success_message.tr(),
-          );
-        } else if (curr.value?.reason == AuthChangeReason.expired) {
-          toast.add(
-            ToasterMode.warning,
-            LocaleKeys.auth_session_expired_title.tr(),
-            LocaleKeys.auth_session_expired_message.tr(),
-          );
+          ref.read(toastProvider).showException(e);
         }
       })
-      ..listen(authProvider, (_, curr) async {
+      ..listen(authStreamProvider, (_, curr) async {
         if (curr.isLoading) return;
 
         final crypto = ref.read(cryptoProvider);
@@ -63,8 +72,10 @@ class App extends ConsumerWidget {
           try {
             await crypto.init();
           } on PasswordRequiredException catch (e) {
-            await ref.read(authProvider.notifier).logout();
-            ref.read(toastProvider).showException(e, 10, true);
+            await ref.read(authMutationProvider.notifier).logout();
+            ref
+                .read(toastProvider)
+                .showException(e, duration: 10, dismissAll: true);
           }
         } else if (val?.user == null ||
             val?.reason == AuthChangeReason.logout) {

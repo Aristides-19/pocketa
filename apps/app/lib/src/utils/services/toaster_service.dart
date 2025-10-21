@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/router/keys.dart';
-import 'package:pocketa/src/utils/appwrite/exceptions.dart';
+import 'package:pocketa/src/utils/app_exception.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toastification/toastification.dart';
 
@@ -34,7 +34,7 @@ class Toaster {
     );
   }
 
-  void showException(Exception e, [int duration = 5, bool dismissAll = false]) {
+  void showException(Exception e, {int duration = 5, bool dismissAll = false}) {
     if (e is! AppException) {
       add(ToasterMode.error, 'Error', e.toString(), duration, dismissAll);
       return;

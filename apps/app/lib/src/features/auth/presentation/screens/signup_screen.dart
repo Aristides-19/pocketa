@@ -22,14 +22,14 @@ class SignupScreen extends HookConsumerWidget {
     final username = form.fields['username']?.value as String;
     final email = form.fields['email']?.value as String;
     final password = form.fields['password']?.value as String;
-    ref.read(authProvider.notifier).signUp(username, email, password);
+    ref.read(authMutationProvider.notifier).signUp(username, email, password);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
     final textTheme = TextTheme.of(context);
-    final asyncAuth = ref.watch(authProvider);
+    final authMutate = ref.watch(authMutationProvider);
 
     return Scaffold(
       body: AppForm(
@@ -88,7 +88,7 @@ class SignupScreen extends HookConsumerWidget {
 
           Button(
             label: LocaleKeys.auth_signup.tr(),
-            isLoading: asyncAuth.isLoading,
+            isLoading: authMutate.isLoading,
             onPressed: () => handleSignup(ref, formKey),
             width: double.infinity,
           ),
@@ -96,7 +96,7 @@ class SignupScreen extends HookConsumerWidget {
 
           Center(
             child: LabelButton(
-              isLoading: asyncAuth.isLoading,
+              isLoading: authMutate.isLoading,
               label: LocaleKeys.auth_have_account.tr(),
               onPressed: () => context.go(RoutePaths.login),
             ),

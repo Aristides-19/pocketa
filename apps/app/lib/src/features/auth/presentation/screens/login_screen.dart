@@ -21,17 +21,19 @@ class LoginScreen extends HookConsumerWidget {
 
     final email = form.fields['email']?.value as String;
     final password = form.fields['password']?.value as String;
-    ref.read(authProvider.notifier).logIn(email, password);
+    ref.read(authMutationProvider.notifier).logIn(email, password);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = TextTheme.of(context);
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
-    final asyncAuth = ref.watch(authProvider);
+    final authMutate = ref.watch(authMutationProvider);
 
     if (formKey.currentState?.fields['email'] == null) {
-      ref.read(authProvider.notifier).getLastSessionEmail().then((email) {
+      ref.read(authMutationProvider.notifier).getLastSessionEmail().then((
+        email,
+      ) {
         if (email != null && email.isNotEmpty) {
           formKey.currentState?.fields['email']?.didChange(email);
         }
@@ -72,7 +74,7 @@ class LoginScreen extends HookConsumerWidget {
 
           Button(
             label: LocaleKeys.auth_login.tr(),
-            isLoading: asyncAuth.isLoading,
+            isLoading: authMutate.isLoading,
             onPressed: () => handleLogin(ref, formKey),
             width: double.infinity,
           ),
@@ -80,7 +82,7 @@ class LoginScreen extends HookConsumerWidget {
 
           Center(
             child: LabelButton(
-              isLoading: asyncAuth.isLoading,
+              isLoading: authMutate.isLoading,
               label: LocaleKeys.auth_no_account.tr(),
               onPressed: () => context.push(RoutePaths.signup),
             ),

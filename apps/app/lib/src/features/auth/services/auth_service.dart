@@ -1,60 +1,42 @@
 import 'package:pocketa/src/features/auth/models/auth_state.dart';
 import 'package:pocketa/src/features/auth/repository/auth_repository.dart';
 import 'package:pocketa/src/features/crypto/crypto.dart';
-import 'package:pocketa/src/utils/appwrite/exceptions.dart';
 import 'package:pocketa/src/utils/riverpod/async_notifier_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_service.g.dart';
 
 // TODO - Add retry logic for network errors
-@Riverpod(keepAlive: true, name: 'authProvider')
-class AuthService extends _$AuthService with AsyncNotifierMixin {
+@Riverpod(keepAlive: true)
+class AuthStream extends _$AuthStream {
+  @override
+  Stream<AuthState> build() {
+    return ref.read(authRepositoryProvider).authStateStream;
+  }
+}
+
+@riverpod
+class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   late AuthRepository _repo;
-  var _isInitializing = true;
 
   @override
-  Future<AuthState> build() async {
+  Future<void> build() async {
     _repo = ref.read(authRepositoryProvider);
-
-    try {
-      final user = await _repo.getCurrentUser();
-      if (_isInitializing) _isInitializing = false;
-      return AuthState(
-        user: user,
-        reason: _isInitializing
-            ? AuthChangeReason.restore
-            : AuthChangeReason.refresh,
-      );
-    } on SessionRequiredException {
-      return AuthState(
-        user: null,
-        reason: !_isInitializing ? AuthChangeReason.expired : null,
-      );
-    }
   }
 
   Future<void> logIn(String email, String password) async {
     if (state.isLoading) return;
     await mutateState(() async {
-      await _repo.logInWithEmail(email, password);
-
-      final auth = await _repo.getCurrentUser();
-      await ref
-          .read(cryptoProvider)
-          .init(password: password, userId: auth!.$id);
-      return AuthState(user: auth, reason: AuthChangeReason.login);
+      final auth = await _repo.logInWithEmail(email, password);
+      await ref.read(cryptoProvider).init(password: password, userId: auth.$id);
     });
   }
 
   Future<void> signUp(String username, String email, String password) async {
     if (state.isLoading) return;
     await mutateState(() async {
-      final id = _repo.genId();
-
-      final auth = await _repo.signUp(username, email, password, id);
-      await ref.read(cryptoProvider).createKey(password, id);
-      return AuthState(user: auth, reason: AuthChangeReason.signup);
+      final auth = await _repo.signUp(username, email, password);
+      await ref.read(cryptoProvider).createKey(password, auth.$id);
     });
   }
 
@@ -62,7 +44,6 @@ class AuthService extends _$AuthService with AsyncNotifierMixin {
     if (state.isLoading) return;
     await mutateState(() async {
       await _repo.logout();
-      return const AuthState(user: null, reason: AuthChangeReason.logout);
     });
   }
 

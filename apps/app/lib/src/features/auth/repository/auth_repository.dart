@@ -1,87 +1,129 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
-import 'package:pocketa/src/utils/appwrite/exceptions.dart';
-import 'package:pocketa/src/utils/appwrite/providers.dart';
 import 'package:pocketa/src/utils/services/prefs_service.dart';
-import 'package:pocketa/src/utils/services/request_guard_service.dart';
+import 'package:pocketa/src/utils/supabase/supabase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 part 'auth_repository.g.dart';
 
 class AuthRepository {
-  const AuthRepository(this.account, this.request, this.prefs);
+  const AuthRepository(this._guard, this._prefs, this._client);
 
-  final Account account;
-  final RequestGuard request;
-  final SharedPreferencesAsync prefs;
+  final SupabaseGuard _guard;
+  final SharedPreferencesAsync _prefs;
+  final supabase.SupabaseClient _client;
 
   final _lastSessionEmailKey = 'last_session_email';
+  final _nameKey = 'display_name';
 
-  Future<void> logInWithEmail(String email, String password) {
-    return request.call(
+  Stream<AuthState> get authStateStream {
+    return _client.auth.onAuthStateChange.map((data) {
+      final user = data.session?.user;
+      final event = data.event;
+
+      if (user == null) {
+        if (event == supabase.AuthChangeEvent.initialSession) {
+          return const AuthState(user: null, reason: null);
+        }
+        if (event == supabase.AuthChangeEvent.tokenRefreshed) {
+          return const AuthState(user: null, reason: AuthChangeReason.expired);
+        }
+        return const AuthState(user: null, reason: AuthChangeReason.logout);
+      }
+
+      final auth = Auth(
+        $id: user.id,
+        email: user.email!,
+        name: user.userMetadata?[_nameKey] as String? ?? '',
+      );
+
+      AuthChangeReason? reason;
+      switch (event) {
+        case supabase.AuthChangeEvent.initialSession:
+          reason = AuthChangeReason.restore;
+          break;
+        case supabase.AuthChangeEvent.signedIn:
+          final lastSignIn = user.lastSignInAt == null
+              ? DateTime.now()
+              : DateTime.parse(user.lastSignInAt!);
+          final created = DateTime.parse(user.createdAt);
+
+          if (lastSignIn.difference(created).inSeconds < 2) {
+            reason = AuthChangeReason.signup;
+          } else {
+            reason = AuthChangeReason.login;
+          }
+          break;
+        case supabase.AuthChangeEvent.userUpdated:
+        case supabase.AuthChangeEvent.tokenRefreshed:
+          reason = AuthChangeReason.refresh;
+          break;
+        case supabase.AuthChangeEvent.signedOut:
+          reason = AuthChangeReason.logout;
+          break;
+        default:
+          reason = null;
+      }
+
+      return AuthState(user: auth, reason: reason);
+    });
+  }
+
+  Future<Auth> signUp(String name, String email, String password) {
+    return _guard.callAuth(
       () async {
-        await account.createEmailPasswordSession(
+        final response = await _client.auth.signUp(
           email: email,
           password: password,
+          data: {_nameKey: name},
         );
+        await _prefs.setString(_lastSessionEmailKey, email);
+        return Auth(email: email, $id: response.user!.id, name: name);
       },
-      exceptions: const {
-        CredentialsMismatchException(),
-        SessionExistsException(),
+      exceptions: {
+        const EmailInUseException(),
+        const SignUpDisabledException(),
+        const WeakPasswordException(),
       },
     );
   }
 
-  Future<Auth> signUp(
-    String username,
-    String email,
-    String password,
-    String id,
-  ) {
-    return request.call(() async {
-      await account.create(
-        userId: id,
-        email: email,
-        password: password,
-        name: username,
-      );
-      await account.createEmailPasswordSession(
-        email: email,
-        password: password,
-      );
-      await prefs.setString(_lastSessionEmailKey, email);
-      return Auth(email: email, $id: id, name: username);
-    }, exceptions: const {EmailInUseException()});
-  }
-
-  Future<Auth?> getCurrentUser() async {
-    return request.call(() async {
-      final user = await account.get();
-      await prefs.setString(_lastSessionEmailKey, user.email);
-      return Auth(email: user.email, $id: user.$id, name: user.name);
-    });
+  Future<Auth> logInWithEmail(String email, String password) {
+    return _guard.callAuth(
+      () async {
+        final response = await _client.auth.signInWithPassword(
+          email: email,
+          password: password,
+        );
+        await _prefs.setString(_lastSessionEmailKey, email);
+        return Auth(
+          email: email,
+          $id: response.user!.id,
+          name: response.user!.userMetadata?[_nameKey] as String? ?? '',
+        );
+      },
+      exceptions: {
+        const EmailNotConfirmedException(),
+        const CredentialsMismatchException(),
+      },
+    );
   }
 
   Future<void> logout() {
-    return request.call(() async {
-      await account.deleteSession(sessionId: 'current');
-    });
-  }
-
-  String genId() {
-    return ID.unique();
+    return _guard.callAuth(() async {
+      await _client.auth.signOut();
+    }, exceptions: {const SessionMissingException()});
   }
 
   Future<String?> getLastSessionEmail() async {
-    return await prefs.getString(_lastSessionEmailKey);
+    return await _prefs.getString(_lastSessionEmailKey);
   }
 }
 
 @Riverpod(keepAlive: true)
-AuthRepository authRepository(Ref ref) {
-  final account = ref.read(appwriteAccountProvider);
-  final request = ref.read(reqGuardProvider);
-  final prefs = ref.read(prefsProvider);
-  return AuthRepository(account, request, prefs);
-}
+AuthRepository authRepository(Ref ref) => AuthRepository(
+  ref.read(supGuardProvider),
+  ref.read(prefsProvider),
+  ref.read(supabaseClient),
+);
