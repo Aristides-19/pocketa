@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/features/crypto/crypto.dart';
 import 'package:pocketa/src/features/crypto/models/key.dart';
-import 'package:pocketa/src/features/crypto/utils/crypto_engine.dart';
-import 'package:pocketa/src/features/crypto/utils/utils.dart';
+import 'package:pocketa/src/features/crypto/utils/encode.dart';
+import 'package:pocketa/src/features/crypto/utils/engine.dart';
 import 'package:pocketa/src/utils/services/prefs_service.dart';
 import 'package:pocketa/src/utils/supabase/supabase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,38 +32,22 @@ class KeyRepository {
   final SupabaseGuard _guard;
 
   final _storageKey = 'private_key';
-  final _saltKey = 'salt_key';
 
-  Future<void> create(
-    SecretKey privateKey,
-    SecretKey derivedKey,
-    List<int> salt,
-    String userId,
-  ) {
-    return _persist(privateKey, derivedKey, salt, userId: userId);
-  }
-
-  Future<void> update(
-    SecretKey privateKey,
-    SecretKey derivedKey,
-    List<int> salt,
-  ) {
-    return _persist(privateKey, derivedKey, salt);
-  }
-
-  Future<void> _persist(
-    SecretKey privateKey,
-    SecretKey derivedKey,
-    List<int> salt, {
-    String? userId,
-  }) {
+  Future<SecretKey> upsert({required String password, SecretKey? privateKey}) {
     return _guard.callPG(() async {
+      // FIXME - only call a service from services, this leads to unknown exceptions
+      final user = ref.read(authStreamProvider).requireValue.user;
+      assert(user != null, 'User must be logged in to upsert the key.');
+
+      privateKey ??= await _engine.genPrivateKey();
+      final (:derivedKey, :salt) = await _engine.deriveKey(password);
+
       final key = Key(
         encryptedKeyb64: secretBoxToBase64(
-          await _engine.encryptPrivateKey(privateKey, derivedKey),
+          await _engine.encryptPrivateKey(privateKey!, derivedKey),
         ),
         saltb64: base64Encode(salt),
-        privateKeyb64: await secretKeyToBase64(privateKey),
+        privateKeyb64: await secretKeyToBase64(privateKey!),
       ).toJson();
 
       await _client.rpc(
@@ -73,31 +58,26 @@ class KeyRepository {
         },
       );
 
-      await Future.wait([
-        securePrefs.write(
-          key: _storageKey,
-          value: key['private_key'] as String,
-        ),
-        securePrefs.write(key: _saltKey, value: key['salt'] as String),
-      ]);
+      await securePrefs.write(
+        key: _storageKey,
+        value: key['private_key'] as String,
+      );
+
+      return privateKey!;
     });
   }
 
-  Future<KeyPayload> getOrElseCreate(String? password, String? userId) {
+  Future<SecretKey> getOrElseCreate({String? password}) {
     return _guard.callPG(() async {
-      final [privateKeyb64, saltb64] = await Future.wait([
-        securePrefs.read(key: _storageKey),
-        securePrefs.read(key: _saltKey),
-      ]);
-      if (privateKeyb64 != null && saltb64 != null) {
-        return (
-          privateKey: secretKeyFromBase64(privateKeyb64),
-          salt: base64Decode(saltb64),
-        );
+      final user = ref.read(authStreamProvider).requireValue.user;
+      assert(user != null, 'User must be logged in to fetch the key.');
+
+      final privateKeyb64 = await securePrefs.read(key: _storageKey);
+      if (privateKeyb64 != null) {
+        return secretKeyFromBase64(privateKeyb64);
       }
 
       if (password == null) throw const PasswordRequiredException();
-      assert(userId != null, 'userId is required to fetch the key.');
 
       Map<String, dynamic>? document;
       try {
@@ -107,20 +87,12 @@ class KeyRepository {
           params: {},
         );
       } on PostgrestException catch (e) {
-        if (e.code != 'P0002') rethrow; // no data found
+        if (!(const RPCNoDataFoundException().matches(e))) {
+          rethrow;
+        } // no data found
       }
 
-      if (document == null) {
-        final results = await Future.wait([
-          _engine.deriveKey(password),
-          _engine.genPrivateKey(),
-        ]);
-
-        final (derivedKey, salt) = results[0] as (SecretKey, List<int>);
-        final privateKey = results[1] as SecretKey;
-        await create(privateKey, derivedKey, salt, userId!);
-        return (privateKey: privateKey, salt: salt);
-      }
+      if (document == null) return upsert(password: password);
 
       final key = Key.fromJson(document);
       final encryptedKey = secretBoxFromBase64(key.encryptedKeyb64!);
@@ -137,18 +109,14 @@ class KeyRepository {
       final privateKeyBase64 = await secretKeyToBase64(privateKey);
 
       await securePrefs.write(key: _storageKey, value: privateKeyBase64);
-      await securePrefs.write(key: _saltKey, value: key.saltb64);
 
-      return (privateKey: privateKey, salt: salt);
+      return privateKey;
     }, exceptions: {const RPCNoDataFoundException()});
   }
 
-  Future<void> logout() {
+  Future<void> clearLocalKey() {
     return _guard.call(() async {
-      await Future.wait([
-        securePrefs.delete(key: _storageKey),
-        securePrefs.delete(key: _saltKey),
-      ]);
+      await securePrefs.delete(key: _storageKey);
     });
   }
 }

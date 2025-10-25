@@ -17,12 +17,14 @@ class App extends ConsumerWidget {
 
     ref
       ..listen(authStreamProvider, (_, curr) {
+        // TODO - Handle exceptions
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (curr.isLoading) return;
           final toast = ref.read(toastProvider);
 
           final e = curr.error;
           if (e is Exception) {
+            // FIXME - belongs to auth mutations
             if (e is PasswordRequiredException) {
               toast.showException(e, dismissAll: true, duration: 10);
               return;
@@ -31,31 +33,39 @@ class App extends ConsumerWidget {
             return;
           }
 
-          if (curr.value?.reason == AuthChangeReason.login ||
-              curr.value?.reason == AuthChangeReason.restore) {
-            toast.add(
-              ToasterMode.success,
-              LocaleKeys.auth_login_success_title.tr(),
-              LocaleKeys.auth_login_success_message.tr(),
-            );
-          } else if (curr.value?.reason == AuthChangeReason.signup) {
-            toast.add(
-              ToasterMode.success,
-              LocaleKeys.auth_signup_success_title.tr(),
-              LocaleKeys.auth_signup_success_message.tr(),
-            );
-          } else if (curr.value?.reason == AuthChangeReason.logout) {
-            toast.add(
-              ToasterMode.info,
-              LocaleKeys.auth_logout_success_title.tr(),
-              LocaleKeys.auth_logout_success_message.tr(),
-            );
-          } else if (curr.value?.reason == AuthChangeReason.expired) {
-            toast.add(
-              ToasterMode.warning,
-              LocaleKeys.auth_session_expired_title.tr(),
-              LocaleKeys.auth_session_expired_message.tr(),
-            );
+          switch (curr.value?.reason) {
+            case AuthChangeReason.login:
+            case AuthChangeReason.restore:
+              toast.add(
+                ToasterMode.success,
+                LocaleKeys.auth_login_success_title.tr(),
+                LocaleKeys.auth_login_success_message.tr(),
+              );
+              break;
+            case AuthChangeReason.signup:
+              toast.add(
+                ToasterMode.success,
+                LocaleKeys.auth_signup_success_title.tr(),
+                LocaleKeys.auth_signup_success_message.tr(),
+              );
+              break;
+            case AuthChangeReason.logout:
+              toast.add(
+                ToasterMode.info,
+                LocaleKeys.auth_logout_success_title.tr(),
+                LocaleKeys.auth_logout_success_message.tr(),
+              );
+              break;
+            case AuthChangeReason.expired:
+              toast.add(
+                ToasterMode.warning,
+                LocaleKeys.auth_session_expired_title.tr(),
+                LocaleKeys.auth_session_expired_message.tr(),
+              );
+              break;
+            case AuthChangeReason.refresh:
+            case null:
+              break;
           }
         });
       })
@@ -83,7 +93,7 @@ class App extends ConsumerWidget {
           }
         } else if (val?.user == null ||
             val?.reason == AuthChangeReason.logout) {
-          await crypto.logout();
+          await crypto.clearLocalKey();
         }
       });
 

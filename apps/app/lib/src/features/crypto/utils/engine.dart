@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cryptography/cryptography.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'crypto_engine.g.dart';
+part 'engine.g.dart';
 
 typedef KeyPayload = ({SecretKey derivedKey, List<int> salt});
 

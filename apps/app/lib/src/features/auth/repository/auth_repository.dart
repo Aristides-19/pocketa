@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/utils/services/prefs_service.dart';
 import 'package:pocketa/src/utils/supabase/supabase.dart';
@@ -70,16 +72,15 @@ class AuthRepository {
     });
   }
 
-  Future<Auth> signUp(String name, String email, String password) {
+  Future<void> signUp(String name, String email, String password) {
     return _guard.callAuth(
       () async {
-        final response = await _client.auth.signUp(
+        await _client.auth.signUp(
           email: email,
           password: password,
           data: {_nameKey: name},
         );
-        await _prefs.setString(_lastSessionEmailKey, email);
-        return Auth(email: email, $id: response.user!.id, name: name);
+        unawaited(_prefs.setString(_lastSessionEmailKey, email));
       },
       exceptions: {
         const EmailInUseException(),
@@ -89,19 +90,11 @@ class AuthRepository {
     );
   }
 
-  Future<Auth> logInWithEmail(String email, String password) {
+  Future<void> logInWithEmail(String email, String password) {
     return _guard.callAuth(
       () async {
-        final response = await _client.auth.signInWithPassword(
-          email: email,
-          password: password,
-        );
-        await _prefs.setString(_lastSessionEmailKey, email);
-        return Auth(
-          email: email,
-          $id: response.user!.id,
-          name: response.user!.userMetadata?[_nameKey] as String? ?? '',
-        );
+        await _client.auth.signInWithPassword(email: email, password: password);
+        unawaited(_prefs.setString(_lastSessionEmailKey, email));
       },
       exceptions: {
         const EmailNotConfirmedException(),

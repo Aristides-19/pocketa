@@ -27,11 +27,9 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   Future<void> logIn(String email, String password) async {
     if (state.isLoading) return;
     await mutateState(() async {
-      final auth = await _repo.logInWithEmail(email, password);
+      await _repo.logInWithEmail(email, password);
       try {
-        await ref
-            .read(cryptoProvider)
-            .init(password: password, userId: auth.$id);
+        await ref.read(cryptoProvider).init(password: password);
       } on Exception catch (_) {
         await _repo.logout();
         throw const PasswordRequiredException();
@@ -42,9 +40,9 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   Future<void> signUp(String username, String email, String password) async {
     if (state.isLoading) return;
     await mutateState(() async {
-      final auth = await _repo.signUp(username, email, password);
+      await _repo.signUp(username, email, password);
       try {
-        await ref.read(cryptoProvider).createKey(password, auth.$id);
+        await ref.read(cryptoProvider).createKey(password);
       } on Exception catch (_) {
         await _repo.logout();
         throw const PasswordRequiredException();
