@@ -13,10 +13,10 @@ class Toaster {
   void add(
     ToasterMode mode,
     String subject,
-    String body, [
+    String body, {
     int duration = 5,
     bool dismissAll = false,
-  ]) {
+  }) {
     final theme = Theme.of(rootNavigatorKey.currentContext!);
     if (dismissAll) toastification.dismissAll();
     toastification.show(
@@ -36,10 +36,22 @@ class Toaster {
 
   void showException(Exception e, {int duration = 5, bool dismissAll = false}) {
     if (e is! AppException) {
-      add(ToasterMode.error, 'Error', e.toString(), duration, dismissAll);
+      add(
+        ToasterMode.error,
+        'Error',
+        e.toString(),
+        duration: duration,
+        dismissAll: dismissAll,
+      );
       return;
     }
-    add(ToasterMode.error, e.title(), e.message(), duration, dismissAll);
+    add(
+      ToasterMode.error,
+      e.title(),
+      e.message(),
+      duration: duration,
+      dismissAll: dismissAll,
+    );
   }
 }
 

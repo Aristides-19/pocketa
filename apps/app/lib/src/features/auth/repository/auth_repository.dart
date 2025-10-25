@@ -117,7 +117,7 @@ class AuthRepository {
   }
 
   Future<String?> getLastSessionEmail() async {
-    return await _prefs.getString(_lastSessionEmailKey);
+    return _prefs.getString(_lastSessionEmailKey);
   }
 }
 

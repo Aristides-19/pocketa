@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pocketa/src/constants/constants.dart';
 
+// ignore_for_file: avoid_classes_with_only_static_members
 class AppTheme {
   static ThemeData get light => ThemeData(
     brightness: Brightness.light,

@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// ignore_for_file: avoid_classes_with_only_static_members
 class AppEnv {
   static final String supabaseUrl = _get('SUPABASE_URL');
   static final String supabaseAnonKey = _get('SUPABASE_ANON_KEY');

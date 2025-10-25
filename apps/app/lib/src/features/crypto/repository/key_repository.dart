@@ -120,7 +120,7 @@ class KeyRepository {
         return (privateKey, salt);
       }
 
-      var key = Key.fromJson(document);
+      final key = Key.fromJson(document);
       final encryptedKey = secretBoxFromBase64(key.encryptedKeyb64!);
       final salt = base64Decode(key.saltb64);
 
