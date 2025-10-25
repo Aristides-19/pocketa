@@ -24,11 +24,6 @@ class App extends ConsumerWidget {
 
           final e = curr.error;
           if (e is Exception) {
-            // FIXME - belongs to auth mutations
-            if (e is PasswordRequiredException) {
-              toast.showException(e, dismissAll: true, duration: 10);
-              return;
-            }
             toast.showException(e);
             return;
           }
@@ -72,28 +67,19 @@ class App extends ConsumerWidget {
       ..listen(authMutationProvider, (_, curr) {
         if (curr.isLoading) return;
         final e = curr.error;
-        if (e is Exception) {
-          ref.read(toastProvider).showException(e);
-        }
+        if (e is Exception) ref.read(toastProvider).showException(e);
       })
-      ..listen(authStreamProvider, (_, curr) async {
+      ..listen(cryptoProvider, (_, curr) {
         if (curr.isLoading) return;
 
-        final crypto = ref.read(cryptoProvider);
-        final val = curr.unwrapPrevious().value;
-
-        if (val != null && val.reason == AuthChangeReason.restore) {
-          try {
-            await crypto.init();
-          } on PasswordRequiredException catch (e) {
-            await ref.read(authMutationProvider.notifier).logout();
-            ref
-                .read(toastProvider)
-                .showException(e, duration: 10, dismissAll: true);
+        final e = curr.error;
+        if (e is Exception) {
+          final toast = ref.read(toastProvider);
+          if (e is PasswordRequiredException) {
+            toast.showException(e, dismissAll: true, duration: 10);
+            return;
           }
-        } else if (val?.user == null ||
-            val?.reason == AuthChangeReason.logout) {
-          await crypto.clearLocalKey();
+          toast.showException(e);
         }
       });
 

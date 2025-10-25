@@ -15,7 +15,7 @@ class AuthStream extends _$AuthStream {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   late AuthRepository _repo;
 
@@ -28,12 +28,7 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
     if (state.isLoading) return;
     await mutateState(() async {
       await _repo.logInWithEmail(email, password);
-      try {
-        await ref.read(cryptoProvider).init(password: password);
-      } on Exception catch (_) {
-        await _repo.logout();
-        throw const PasswordRequiredException();
-      }
+      await ref.read(cryptoProvider.notifier).init(password: password);
     });
   }
 
@@ -41,12 +36,7 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
     if (state.isLoading) return;
     await mutateState(() async {
       await _repo.signUp(username, email, password);
-      try {
-        await ref.read(cryptoProvider).createKey(password);
-      } on Exception catch (_) {
-        await _repo.logout();
-        throw const PasswordRequiredException();
-      }
+      await ref.read(cryptoProvider.notifier).createKey(password);
     });
   }
 
