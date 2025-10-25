@@ -13,6 +13,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'key_repository.g.dart';
 
+typedef KeyPayload = ({SecretKey privateKey, List<int> salt});
+
 class KeyRepository {
   KeyRepository(
     this.ref,
@@ -81,17 +83,17 @@ class KeyRepository {
     });
   }
 
-  Future<(SecretKey, List<int>)> getOrElseCreate(
-    String? password,
-    String? userId,
-  ) {
+  Future<KeyPayload> getOrElseCreate(String? password, String? userId) {
     return _guard.callPG(() async {
       final [privateKeyb64, saltb64] = await Future.wait([
         securePrefs.read(key: _storageKey),
         securePrefs.read(key: _saltKey),
       ]);
       if (privateKeyb64 != null && saltb64 != null) {
-        return (secretKeyFromBase64(privateKeyb64), base64Decode(saltb64));
+        return (
+          privateKey: secretKeyFromBase64(privateKeyb64),
+          salt: base64Decode(saltb64),
+        );
       }
 
       if (password == null) throw const PasswordRequiredException();
@@ -117,14 +119,17 @@ class KeyRepository {
         final (derivedKey, salt) = results[0] as (SecretKey, List<int>);
         final privateKey = results[1] as SecretKey;
         await create(privateKey, derivedKey, salt, userId!);
-        return (privateKey, salt);
+        return (privateKey: privateKey, salt: salt);
       }
 
       final key = Key.fromJson(document);
       final encryptedKey = secretBoxFromBase64(key.encryptedKeyb64!);
       final salt = base64Decode(key.saltb64);
 
-      final (derivedKey, _) = await _engine.deriveKey(password, salt: salt);
+      final (:derivedKey, salt: _) = await _engine.deriveKey(
+        password,
+        salt: salt,
+      );
       final privateKey = await _engine.decryptPrivateKey(
         encryptedKey,
         derivedKey,
@@ -134,7 +139,7 @@ class KeyRepository {
       await securePrefs.write(key: _storageKey, value: privateKeyBase64);
       await securePrefs.write(key: _saltKey, value: key.saltb64);
 
-      return (privateKey, salt);
+      return (privateKey: privateKey, salt: salt);
     }, exceptions: {const RPCNoDataFoundException()});
   }
 

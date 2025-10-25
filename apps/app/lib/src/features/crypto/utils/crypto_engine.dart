@@ -5,6 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'crypto_engine.g.dart';
 
+typedef KeyPayload = ({SecretKey derivedKey, List<int> salt});
+
 class CryptoEngine {
   final _algorithm = AesGcm.with256bits();
   final _kdf = Argon2id(
@@ -14,16 +16,13 @@ class CryptoEngine {
     hashLength: 32,
   );
 
-  Future<(SecretKey, List<int>)> deriveKey(
-    String password, {
-    List<int>? salt,
-  }) async {
+  Future<KeyPayload> deriveKey(String password, {List<int>? salt}) async {
     salt ??= _algorithm.newNonce();
     final key = await _kdf.deriveKeyFromPassword(
       password: password,
       nonce: salt,
     );
-    return (key, salt);
+    return (derivedKey: key, salt: salt);
   }
 
   Future<SecretKey> genPrivateKey() {
