@@ -13,7 +13,7 @@ import 'package:pocketa/src/widgets/widgets.dart';
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
-  static final sections = (
+  static final _sections = (
     profile: (
       title: LocaleKeys.profile_section_profile.tr(),
       children: [
@@ -21,24 +21,28 @@ class ProfileScreen extends ConsumerWidget {
           title: LocaleKeys.profile_personal_data.tr(),
           leading: const FaIcon(FontAwesomeIcons.userGear),
           trailing: null,
+          onTap: null,
         ),
 
         (
           title: LocaleKeys.profile_security.tr(),
           leading: const FaIcon(FontAwesomeIcons.shieldHalved),
           trailing: null,
+          onTap: null,
         ),
 
         (
           title: LocaleKeys.profile_notifications.tr(),
           leading: const FaIcon(FontAwesomeIcons.bell),
           trailing: null,
+          onTap: null,
         ),
 
         (
           title: LocaleKeys.profile_categories.tr(),
           leading: const FaIcon(FontAwesomeIcons.layerGroup),
           trailing: null,
+          onTap: null,
         ),
       ],
     ),
@@ -49,6 +53,7 @@ class ProfileScreen extends ConsumerWidget {
           title: LocaleKeys.profile_edit_account.tr(),
           leading: const FaIcon(FontAwesomeIcons.tag),
           trailing: null,
+          onTap: null,
         ),
       ],
     ),
@@ -59,11 +64,13 @@ class ProfileScreen extends ConsumerWidget {
           title: LocaleKeys.profile_dark_mode.tr(),
           leading: const FaIcon(FontAwesomeIcons.moon),
           trailing: const ThemeSwitcher(),
+          onTap: null,
         ),
         (
           title: LocaleKeys.profile_language.tr(),
           leading: const FaIcon(FontAwesomeIcons.language),
           trailing: null,
+          onTap: null,
         ),
       ],
     ),
@@ -121,13 +128,13 @@ class ProfileScreen extends ConsumerWidget {
             const SizedBox(width: double.infinity, child: ProfileCard()),
 
             const SizedBox(height: 24),
-            ItemSection(section: sections.profile),
+            ItemSection(section: _sections.profile),
 
             const SizedBox(height: 16),
-            ItemSection(section: sections.currentAccount),
+            ItemSection(section: _sections.currentAccount),
 
             const SizedBox(height: 16),
-            ItemSection(section: sections.options),
+            ItemSection(section: _sections.options),
 
             const SizedBox(height: 48),
             Item(

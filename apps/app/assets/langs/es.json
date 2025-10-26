@@ -35,7 +35,7 @@
     }
   },
   "profile": {
-    "default_account": "Cuenta Predeterminada",
+    "default_account": "Cuenta Principal",
     "base_currency": "Moneda Base",
     "conversion_currency": "Moneda de Conversión",
     "switch_account": "Cambiar de cuenta",

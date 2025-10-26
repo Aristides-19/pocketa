@@ -49,7 +49,10 @@ class ItemSection extends StatelessWidget {
 
   final ({
     String title,
-    List<({String title, Widget? leading, Widget? trailing})> children,
+    List<
+      ({String title, Widget? leading, Widget? trailing, VoidCallback? onTap})
+    >
+    children,
   })
   section;
 
@@ -70,6 +73,7 @@ class ItemSection extends StatelessWidget {
             text: itemData.title,
             leading: itemData.leading,
             trailing: itemData.trailing,
+            onTap: itemData.onTap,
           ),
       ],
     );

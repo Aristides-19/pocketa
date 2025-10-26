@@ -35,7 +35,7 @@
     }
   },
   "profile": {
-    "default_account": "Default Account",
+    "default_account": "Main Account",
     "base_currency": "Base Currency",
     "conversion_currency": "Conversion Currency",
     "switch_account": "Switch Account",
