@@ -5,7 +5,6 @@ part 'key.g.dart';
 
 @freezed
 abstract class Key with _$Key {
-  @JsonSerializable(explicitToJson: true)
   const factory Key({
     @JsonKey(name: 'encrypted_key') String? encryptedKeyb64,
     @JsonKey(name: 'salt') required String saltb64,

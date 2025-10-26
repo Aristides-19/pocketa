@@ -3,9 +3,9 @@ import 'package:flutter_boring_avatars/flutter_boring_avatars.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/constants/constants.dart';
+import 'package:pocketa/src/features/account/presentation/widgets/widgets.dart';
+import 'package:pocketa/src/features/account/services/account_service.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
-import 'package:pocketa/src/features/profile/presentation/widgets/widgets.dart';
-import 'package:pocketa/src/features/profile/services/profile_service.dart';
 import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/utils/services/toaster_service.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
@@ -13,52 +13,61 @@ import 'package:pocketa/src/widgets/widgets.dart';
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
-  static final Map<String, Map<String, Object>> sections = {
-    'account': {
-      'title': LocaleKeys.profile_section_account.tr(),
-      'children': [
-        {
-          'title': LocaleKeys.profile_personal_data.tr(),
-          'leading': const FaIcon(FontAwesomeIcons.userGear),
-        },
-        {
-          'title': LocaleKeys.profile_security.tr(),
-          'leading': const FaIcon(FontAwesomeIcons.shieldHalved),
-        },
-        {
-          'title': LocaleKeys.profile_notifications.tr(),
-          'leading': const FaIcon(FontAwesomeIcons.bell),
-        },
-        {
-          'title': LocaleKeys.profile_categories.tr(),
-          'leading': const FaIcon(FontAwesomeIcons.layerGroup),
-        },
+  static final sections = (
+    profile: (
+      title: LocaleKeys.profile_section_account.tr(),
+      children: [
+        (
+          title: LocaleKeys.profile_personal_data.tr(),
+          leading: const FaIcon(FontAwesomeIcons.userGear),
+          trailing: null,
+        ),
+
+        (
+          title: LocaleKeys.profile_security.tr(),
+          leading: const FaIcon(FontAwesomeIcons.shieldHalved),
+          trailing: null,
+        ),
+
+        (
+          title: LocaleKeys.profile_notifications.tr(),
+          leading: const FaIcon(FontAwesomeIcons.bell),
+          trailing: null,
+        ),
+
+        (
+          title: LocaleKeys.profile_categories.tr(),
+          leading: const FaIcon(FontAwesomeIcons.layerGroup),
+          trailing: null,
+        ),
       ],
-    },
-    'current_profile': {
-      'title': LocaleKeys.profile_section_current_profile.tr(),
-      'children': [
-        {
-          'title': LocaleKeys.profile_edit_profile.tr(),
-          'leading': const FaIcon(FontAwesomeIcons.tag),
-        },
+    ),
+    currentAccount: (
+      title: LocaleKeys.profile_section_current_profile.tr(),
+      children: [
+        (
+          title: LocaleKeys.profile_edit_profile.tr(),
+          leading: const FaIcon(FontAwesomeIcons.tag),
+          trailing: null,
+        ),
       ],
-    },
-    'options': {
-      'title': LocaleKeys.profile_section_options.tr(),
-      'children': [
-        {
-          'title': LocaleKeys.profile_dark_mode.tr(),
-          'leading': const FaIcon(FontAwesomeIcons.moon),
-          'trailing': const ThemeSwitcher(),
-        },
-        {
-          'title': LocaleKeys.profile_language.tr(),
-          'leading': const FaIcon(FontAwesomeIcons.language),
-        },
+    ),
+    options: (
+      title: LocaleKeys.profile_section_options.tr(),
+      children: [
+        (
+          title: LocaleKeys.profile_dark_mode.tr(),
+          leading: const FaIcon(FontAwesomeIcons.moon),
+          trailing: const ThemeSwitcher(),
+        ),
+        (
+          title: LocaleKeys.profile_language.tr(),
+          leading: const FaIcon(FontAwesomeIcons.language),
+          trailing: null,
+        ),
       ],
-    },
-  };
+    ),
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,9 +82,7 @@ class ProfileScreen extends ConsumerWidget {
         },
       ),
       data: (auth) => RefreshableScreen(
-        onRefresh: () async {
-          await Future.wait([ref.refresh(profileProvider.future)]);
-        },
+        onRefresh: () => ref.refresh(profileProvider.future),
         child: ScrollableScreen(
           children: [
             Center(
@@ -114,13 +121,13 @@ class ProfileScreen extends ConsumerWidget {
             const SizedBox(width: double.infinity, child: ProfileCard()),
 
             const SizedBox(height: 24),
-            ItemSection(section: sections['account']!),
+            ItemSection(section: sections.profile),
 
             const SizedBox(height: 16),
-            ItemSection(section: sections['current_profile']!),
+            ItemSection(section: sections.currentAccount),
 
             const SizedBox(height: 16),
-            ItemSection(section: sections['options']!),
+            ItemSection(section: sections.options),
 
             const SizedBox(height: 48),
             Item(
@@ -220,14 +227,14 @@ class ProfileCard extends ConsumerWidget {
                 Text(profile.name, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 4),
                 Text(
-                  '${LocaleKeys.profile_base_currency.tr()}: ${profile.baseCurrencyCode}',
+                  '${LocaleKeys.profile_base_currency.tr()}: ${profile.baseCurrency}',
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${LocaleKeys.profile_display_currency.tr()}: ${profile.displayCurrencyCode}',
+                  '${LocaleKeys.profile_display_currency.tr()}: ${profile.conversionCurrency}',
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
                   ),

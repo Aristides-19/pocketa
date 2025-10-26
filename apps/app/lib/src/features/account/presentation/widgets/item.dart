@@ -47,27 +47,29 @@ class Item extends ConsumerWidget {
 class ItemSection extends StatelessWidget {
   const ItemSection({super.key, required this.section});
 
-  final Map<String, Object> section;
+  final ({
+    String title,
+    List<({String title, Widget? leading, Widget? trailing})> children,
+  })
+  section;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final itemsData = section['children'] as List<Map<String, Object>>;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          section['title'] as String,
+          section.title,
           style: theme.textTheme.titleMedium!.copyWith(fontSize: 18),
         ),
         const SizedBox(height: 4),
-        for (final itemData in itemsData)
+        for (final itemData in section.children)
           Item(
-            text: itemData['title'] as String,
-            leading: itemData['leading'] as Widget?,
-            trailing: itemData['trailing'] as Widget?,
-            onTap: itemData['onTap'] as VoidCallback?,
+            text: itemData.title,
+            leading: itemData.leading,
+            trailing: itemData.trailing,
           ),
       ],
     );
