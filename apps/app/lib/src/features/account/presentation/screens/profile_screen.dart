@@ -7,7 +7,7 @@ import 'package:pocketa/src/features/account/presentation/widgets/widgets.dart';
 import 'package:pocketa/src/features/account/services/account_service.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/localization/locale.dart';
-import 'package:pocketa/src/utils/services/toaster_service.dart';
+import 'package:pocketa/src/utils/services/toaster_provider.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class ProfileScreen extends ConsumerWidget {

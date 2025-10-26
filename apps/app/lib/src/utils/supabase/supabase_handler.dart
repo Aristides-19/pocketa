@@ -1,15 +1,15 @@
 import 'package:collection/collection.dart';
 import 'package:logger/logger.dart';
 import 'package:pocketa/src/utils/app_exception.dart';
-import 'package:pocketa/src/utils/services/logger_service.dart';
+import 'package:pocketa/src/utils/services/logger_provider.dart';
 import 'package:pocketa/src/utils/supabase/supabase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-part 'supabase_guard.g.dart';
+part 'supabase_handler.g.dart';
 
-class SupabaseGuard {
-  const SupabaseGuard(this.ref, this.logger);
+class SupabaseHandler {
+  const SupabaseHandler(this.ref, this.logger);
 
   final Logger logger;
   final Ref ref;
@@ -107,7 +107,7 @@ class SupabaseGuard {
   }
 }
 
-@Riverpod(keepAlive: true)
-SupabaseGuard supGuard(Ref ref) {
-  return SupabaseGuard(ref, ref.read(loggerProvider));
+@Riverpod(keepAlive: true, name: 'supabaseHandler')
+SupabaseHandler supaHandler(Ref ref) {
+  return SupabaseHandler(ref, ref.read(loggerProvider));
 }

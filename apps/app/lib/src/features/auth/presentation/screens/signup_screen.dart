@@ -22,14 +22,14 @@ class SignupScreen extends HookConsumerWidget {
     final username = form.fields['username']?.value as String;
     final email = form.fields['email']?.value as String;
     final password = form.fields['password']?.value as String;
-    ref.read(authMutationProvider.notifier).signUp(username, email, password);
+    ref.read(authMutation.notifier).signUp(username, email, password);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
     final textTheme = TextTheme.of(context);
-    final authMutate = ref.watch(authMutationProvider);
+    final authMutate = ref.watch(authMutation);
 
     return Scaffold(
       body: AppForm(

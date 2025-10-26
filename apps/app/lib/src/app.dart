@@ -6,7 +6,7 @@ import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/features/crypto/crypto.dart';
 import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/router/router.dart';
-import 'package:pocketa/src/utils/services/toaster_service.dart';
+import 'package:pocketa/src/utils/services/toaster_provider.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -16,11 +16,11 @@ class App extends ConsumerWidget {
     final router = ref.read(routerProvider);
 
     ref
-      ..listen(authStreamProvider, (_, curr) {
+      ..listen(authStream, (_, curr) {
         // TODO - Handle exceptions
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (curr.isLoading) return;
-          final toast = ref.read(toastProvider);
+          final toast = ref.read(toastService);
 
           final e = curr.error;
           if (e is Exception) {
@@ -64,17 +64,17 @@ class App extends ConsumerWidget {
           }
         });
       })
-      ..listen(authMutationProvider, (_, curr) {
+      ..listen(authMutation, (_, curr) {
         if (curr.isLoading) return;
         final e = curr.error;
-        if (e is Exception) ref.read(toastProvider).showException(e);
+        if (e is Exception) ref.read(toastService).showException(e);
       })
-      ..listen(cryptoProvider, (_, curr) {
+      ..listen(cryptoService, (_, curr) {
         if (curr.isLoading) return;
 
         final e = curr.error;
         if (e is Exception) {
-          final toast = ref.read(toastProvider);
+          final toast = ref.read(toastService);
           if (e is PasswordRequiredException) {
             toast.showException(e, dismissAll: true, duration: 10);
             return;

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:pocketa/src/features/auth/auth.dart';
-import 'package:pocketa/src/utils/services/prefs_service.dart';
+import 'package:pocketa/src/utils/services/prefs_provider.dart';
 import 'package:pocketa/src/utils/supabase/supabase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,9 +10,9 @@ import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 part 'auth_repository.g.dart';
 
 class AuthRepository {
-  const AuthRepository(this._guard, this._prefs, this._client);
+  const AuthRepository(this._handler, this._prefs, this._client);
 
-  final SupabaseGuard _guard;
+  final SupabaseHandler _handler;
   final SharedPreferencesAsync _prefs;
   final supabase.SupabaseClient _client;
 
@@ -73,7 +73,7 @@ class AuthRepository {
   }
 
   Future<void> signUp(String name, String email, String password) {
-    return _guard.callAuth(
+    return _handler.callAuth(
       () async {
         await _client.auth.signUp(
           email: email,
@@ -91,7 +91,7 @@ class AuthRepository {
   }
 
   Future<void> logInWithEmail(String email, String password) {
-    return _guard.callAuth(
+    return _handler.callAuth(
       () async {
         await _client.auth.signInWithPassword(email: email, password: password);
         unawaited(_prefs.setString(_lastSessionEmailKey, email));
@@ -104,7 +104,7 @@ class AuthRepository {
   }
 
   Future<void> logout() {
-    return _guard.callAuth(() async {
+    return _handler.callAuth(() async {
       await _client.auth.signOut();
     }, exceptions: {const SessionMissingException()});
   }
@@ -114,9 +114,9 @@ class AuthRepository {
   }
 }
 
-@Riverpod(keepAlive: true)
-AuthRepository authRepository(Ref ref) => AuthRepository(
-  ref.read(supGuardProvider),
-  ref.read(prefsProvider),
+@Riverpod(keepAlive: true, name: 'authRepository')
+AuthRepository authRepo(Ref ref) => AuthRepository(
+  ref.read(supabaseHandler),
+  ref.read(asyncPreferences),
   ref.read(supabaseClient),
 );

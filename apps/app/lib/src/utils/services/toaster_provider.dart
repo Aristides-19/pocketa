@@ -5,7 +5,7 @@ import 'package:pocketa/src/utils/app_exception.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toastification/toastification.dart';
 
-part 'toaster_service.g.dart';
+part 'toaster_provider.g.dart';
 
 class Toaster {
   const Toaster();
@@ -55,7 +55,7 @@ class Toaster {
   }
 }
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, name: 'toastService')
 Toaster toast(Ref ref) {
   return const Toaster();
 }

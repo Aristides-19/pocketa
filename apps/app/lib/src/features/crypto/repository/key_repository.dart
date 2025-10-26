@@ -6,7 +6,7 @@ import 'package:pocketa/src/features/crypto/crypto.dart';
 import 'package:pocketa/src/features/crypto/models/key.dart';
 import 'package:pocketa/src/features/crypto/utils/encode.dart';
 import 'package:pocketa/src/features/crypto/utils/engine.dart';
-import 'package:pocketa/src/utils/services/prefs_service.dart';
+import 'package:pocketa/src/utils/services/prefs_provider.dart';
 import 'package:pocketa/src/utils/supabase/supabase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,17 +16,17 @@ part 'key_repository.g.dart';
 typedef KeyPayload = ({SecretKey privateKey, List<int> salt});
 
 class KeyRepository {
-  KeyRepository(this._prefs, this._engine, this._client, this._guard);
+  KeyRepository(this._prefs, this._engine, this._client, this._handler);
 
   final FlutterSecureStorage _prefs;
   final CryptoEngine _engine;
   final SupabaseClient _client;
-  final SupabaseGuard _guard;
+  final SupabaseHandler _handler;
 
   final _storageKey = 'private_key';
 
   Future<SecretKey> upsert({required String password, SecretKey? privateKey}) {
-    return _guard.callPG(() async {
+    return _handler.callPG(() async {
       privateKey ??= await _engine.genPrivateKey();
       final (:derivedKey, :salt) = await _engine.deriveKey(password);
 
@@ -53,7 +53,7 @@ class KeyRepository {
   }
 
   Future<SecretKey> getOrElseCreate({String? password}) {
-    return _guard.callPG(() async {
+    return _handler.callPG(() async {
       // Session restore, try to get local key
       if (password == null) {
         final privateKeyb64 = await _prefs.read(key: _storageKey);
@@ -102,16 +102,16 @@ class KeyRepository {
   }
 
   Future<void> clearLocalKey() {
-    return _guard.call(() async {
+    return _handler.call(() async {
       await _prefs.delete(key: _storageKey);
     });
   }
 }
 
-@Riverpod(keepAlive: true)
-KeyRepository keyRepository(Ref ref) => KeyRepository(
-  ref.read(securePrefsProvider),
-  ref.read(cryptoEngineProvider),
+@Riverpod(keepAlive: true, name: 'keyRepository')
+KeyRepository keyRepo(Ref ref) => KeyRepository(
+  ref.read(securePreferences),
+  ref.read(cryptoEngine),
   ref.read(supabaseClient),
-  ref.read(supGuardProvider),
+  ref.read(supabaseHandler),
 );

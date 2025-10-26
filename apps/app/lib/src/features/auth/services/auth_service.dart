@@ -7,28 +7,28 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_service.g.dart';
 
 // TODO - Add retry logic for network errors
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, name: 'authStream')
 class AuthStream extends _$AuthStream {
   @override
   Stream<AuthState> build() {
-    return ref.read(authRepositoryProvider).authStateStream;
+    return ref.read(authRepository).authStateStream;
   }
 }
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, name: 'authMutation')
 class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   late AuthRepository _repo;
 
   @override
   Future<void> build() async {
-    _repo = ref.read(authRepositoryProvider);
+    _repo = ref.read(authRepository);
   }
 
   Future<void> logIn(String email, String password) async {
     if (state.isLoading) return;
     await mutateState(() async {
       await _repo.logInWithEmail(email, password);
-      await ref.read(cryptoProvider.notifier).init(password: password);
+      await ref.read(cryptoService.notifier).init(password: password);
     });
   }
 
@@ -36,7 +36,7 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
     if (state.isLoading) return;
     await mutateState(() async {
       await _repo.signUp(username, email, password);
-      await ref.read(cryptoProvider.notifier).createKey(password);
+      await ref.read(cryptoService.notifier).createKey(password);
     });
   }
 
