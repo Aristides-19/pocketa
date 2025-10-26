@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'account_service.g.dart';
 
-@Riverpod(keepAlive: true, name: 'profileProvider')
+@Riverpod(keepAlive: true, name: 'accountProvider')
 class AccountService extends _$AccountService with AsyncNotifierMixin {
   @override
   Future<Account> build() async {

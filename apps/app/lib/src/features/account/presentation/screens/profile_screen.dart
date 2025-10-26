@@ -15,7 +15,7 @@ class ProfileScreen extends ConsumerWidget {
 
   static final sections = (
     profile: (
-      title: LocaleKeys.profile_section_account.tr(),
+      title: LocaleKeys.profile_section_profile.tr(),
       children: [
         (
           title: LocaleKeys.profile_personal_data.tr(),
@@ -43,10 +43,10 @@ class ProfileScreen extends ConsumerWidget {
       ],
     ),
     currentAccount: (
-      title: LocaleKeys.profile_section_current_profile.tr(),
+      title: LocaleKeys.profile_section_current_account.tr(),
       children: [
         (
-          title: LocaleKeys.profile_edit_profile.tr(),
+          title: LocaleKeys.profile_edit_account.tr(),
           leading: const FaIcon(FontAwesomeIcons.tag),
           trailing: null,
         ),
@@ -82,7 +82,7 @@ class ProfileScreen extends ConsumerWidget {
         },
       ),
       data: (auth) => RefreshableScreen(
-        onRefresh: () => ref.refresh(profileProvider.future),
+        onRefresh: () => ref.refresh(accountProvider.future),
         child: ScrollableScreen(
           children: [
             Center(
@@ -179,7 +179,7 @@ class ProfileCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildError(WidgetRef ref, AsyncValue profile) {
+  Widget _buildError(WidgetRef ref, AsyncValue account) {
     final theme = Theme.of(ref.context);
 
     return CommonCard(
@@ -189,13 +189,13 @@ class ProfileCard extends ConsumerWidget {
           FaIcon(FontAwesomeIcons.xmark, color: theme.colorScheme.error),
 
           const SizedBox(width: 20),
-          Expanded(child: Text(LocaleKeys.profile_profile_load_error.tr())),
+          Expanded(child: Text(LocaleKeys.profile_account_load_error.tr())),
 
           LabelButton(
             label: LocaleKeys.actions_retry.tr(),
-            onPressed: () => ref.refresh(profileProvider),
+            onPressed: () => ref.refresh(accountProvider),
             color: theme.colorScheme.error,
-            isLoading: profile.isLoading,
+            isLoading: account.isLoading,
             showLoading: true,
           ),
         ],
@@ -206,35 +206,35 @@ class ProfileCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final profile = ref.watch(profileProvider);
+    final account = ref.watch(accountProvider);
 
-    ref.listen((profileProvider), (_, curr) {
+    ref.listen((accountProvider), (_, curr) {
       if (curr.hasError && !curr.isLoading) {
         final e = curr.error;
         if (e is Exception) ref.read(toastProvider).showException(e);
       }
     });
 
-    return profile.when(
+    return account.when(
       loading: () => _buildSkeleton(),
-      error: (_, _) => _buildError(ref, profile),
-      data: (profile) => CommonCard(
+      error: (_, _) => _buildError(ref, account),
+      data: (account) => CommonCard(
         child: Row(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(profile.name, style: theme.textTheme.titleMedium),
+                Text(account.name, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 4),
                 Text(
-                  '${LocaleKeys.profile_base_currency.tr()}: ${profile.baseCurrency}',
+                  '${LocaleKeys.profile_base_currency.tr()}: ${account.baseCurrency}',
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${LocaleKeys.profile_display_currency.tr()}: ${profile.conversionCurrency}',
+                  '${LocaleKeys.profile_conversion_currency.tr()}: ${account.conversionCurrency}',
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
                   ),
@@ -245,7 +245,7 @@ class ProfileCard extends ConsumerWidget {
             PIconButton(
               icon: const FaIcon(FontAwesomeIcons.shuffle),
               onPressed: () {},
-              tooltip: LocaleKeys.profile_change_profile.tr(),
+              tooltip: LocaleKeys.profile_switch_account.tr(),
             ),
           ],
         ),
