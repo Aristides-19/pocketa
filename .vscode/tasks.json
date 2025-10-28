@@ -5,17 +5,31 @@
       "label": "Build Runner",
       "type": "shell",
       "command": "dart",
-      "args": ["run", "build_runner", "build", "--delete-conflicting-outputs"],
+      "args": [
+        "run",
+        "build_runner",
+        "build",
+        "--delete-conflicting-outputs"
+      ],
       "group": "build",
-      "options": { "cwd": "apps/app" }
+      "options": {
+        "cwd": "apps/app"
+      }
     },
     {
       "label": "Watch Build Runner",
       "type": "shell",
       "command": "dart",
-      "args": ["run", "build_runner", "watch", "--delete-conflicting-outputs"],
+      "args": [
+        "run",
+        "build_runner",
+        "watch",
+        "--delete-conflicting-outputs"
+      ],
       "group": "build",
-      "options": { "cwd": "apps/app" },
+      "options": {
+        "cwd": "apps/app"
+      },
       "presentation": {
         "echo": true,
         "reveal": "silent",
@@ -30,7 +44,9 @@
       "type": "shell",
       "command": "dart run easy_localization:generate -S assets/langs -O lib/src/localization -o locale_keys.g.dart -f keys; dart run easy_localization:generate -S assets/langs -O lib/src/localization",
       "group": "build",
-      "options": { "cwd": "apps/app" },
+      "options": {
+        "cwd": "apps/app"
+      },
       "presentation": {
         "echo": true,
         "reveal": "silent",
@@ -45,7 +61,9 @@
       "type": "shell",
       "command": "dart run easy_localization:audit -t assets/langs -s lib/src/localization",
       "group": "test",
-      "options": { "cwd": "apps/app" },
+      "options": {
+        "cwd": "apps/app"
+      }
     },
     {
       "label": "Build Generated Code",
@@ -58,6 +76,20 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "Generate SQL Init Script",
+      "type": "shell",
+      "command": "dart run lib/supabase/init.dart",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
     }
   ]
 }
