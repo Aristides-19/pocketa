@@ -10,6 +10,7 @@ void main() async {
     'policies/01_permissions.sql',
     'policies/02_rls_enable.sql',
     'policies/03_rls_policies.sql',
+    'seed/01_seed_currency.sql',
   ];
 
   final buffer = StringBuffer();
