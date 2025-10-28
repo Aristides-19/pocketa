@@ -46,7 +46,7 @@ class Crypto extends _$Crypto with AsyncNotifierMixin {
       try {
         _privateKey = await _repo.upsert(password: password);
       } on Exception {
-        await ref.read(authMutation.notifier).logout();
+        await ref.read(authMutation.notifier).logout(force: true);
         rethrow;
       }
     });
@@ -60,7 +60,7 @@ class Crypto extends _$Crypto with AsyncNotifierMixin {
       try {
         _privateKey = await _repo.getOrElseCreate(password: password);
       } on Exception {
-        await ref.read(authMutation.notifier).logout();
+        await ref.read(authMutation.notifier).logout(force: true);
         rethrow;
       }
     });

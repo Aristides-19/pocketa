@@ -40,8 +40,9 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
     });
   }
 
-  Future<void> logout() async {
-    if (state.isLoading) return;
+  /// Use [force] to logout when it is critical to surpass the loading state
+  Future<void> logout({bool force = false}) async {
+    if (state.isLoading && !force) return;
     await mutateState(() async {
       await _repo.logout();
     });
