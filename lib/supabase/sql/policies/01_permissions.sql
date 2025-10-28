@@ -1,4 +1,6 @@
 -- Grant permissions to authenticated users
+GRANT USAGE ON SCHEMA api TO authenticated;
+
 GRANT SELECT, INSERT, UPDATE, DELETE 
 ON TABLE api.accounts 
 TO authenticated;
