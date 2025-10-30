@@ -12,3 +12,8 @@ CREATE TRIGGER ensure_transactions_currency_consistency
 BEFORE UPDATE ON api.accounts
 FOR EACH ROW
 EXECUTE FUNCTION api.ensure_transactions_currency_consistency();
+
+CREATE TRIGGER ensure_default_account_on_delete
+AFTER DELETE ON api.accounts
+FOR EACH ROW
+EXECUTE FUNCTION api.ensure_default_account_on_delete();
