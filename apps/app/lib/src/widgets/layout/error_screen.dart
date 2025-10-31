@@ -5,16 +5,11 @@ import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class ErrorScreen extends HookWidget {
-  const ErrorScreen({
-    super.key,
-    required this.onRetry,
-    this.title,
-    this.message,
-  });
+  const ErrorScreen({super.key, this.onRetry, this.title, this.message});
 
   final String? title;
   final String? message;
-  final Future<void> Function() onRetry;
+  final Future<void> Function()? onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +48,7 @@ class ErrorScreen extends HookWidget {
               onPressed: () async {
                 isLoading.value = true;
                 try {
-                  await onRetry();
+                  await onRetry?.call();
                 } finally {
                   isLoading.value = false;
                 }
