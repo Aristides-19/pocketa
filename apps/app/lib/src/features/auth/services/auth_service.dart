@@ -1,7 +1,7 @@
 import 'package:pocketa/src/features/auth/models/auth_state.dart';
 import 'package:pocketa/src/features/auth/repository/auth_repository.dart';
 import 'package:pocketa/src/features/crypto/crypto.dart';
-import 'package:pocketa/src/utils/riverpod/async_notifier_mixin.dart';
+import 'package:pocketa/src/utils/riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_service.g.dart';

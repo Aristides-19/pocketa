@@ -1,7 +1,7 @@
 import 'package:cryptography/cryptography.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/features/crypto/repository/key_repository.dart';
-import 'package:pocketa/src/utils/riverpod/async_notifier_mixin.dart';
+import 'package:pocketa/src/utils/riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'crypto_service.g.dart';
