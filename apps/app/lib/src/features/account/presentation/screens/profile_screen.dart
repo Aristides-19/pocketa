@@ -164,14 +164,14 @@ class ProfileCard extends ConsumerWidget {
       child: Skeletonizer(
         child: Row(
           children: [
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(width: 120, height: 20, color: Colors.white),
-                const SizedBox(height: 6),
-                Container(width: 150, height: 16, color: Colors.white),
-                const SizedBox(height: 4),
-                Container(width: 160, height: 16, color: Colors.white),
+                ContainerSkeleton(width: 120, height: 20),
+                SizedBox(height: 6),
+                ContainerSkeleton(width: 150, height: 16),
+                SizedBox(height: 4),
+                ContainerSkeleton(width: 160, height: 16),
               ],
             ),
             const Spacer(),
