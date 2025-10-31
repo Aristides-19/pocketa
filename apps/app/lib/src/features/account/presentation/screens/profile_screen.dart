@@ -78,18 +78,17 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(authStreamProvider);
+    final auth = ref.watch(authStream);
     final theme = Theme.of(context);
 
     return auth.when(
       loading: () => const SizedBox.shrink(),
-      error: (_, _) => ErrorScreen(
-        onRetry: () async {
-          await Future.value();
-        },
-      ),
+      error: (_, _) => const ErrorScreen(),
       data: (auth) => RefreshableScreen(
-        onRefresh: () => ref.refresh(accountProvider.future),
+        onRefresh: () async {
+          ref.invalidate(allAccounts);
+          return await ref.refresh(currentAccount.future);
+        },
         child: ScrollableScreen(
           children: [
             Center(
@@ -140,7 +139,7 @@ class ProfileScreen extends ConsumerWidget {
             Item(
               text: LocaleKeys.auth_logout.tr(),
               trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
-              onTap: () => ref.read(authMutationProvider.notifier).logout(),
+              onTap: () => ref.read(authMutation.notifier).logout(),
             ),
 
             const SizedBox(height: 10),
@@ -200,7 +199,7 @@ class ProfileCard extends ConsumerWidget {
 
           LabelButton(
             label: LocaleKeys.actions_retry.tr(),
-            onPressed: () => ref.refresh(accountProvider),
+            onPressed: () => ref.refresh(currentAccount),
             color: theme.colorScheme.error,
             isLoading: account.isLoading,
             showLoading: true,
@@ -213,50 +212,56 @@ class ProfileCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final account = ref.watch(accountProvider);
+    final account = ref.watch(currentAccount);
 
-    ref.listen((accountProvider), (_, curr) {
+    ref.listen((currentAccount), (_, curr) {
       if (curr.hasError && !curr.isLoading) {
         final e = curr.error;
-        if (e is Exception) ref.read(toastProvider).showException(e);
+        if (e is Exception) ref.read(toastService).showException(e);
       }
     });
 
     return account.when(
       loading: () => _buildSkeleton(),
       error: (_, _) => _buildError(ref, account),
-      data: (account) => CommonCard(
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(account.name, style: theme.textTheme.titleMedium),
-                const SizedBox(height: 4),
-                Text(
-                  '${LocaleKeys.profile_base_currency.tr()}: ${account.baseCurrency}',
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                    color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
+      data: (account) => account == null
+          ? _buildSkeleton()
+          : CommonCard(
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(account.name, style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${LocaleKeys.profile_base_currency.tr()}: ${account.baseCurrency}',
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          color: theme.textTheme.bodyMedium?.color?.withAlpha(
+                            128,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${LocaleKeys.profile_conversion_currency.tr()}: ${account.conversionCurrency}',
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          color: theme.textTheme.bodyMedium?.color?.withAlpha(
+                            128,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${LocaleKeys.profile_conversion_currency.tr()}: ${account.conversionCurrency}',
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                    color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
+                  const Spacer(),
+                  PIconButton(
+                    icon: const FaIcon(FontAwesomeIcons.shuffle),
+                    onPressed: () {},
+                    tooltip: LocaleKeys.profile_switch_account.tr(),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            const Spacer(),
-            PIconButton(
-              icon: const FaIcon(FontAwesomeIcons.shuffle),
-              onPressed: () {},
-              tooltip: LocaleKeys.profile_switch_account.tr(),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
