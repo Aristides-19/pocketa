@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS api.exchange_rates(
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     FOREIGN KEY(from_currency) REFERENCES api.currencies(code),
-    FOREIGN KEY(to_currency) REFERENCES api.currencies(code)
+    FOREIGN KEY(to_currency) REFERENCES api.currencies(code),
+    UNIQUE(effective_at, from_currency, to_currency)
 );
 CREATE INDEX IF NOT EXISTS exchange_rates_from_currency_to_currency_effective_at_idx ON api.exchange_rates USING btree (from_currency, to_currency, effective_at);
 CREATE INDEX IF NOT EXISTS exchange_rates_to_currency_from_currency_effective_at_idx ON api.exchange_rates USING btree (to_currency, from_currency, effective_at);

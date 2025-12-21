@@ -1,5 +1,6 @@
 -- Grant permissions to authenticated users
 GRANT USAGE ON SCHEMA api TO authenticated;
+GRANT USAGE ON SCHEMA api TO service_role;
 
 GRANT SELECT, INSERT, UPDATE, DELETE 
 ON TABLE api.accounts 
@@ -24,3 +25,7 @@ TO authenticated;
 GRANT SELECT
 ON TABLE api.exchange_rates
 TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLE api.exchange_rates
+TO service_role;
