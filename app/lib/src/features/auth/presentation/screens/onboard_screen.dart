@@ -17,12 +17,12 @@ class OnboardScreen extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const .symmetric(horizontal: 24, vertical: 16),
           child: Stack(
             children: [
               Center(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: .min,
                   children: [
                     const Logo(width: 150),
                     const SizedBox(height: 27),
@@ -37,7 +37,7 @@ class OnboardScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      textAlign: TextAlign.center,
+                      textAlign: .center,
                     ),
                     const SizedBox(height: 20),
                     Text(

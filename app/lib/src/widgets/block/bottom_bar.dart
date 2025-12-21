@@ -36,12 +36,12 @@ class BottomBar extends StatelessWidget {
     final systemPadding = MediaQuery.of(context).viewPadding.bottom;
 
     return Stack(
-      alignment: Alignment.center,
-      clipBehavior: Clip.none,
+      alignment: .center,
+      clipBehavior: .none,
       children: [
         Container(
           height: 60 + systemPadding,
-          padding: EdgeInsets.only(bottom: systemPadding),
+          padding: .only(bottom: systemPadding),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             border: Border(
@@ -53,8 +53,8 @@ class BottomBar extends StatelessWidget {
           ),
 
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: .spaceAround,
+            crossAxisAlignment: .center,
             children: [
               // Left side icons
               ...items
@@ -85,9 +85,7 @@ class BottomBar extends StatelessWidget {
           top: -20,
           child: FloatingActionButton(
             tooltip: LocaleKeys.nav_add_transaction.tr(),
-            onPressed: () {
-              context.push(RoutePaths.transactions.add);
-            },
+            onPressed: () => context.push(RoutePaths.transactions.add),
             child: const FaIcon(FontAwesomeIcons.plus),
           ),
         ),

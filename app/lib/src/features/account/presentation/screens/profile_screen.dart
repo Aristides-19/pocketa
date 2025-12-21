@@ -98,7 +98,7 @@ class ProfileScreen extends ConsumerWidget {
                     width: 84,
                     child: BoringAvatar(
                       name: auth.user?.$id ?? '',
-                      type: BoringAvatarType.beam,
+                      type: .beam,
                       shape: OvalBorder(
                         side: BorderSide(
                           width: 2,
@@ -230,7 +230,7 @@ class ProfileCard extends ConsumerWidget {
               child: Row(
                 children: [
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: .start,
                     children: [
                       Text(account.name, style: theme.textTheme.titleMedium),
                       const SizedBox(height: 4),

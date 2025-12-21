@@ -13,16 +13,11 @@ class ScrollableScreen extends StatelessWidget {
     final systemPadding = MediaQuery.of(context).padding;
 
     return SingleChildScrollView(
-      padding: defaultPadding.add(
-        EdgeInsets.only(bottom: systemPadding.bottom),
-      ),
+      padding: defaultPadding.add(.only(bottom: systemPadding.bottom)),
       physics: const BouncingScrollPhysics(
         parent: AlwaysScrollableScrollPhysics(),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
-      ),
+      child: Column(crossAxisAlignment: .start, children: children),
     );
   }
 }

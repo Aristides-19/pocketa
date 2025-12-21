@@ -21,9 +21,9 @@ class ErrorScreen extends HookWidget {
       child: Padding(
         padding: const EdgeInsets.all(
           48.0,
-        ).add(EdgeInsets.only(bottom: systemPadding.bottom)),
+        ).add(.only(bottom: systemPadding.bottom)),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: .center,
           children: [
             FaIcon(
               FontAwesomeIcons.circleExclamation,
@@ -34,13 +34,13 @@ class ErrorScreen extends HookWidget {
             Text(
               title ?? LocaleKeys.errors_screen_title.tr(),
               style: theme.textTheme.headlineMedium,
-              textAlign: TextAlign.center,
+              textAlign: .center,
             ),
             const SizedBox(height: 8),
             Text(
               message ?? LocaleKeys.errors_screen_message.tr(),
               style: theme.textTheme.bodyLarge,
-              textAlign: TextAlign.center,
+              textAlign: .center,
             ),
             const SizedBox(height: 28),
             POutlinedButton(

@@ -51,8 +51,8 @@ class LoginScreen extends HookConsumerWidget {
           FormInput(
             name: 'email',
             label: LocaleKeys.auth_email.tr(),
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
+            keyboardType: .emailAddress,
+            textInputAction: .next,
             autofillHints: const [AutofillHints.email],
             validator: emailValidator(),
           ),
@@ -61,8 +61,8 @@ class LoginScreen extends HookConsumerWidget {
           FormInput(
             name: 'password',
             label: LocaleKeys.auth_password.tr(),
-            keyboardType: TextInputType.visiblePassword,
-            textInputAction: TextInputAction.done,
+            keyboardType: .visiblePassword,
+            textInputAction: .done,
             autofillHints: const [AutofillHints.password],
             obscure: true,
             maxLength: 30,

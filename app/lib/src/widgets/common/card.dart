@@ -10,8 +10,9 @@ class CommonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Card(
-      margin: EdgeInsets.zero,
+      margin: .zero,
       elevation: 0,
       color: theme.colorScheme.surfaceContainer,
       shape: RoundedRectangleBorder(
@@ -19,8 +20,7 @@ class CommonCard extends StatelessWidget {
         side: BorderSide(color: theme.colorScheme.outline),
       ),
       child: Padding(
-        padding:
-            padding ?? const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        padding: padding ?? const .symmetric(horizontal: 18, vertical: 12),
         child: child,
       ),
     );

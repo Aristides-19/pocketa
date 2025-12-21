@@ -18,6 +18,7 @@ class Switcher extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final outline = theme.colorScheme.outline.withAlpha(175);
+
     return SizedBox(
       width: 50 * switchScale,
       height: 28 * switchScale,
@@ -29,19 +30,19 @@ class Switcher extends HookWidget {
             value.value = newValue;
             onChanged(newValue);
           },
-          thumbColor: WidgetStateProperty.resolveWith((states) {
+          thumbColor: .resolveWith((states) {
             if (states.contains(WidgetState.selected)) {
               return theme.colorScheme.onPrimary;
             }
             return outline;
           }),
-          trackColor: WidgetStateProperty.resolveWith((states) {
+          trackColor: .resolveWith((states) {
             if (states.contains(WidgetState.selected)) {
               return theme.colorScheme.primary;
             }
             return theme.colorScheme.surface;
           }),
-          trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+          trackOutlineColor: .resolveWith((states) {
             if (states.contains(WidgetState.selected)) {
               return theme.colorScheme.primary;
             }

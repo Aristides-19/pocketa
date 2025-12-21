@@ -39,16 +39,13 @@ class FormInput extends HookWidget {
       obscureText: isObscured.value,
       maxLength: maxLength,
       onTapOutside: (_) => FocusScope.of(context).unfocus(),
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: .onUserInteraction,
       validator: validator,
 
       decoration: InputDecoration(
         border: const OutlineInputBorder(borderRadius: AppTheme.borderRadius),
         labelText: label,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 18,
-        ),
+        contentPadding: const .symmetric(horizontal: 20, vertical: 18),
 
         suffixIcon: obscure
             ? IconButton(

@@ -44,8 +44,8 @@ class SignupScreen extends HookConsumerWidget {
           FormInput(
             name: 'email',
             label: LocaleKeys.auth_email.tr(),
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
+            keyboardType: .emailAddress,
+            textInputAction: .next,
             autofillHints: const [AutofillHints.email],
             validator: emailValidator(),
           ),
@@ -54,8 +54,8 @@ class SignupScreen extends HookConsumerWidget {
           FormInput(
             name: 'username',
             label: LocaleKeys.auth_username.tr(),
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
+            keyboardType: .text,
+            textInputAction: .next,
             autofillHints: const [AutofillHints.nickname],
             validator: usernameValidator(),
             maxLength: 20,
@@ -65,8 +65,8 @@ class SignupScreen extends HookConsumerWidget {
           FormInput(
             name: 'password',
             label: LocaleKeys.auth_password.tr(),
-            keyboardType: TextInputType.visiblePassword,
-            textInputAction: TextInputAction.next,
+            keyboardType: .visiblePassword,
+            textInputAction: .next,
             autofillHints: const [AutofillHints.password],
             obscure: true,
             maxLength: 30,
@@ -77,8 +77,8 @@ class SignupScreen extends HookConsumerWidget {
           FormInput(
             name: 'confirm_password',
             label: LocaleKeys.auth_confirm_password.tr(),
-            keyboardType: TextInputType.visiblePassword,
-            textInputAction: TextInputAction.done,
+            keyboardType: .visiblePassword,
+            textInputAction: .done,
             autofillHints: const [AutofillHints.password],
             obscure: true,
             maxLength: 30,

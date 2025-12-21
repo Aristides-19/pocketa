@@ -15,7 +15,7 @@ class AppForm extends StatelessWidget {
       key: formKey,
       child: AutofillGroup(
         child: ScrollableScreen(
-          padding: const EdgeInsets.symmetric(horizontal: 33, vertical: 65),
+          padding: const .symmetric(horizontal: 33, vertical: 65),
           children: children,
         ),
       ),
