@@ -80,7 +80,7 @@
     {
       "label": "Generate SQL Init Script",
       "type": "shell",
-      "command": "dart run lib/supabase/init.dart",
+      "command": "dart run services/supabase/init.dart",
       "presentation": {
         "echo": true,
         "reveal": "silent",

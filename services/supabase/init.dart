@@ -1,8 +1,8 @@
 import 'dart:io';
 
 void main() async {
-  final base = 'lib/supabase/sql';
-  final files = [
+  const base = 'services/supabase/sql';
+  const files = [
     'schema/01_enums.sql',
     'schema/02_tables.sql',
     'triggers/01_functions.sql',
@@ -20,10 +20,10 @@ void main() async {
   );
 
   for (final file in files) {
-    final path = '$base/$file';
-    buffer.writeln('-- $file');
-    buffer.writeln(await File(path).readAsString());
-    buffer.writeln();
+    buffer
+      ..writeln('-- $file')
+      ..writeln(await File('$base/$file').readAsString())
+      ..writeln();
   }
 
   await File('$base/init.sql').writeAsString(buffer.toString());
