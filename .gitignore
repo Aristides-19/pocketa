@@ -27,6 +27,3 @@ coverage/
 # Misc
 .DS_Store
 Thumbs.db
-
-# Ignore pubspec.lock at workspace root (only keep in packages)
-pubspec.lock
