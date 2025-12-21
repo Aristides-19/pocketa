@@ -11,7 +11,5 @@ SharedPreferencesAsync asyncPrefs(Ref ref) {
 
 @Riverpod(keepAlive: true, name: 'securePreferences')
 FlutterSecureStorage securePrefs(Ref ref) {
-  return const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
+  return const FlutterSecureStorage();
 }
