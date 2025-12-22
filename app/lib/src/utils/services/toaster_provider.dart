@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocketa/src/constants/constants.dart';
-import 'package:pocketa/src/router/keys.dart';
+import 'package:pocketa/src/router/routes.dart';
 import 'package:pocketa/src/utils/app_exception.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toastification/toastification.dart';

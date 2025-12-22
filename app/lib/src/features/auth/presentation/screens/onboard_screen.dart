@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/localization/locale.dart';
-import 'package:pocketa/src/router/routes/route_paths.dart';
+import 'package:pocketa/src/router/routes.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class OnboardScreen extends ConsumerWidget {
@@ -52,7 +51,7 @@ class OnboardScreen extends ConsumerWidget {
                 alignment: const Alignment(0.0, 0.7),
                 child: Button(
                   label: LocaleKeys.onboarding_get_started.tr(),
-                  onPressed: () => context.go(RoutePaths.login),
+                  onPressed: () => const LoginRoute().go(context),
                 ),
               ),
             ],

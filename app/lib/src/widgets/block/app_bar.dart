@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/localization/locale.dart';
-import 'package:pocketa/src/router/routes/routes.dart';
+import 'package:pocketa/src/router/routes.dart';
 
 class PAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PAppBar({super.key});
 
   static final titles = [
-    (title: AppInfo.appName, route: RoutePaths.home),
+    (title: AppInfo.appName, route: const HomeRoute().location),
     (
       title: LocaleKeys.nav_transactions.tr(),
-      route: RoutePaths.transactions.path,
+      route: const TransactionsRoute().location,
     ),
-    (title: LocaleKeys.nav_insights.tr(), route: RoutePaths.insights),
-    (title: LocaleKeys.nav_profile.tr(), route: RoutePaths.user),
+    (
+      title: LocaleKeys.nav_insights.tr(),
+      route: const InsightsRoute().location,
+    ),
+    (title: LocaleKeys.nav_profile.tr(), route: const ProfileRoute().location),
   ];
 
   @override

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
-import 'package:pocketa/src/router/keys.dart';
-import 'package:pocketa/src/router/routes/routes.dart';
-import 'package:pocketa/src/widgets/widgets.dart';
+import 'package:pocketa/src/router/routes.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
@@ -17,52 +15,25 @@ GoRouter router(Ref ref) {
 
     final isLoggedIn = authState.value?.user != null;
     final isGoingToPublicRoute = [
-      RoutePaths.onboarding,
-      RoutePaths.login,
-      RoutePaths.signup,
+      const OnboardingRoute().location,
+      const LoginRoute().location,
+      const SignupRoute().location,
     ].contains(state.matchedLocation);
 
-    if (!isLoggedIn && !isGoingToPublicRoute) return RoutePaths.login;
-    if (isLoggedIn && isGoingToPublicRoute) return RoutePaths.home;
+    if (!isLoggedIn && !isGoingToPublicRoute) {
+      return const LoginRoute().location;
+    }
+    if (isLoggedIn && isGoingToPublicRoute) {
+      return const HomeRoute().location;
+    }
     return null;
   }
 
   final router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: RoutePaths.onboarding,
+    initialLocation: const OnboardingRoute().location,
     redirect: (BuildContext context, GoRouterState state) => redirect(state),
-    routes: [
-      GoRoute(
-        path: RoutePaths.onboarding,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (BuildContext context, GoRouterState state) =>
-            const OnboardScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.login,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (BuildContext context, GoRouterState state) =>
-            const LoginScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.signup,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (BuildContext context, GoRouterState state) =>
-            const SignupScreen(),
-      ),
-      ShellRoute(
-        navigatorKey: shellNavigatorKey,
-        builder: (BuildContext context, GoRouterState state, Widget child) {
-          return AppLayout(child: child);
-        },
-        routes: <GoRoute>[
-          homeRoute,
-          transactionsRoute,
-          insightsRoute,
-          userRoute,
-        ],
-      ),
-    ],
+    routes: $appRoutes,
   );
 
   ref.listen($authStreamQuery, (_, _) => router.refresh());
