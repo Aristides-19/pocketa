@@ -8,16 +8,8 @@ class ThemeSwitcher extends HookWidget {
   const ThemeSwitcher({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isDarkMode = useState(
-      Theme.of(context).brightness == Brightness.dark,
-    );
-
-    return Switcher(
-      value: isDarkMode,
-      onChanged: (value) {
-        log('Switch toggled: $value');
-      },
-    );
-  }
+  Widget build(BuildContext context) => Switcher(
+    enabled: Theme.of(context).brightness == Brightness.dark,
+    onChanged: (value) => log('Switch toggled: $value'),
+  );
 }

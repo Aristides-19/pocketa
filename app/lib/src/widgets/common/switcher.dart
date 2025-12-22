@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-/// Generic switcher widget that can be reused across the app. State is managed.
-class Switcher extends HookWidget {
+/// Generic switcher widget that can be reused across the app.
+/// It is a stateless (controlled) widget that reflects the [enabled] state
+/// and notifies changes via [onChanged].
+class Switcher extends StatelessWidget {
   const Switcher({
     super.key,
-    required this.value,
+    required this.enabled,
     required this.onChanged,
     this.switchScale = 0.8,
   });
 
-  final ValueNotifier<bool> value;
-  final Function(bool) onChanged;
+  final bool enabled;
+  final ValueChanged<bool> onChanged;
   final double switchScale;
 
   @override
@@ -25,11 +26,8 @@ class Switcher extends HookWidget {
       child: Transform.scale(
         scale: switchScale,
         child: Switch(
-          value: value.value,
-          onChanged: (newValue) {
-            value.value = newValue;
-            onChanged(newValue);
-          },
+          value: enabled,
+          onChanged: onChanged,
           thumbColor: .resolveWith((states) {
             if (states.contains(WidgetState.selected)) {
               return theme.colorScheme.onPrimary;

@@ -165,7 +165,7 @@ class ProfileCard extends ConsumerWidget {
         child: Row(
           children: [
             const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 ContainerSkeleton(width: 120, height: 20),
                 SizedBox(height: 6),
