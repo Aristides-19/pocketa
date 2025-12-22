@@ -9,11 +9,12 @@
         "run",
         "build_runner",
         "build",
-        "--delete-conflicting-outputs"
+        "--delete-conflicting-outputs",
+        "--enable-experiment=dot-shorthands"
       ],
       "group": "build",
       "options": {
-        "cwd": "apps/app"
+        "cwd": "app"
       }
     },
     {
@@ -24,11 +25,12 @@
         "run",
         "build_runner",
         "watch",
-        "--delete-conflicting-outputs"
+        "--delete-conflicting-outputs",
+        "--enable-experiment=dot-shorthands"
       ],
       "group": "build",
       "options": {
-        "cwd": "apps/app"
+        "cwd": "app"
       },
       "presentation": {
         "echo": true,
@@ -45,7 +47,7 @@
       "command": "dart run easy_localization:generate -S assets/langs -O lib/src/localization -o locale_keys.g.dart -f keys; dart run easy_localization:generate -S assets/langs -O lib/src/localization",
       "group": "build",
       "options": {
-        "cwd": "apps/app"
+        "cwd": "app"
       },
       "presentation": {
         "echo": true,
@@ -62,7 +64,7 @@
       "command": "dart run easy_localization:audit -t assets/langs -s lib/src/localization",
       "group": "test",
       "options": {
-        "cwd": "apps/app"
+        "cwd": "app"
       }
     },
     {
