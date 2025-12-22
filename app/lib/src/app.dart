@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -90,7 +91,8 @@ class App extends ConsumerWidget {
         ...context.localizationDelegates,
       ],
       supportedLocales: context.supportedLocales,
-      locale: context.locale,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
 
       title: AppInfo.appName,
       theme: AppTheme.light,

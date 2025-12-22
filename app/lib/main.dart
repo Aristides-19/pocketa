@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,12 +24,15 @@ void main() async {
   runApp(
     ProviderScope(
       retry: (_, _) => null,
-      child: EasyLocalization(
-        supportedLocales: const [Locale('en'), Locale('es')],
-        path: 'assets/langs',
-        fallbackLocale: const Locale('en'),
-        assetLoader: const CodegenLoader(),
-        child: const ToastificationWrapper(child: App()),
+      child: DevicePreview(
+        enabled: !kReleaseMode && (kIsWeb || Platform.isWindows),
+        builder: (ctx) => EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('es')],
+          path: 'assets/langs',
+          fallbackLocale: const Locale('en'),
+          assetLoader: const CodegenLoader(),
+          child: const ToastificationWrapper(child: App()),
+        ),
       ),
     ),
   );
