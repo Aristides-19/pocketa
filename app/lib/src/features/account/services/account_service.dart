@@ -6,13 +6,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'account_service.g.dart';
 
-@Riverpod(name: 'accountMutation')
+@Riverpod(name: r'$accountMutation')
 class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
   late AccountRepository _repo;
 
   @override
   Future<void> build() async {
-    _repo = ref.read(accountRepository);
+    _repo = ref.read($accountRepository);
   }
 
   Future<void> create({
@@ -59,7 +59,7 @@ class CurrentAccount extends _$CurrentAccount with RequiresAuthMixin<Account> {
   @override
   Future<Account?> build() async {
     return whenAuthenticated((_) async {
-      return ref.read(accountRepository).getCurrentOrElseCreate();
+      return ref.read($accountRepository).getCurrentOrElseCreate();
     });
   }
 }
@@ -69,7 +69,7 @@ class AllAccounts extends _$AllAccounts with RequiresAuthMixin<AccountPayload> {
   @override
   Future<AccountPayload?> build() async {
     return whenAuthenticated((_) async {
-      return ref.read(accountRepository).getAll();
+      return ref.read($accountRepository).getAll();
     });
   }
 }

@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'providers.g.dart';
 
-@Riverpod(keepAlive: true, name: 'supabaseClient')
+@Riverpod(keepAlive: true, name: r'$supabaseClient')
 SupabaseClient supabase(Ref ref) {
   return Supabase.instance.client;
 }

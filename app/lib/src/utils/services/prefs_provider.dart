@@ -4,12 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'prefs_provider.g.dart';
 
-@Riverpod(keepAlive: true, name: 'asyncPreferences')
+@Riverpod(keepAlive: true, name: r'$asyncPreferences')
 SharedPreferencesAsync asyncPrefs(Ref ref) {
   return SharedPreferencesAsync();
 }
 
-@Riverpod(keepAlive: true, name: 'securePreferences')
+@Riverpod(keepAlive: true, name: r'$securePreferences')
 FlutterSecureStorage securePrefs(Ref ref) {
   return const FlutterSecureStorage();
 }

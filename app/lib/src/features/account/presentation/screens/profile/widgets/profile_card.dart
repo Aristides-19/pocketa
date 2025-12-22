@@ -67,7 +67,7 @@ class ProfileCard extends ConsumerWidget {
     ref.listen((currentAccount), (_, curr) {
       if (curr.hasError && !curr.isLoading) {
         final e = curr.error;
-        if (e is Exception) ref.read(toastService).showException(e);
+        if (e is Exception) ref.read($toastService).showException(e);
       }
     });
 

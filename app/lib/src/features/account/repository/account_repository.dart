@@ -136,9 +136,9 @@ class AccountRepository {
   }
 }
 
-@Riverpod(keepAlive: true, name: 'accountRepository')
+@Riverpod(keepAlive: true, name: r'$accountRepository')
 AccountRepository accountRepo(Ref ref) => AccountRepository(
-  ref.read(supabaseClient),
-  ref.read(supabaseHandler),
-  ref.read(asyncPreferences),
+  ref.read($supabaseClient),
+  ref.read($supabaseHandler),
+  ref.read($asyncPreferences),
 );

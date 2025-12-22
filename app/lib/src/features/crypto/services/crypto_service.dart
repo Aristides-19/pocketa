@@ -6,16 +6,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'crypto_service.g.dart';
 
-@Riverpod(keepAlive: true, name: 'cryptoService')
+@Riverpod(keepAlive: true, name: r'$cryptoService')
 class Crypto extends _$Crypto with AsyncNotifierMixin {
   late KeyRepository _repo;
   late SecretKey _privateKey;
 
   @override
   Future<void> build() async {
-    _repo = ref.read(keyRepository);
+    _repo = ref.read($keyRepository);
 
-    ref.listen(authStream, (_, curr) async {
+    ref.listen($authStream, (_, curr) async {
       if (curr.isLoading) return;
       final val = curr.unwrapPrevious().value;
 

@@ -8,7 +8,7 @@ mixin RequiresAuthMixin<State> on AnyNotifier<AsyncValue<State?>, State?> {
   Future<State?> whenAuthenticated(
     Future<State> Function(String userId) action,
   ) async {
-    final id = ref.watch(authStream.select((curr) => curr.value?.user?.$id));
+    final id = ref.watch($authStream.select((curr) => curr.value?.user?.$id));
     if (id == null) return null;
     return action(id);
   }
