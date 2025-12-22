@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/constants/constants.dart';
 import 'package:pocketa/src/features/account/models/types.dart';
-import 'package:pocketa/src/features/account/presentation/widgets/widgets.dart';
+import 'package:pocketa/src/features/account/presentation/screens/profile/widgets/widgets.dart';
 import 'package:pocketa/src/features/account/services/account_service.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/localization/locale.dart';
@@ -78,84 +78,92 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
+    return RefreshableScreen(
+      onRefresh: () async {
+        ref.invalidate(allAccounts);
+        return await ref.refresh(currentAccount.future);
+      },
+      child: ScrollableScreen(
+        children: [
+          // Auth Info
+          const Center(child: AuthInfo()),
+
+          // Profile Card
+          const SizedBox(height: 16),
+          const SizedBox(width: double.infinity, child: ProfileCard()),
+
+          // Profile Section
+          const SizedBox(height: 24),
+          ProfileItemsSection(section: _sections.profile),
+
+          // Current Account Section
+          const SizedBox(height: 16),
+          ProfileItemsSection(section: _sections.currentAccount),
+
+          // Options Section
+          const SizedBox(height: 16),
+          ProfileItemsSection(section: _sections.options),
+
+          // Logout Button
+          const SizedBox(height: 48),
+          ProfileItem(
+            text: LocaleKeys.auth_logout.tr(),
+            trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
+            onTap: () => ref.read(authMutation.notifier).logout(),
+          ),
+
+          const SizedBox(height: 10),
+          // App Version
+          Text(
+            'v${AppInfo.appVersion}',
+            style: theme.textTheme.bodyLarge!.copyWith(
+              color: theme.textTheme.bodyMedium?.color?.withAlpha(72),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AuthInfo extends ConsumerWidget {
+  const AuthInfo({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authStream);
     final theme = Theme.of(context);
 
+    /// Normally, this screen should not be displayed if the user is not authenticated.
+    /// If so, the router should redirect to the login screen.
+    /// However, it's better to check to get type safety on provider value.
     return auth.when(
       loading: () => const SizedBox.shrink(),
       error: (_, _) => const ErrorScreen(),
-      data: (auth) => RefreshableScreen(
-        onRefresh: () async {
-          ref.invalidate(allAccounts);
-          return await ref.refresh(currentAccount.future);
-        },
-        child: ScrollableScreen(
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 84,
-                    child: BoringAvatar(
-                      name: auth.user?.$id ?? '',
-                      type: .beam,
-                      shape: OvalBorder(
-                        side: BorderSide(
-                          width: 2,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    auth.user?.name ?? '',
-                    style: theme.textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    auth.user?.email ?? '',
-                    style: theme.textTheme.bodyMedium!.copyWith(
-                      color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
-                    ),
-                  ),
-                ],
+      data: (auth) => Column(
+        children: [
+          SizedBox(
+            width: 84,
+            child: BoringAvatar(
+              name: auth.user?.$id ?? '',
+              type: .beam,
+              shape: OvalBorder(
+                side: BorderSide(width: 2, color: theme.colorScheme.primary),
               ),
             ),
-
-            const SizedBox(height: 16),
-            const SizedBox(width: double.infinity, child: ProfileCard()),
-
-            // Profile Section
-            const SizedBox(height: 24),
-            ProfileItemsSection(section: _sections.profile),
-
-            // Current Account Section
-            const SizedBox(height: 16),
-            ProfileItemsSection(section: _sections.currentAccount),
-
-            // Options Section
-            const SizedBox(height: 16),
-            ProfileItemsSection(section: _sections.options),
-
-            // Logout Button
-            const SizedBox(height: 48),
-            ProfileItem(
-              text: LocaleKeys.auth_logout.tr(),
-              trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
-              onTap: () => ref.read(authMutation.notifier).logout(),
+          ),
+          const SizedBox(height: 8),
+          Text(auth.user?.name ?? '', style: theme.textTheme.titleLarge),
+          const SizedBox(height: 6),
+          Text(
+            auth.user?.email ?? '',
+            style: theme.textTheme.bodyMedium!.copyWith(
+              color: theme.textTheme.bodyMedium?.color?.withAlpha(128),
             ),
-
-            const SizedBox(height: 10),
-            // App Version
-            Text(
-              'v${AppInfo.appVersion}',
-              style: theme.textTheme.bodyLarge!.copyWith(
-                color: theme.textTheme.bodyMedium?.color?.withAlpha(72),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
