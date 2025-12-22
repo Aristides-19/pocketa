@@ -9,7 +9,7 @@ class AuthInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch($authStream);
+    final auth = ref.watch($authStreamQuery);
     final theme = Theme.of(context);
 
     /// Normally, this screen should not be displayed if the user is not authenticated.

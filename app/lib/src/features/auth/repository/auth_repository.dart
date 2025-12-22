@@ -115,7 +115,7 @@ class AuthRepository {
 }
 
 @Riverpod(keepAlive: true, name: r'$authRepository')
-AuthRepository authRepo(Ref ref) => AuthRepository(
+AuthRepository authRepository(Ref ref) => AuthRepository(
   ref.read($supabaseHandler),
   ref.read($asyncPreferences),
   ref.read($supabaseClient),

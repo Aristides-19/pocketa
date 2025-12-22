@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_service.g.dart';
 
 // TODO - Add retry logic for network errors
-@Riverpod(keepAlive: true, name: r'$authStream')
+@Riverpod(keepAlive: true, name: r'$authStreamQuery')
 class AuthStream extends _$AuthStream {
   @override
   Stream<AuthState> build() {
@@ -15,7 +15,7 @@ class AuthStream extends _$AuthStream {
   }
 }
 
-@Riverpod(keepAlive: true, name: 'authMutation')
+@Riverpod(keepAlive: true, name: r'$authMutation')
 class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   late AuthRepository _repo;
 

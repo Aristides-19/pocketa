@@ -21,17 +21,17 @@ class LoginScreen extends HookConsumerWidget {
 
     final email = form.fields['email']?.value as String;
     final password = form.fields['password']?.value as String;
-    ref.read(authMutation.notifier).logIn(email, password);
+    ref.read($authMutation.notifier).logIn(email, password);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = TextTheme.of(context);
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
-    final authMutate = ref.watch(authMutation);
+    final authMutate = ref.watch($authMutation);
 
     if (formKey.currentState?.fields['email'] == null) {
-      ref.read(authMutation.notifier).getLastSessionEmail().then((email) {
+      ref.read($authMutation.notifier).getLastSessionEmail().then((email) {
         if (email != null && email.isNotEmpty) {
           formKey.currentState?.fields['email']?.didChange(email);
         }

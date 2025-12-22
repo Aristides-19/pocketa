@@ -109,7 +109,7 @@ class KeyRepository {
 }
 
 @Riverpod(keepAlive: true, name: r'$keyRepository')
-KeyRepository keyRepo(Ref ref) => KeyRepository(
+KeyRepository keyRepository(Ref ref) => KeyRepository(
   ref.read($securePreferences),
   ref.read($cryptoEngine),
   ref.read($supabaseClient),

@@ -8,10 +8,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, name: r'$router')
 GoRouter router(Ref ref) {
   String? redirect(GoRouterState state) {
-    final authState = ref.read($authStream);
+    final authState = ref.read($authStreamQuery);
 
     if (authState.isLoading || authState.hasError) return null;
 
@@ -65,7 +65,7 @@ GoRouter router(Ref ref) {
     ],
   );
 
-  ref.listen($authStream, (_, _) => router.refresh());
+  ref.listen($authStreamQuery, (_, _) => router.refresh());
 
   return router;
 }

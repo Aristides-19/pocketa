@@ -50,7 +50,7 @@ class ProfileCard extends ConsumerWidget {
           // Retry Button
           LabelButton(
             label: LocaleKeys.actions_retry.tr(),
-            onPressed: () => ref.refresh(currentAccount),
+            onPressed: () => ref.refresh($currentAccountQuery),
             color: theme.colorScheme.error,
             loading: account.isLoading,
           ),
@@ -62,12 +62,12 @@ class ProfileCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final account = ref.watch(currentAccount);
+    final account = ref.watch($currentAccountQuery);
 
-    ref.listen((currentAccount), (_, curr) {
+    ref.listen(($currentAccountQuery), (_, curr) {
       if (curr.hasError && !curr.isLoading) {
         final e = curr.error;
-        if (e is Exception) ref.read($toastService).showException(e);
+        if (e is Exception) ref.read($toaster).showException(e);
       }
     });
 

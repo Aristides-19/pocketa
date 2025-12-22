@@ -62,4 +62,4 @@ class CryptoEngine {
 }
 
 @Riverpod(keepAlive: true, name: r'$cryptoEngine')
-CryptoEngine cryptoEng(Ref ref) => CryptoEngine();
+CryptoEngine cryptoEngine(Ref ref) => CryptoEngine();

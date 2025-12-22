@@ -78,8 +78,8 @@ class ProfileScreen extends ConsumerWidget {
 
     return RefreshableScreen(
       onRefresh: () async {
-        ref.invalidate(allAccounts);
-        return await ref.refresh(currentAccount.future);
+        ref.invalidate($allAccountsQuery);
+        return await ref.refresh($currentAccountQuery.future);
       },
       child: ScrollableScreen(
         children: [
@@ -107,7 +107,7 @@ class ProfileScreen extends ConsumerWidget {
           ProfileItem(
             text: LocaleKeys.auth_logout.tr(),
             trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
-            onTap: () => ref.read(authMutation.notifier).logout(),
+            onTap: () => ref.read($authMutation.notifier).logout(),
           ),
 
           const SizedBox(height: 10),

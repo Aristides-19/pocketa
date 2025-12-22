@@ -29,8 +29,8 @@ class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
         isDefault: isDefault,
       );
       ref
-        ..invalidate(allAccounts)
-        ..invalidate(currentAccount);
+        ..invalidate($allAccountsQuery)
+        ..invalidate($currentAccountQuery);
     });
   }
 
@@ -39,8 +39,8 @@ class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
       await _repo.update(account);
 
       ref
-        ..invalidate(allAccounts)
-        ..invalidate(currentAccount);
+        ..invalidate($allAccountsQuery)
+        ..invalidate($currentAccountQuery);
     });
   }
 
@@ -48,14 +48,15 @@ class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
     await mutateState(() async {
       await _repo.setCurrent(account);
       ref
-        ..invalidate(allAccounts)
-        ..invalidate(currentAccount);
+        ..invalidate($allAccountsQuery)
+        ..invalidate($currentAccountQuery);
     });
   }
 }
 
-@Riverpod(keepAlive: true, name: 'currentAccount')
-class CurrentAccount extends _$CurrentAccount with RequiresAuthMixin<Account> {
+@Riverpod(keepAlive: true, name: r'$currentAccountQuery')
+class CurrentAccountQuery extends _$CurrentAccountQuery
+    with RequiresAuthMixin<Account> {
   @override
   Future<Account?> build() async {
     return whenAuthenticated((_) async {
@@ -64,8 +65,9 @@ class CurrentAccount extends _$CurrentAccount with RequiresAuthMixin<Account> {
   }
 }
 
-@Riverpod(keepAlive: true, name: 'allAccounts')
-class AllAccounts extends _$AllAccounts with RequiresAuthMixin<AccountPayload> {
+@Riverpod(keepAlive: true, name: r'$allAccountsQuery')
+class AllAccountsQuery extends _$AllAccountsQuery
+    with RequiresAuthMixin<AccountPayload> {
   @override
   Future<AccountPayload?> build() async {
     return whenAuthenticated((_) async {

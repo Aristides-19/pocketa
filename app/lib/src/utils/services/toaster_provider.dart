@@ -55,8 +55,8 @@ class Toaster {
   }
 }
 
-@Riverpod(keepAlive: true, name: r'$toastService')
-Toaster toast(Ref ref) {
+@Riverpod(keepAlive: true, name: r'$toaster')
+Toaster toaster(Ref ref) {
   return const Toaster();
 }
 

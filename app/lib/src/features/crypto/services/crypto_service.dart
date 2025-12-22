@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'crypto_service.g.dart';
 
 @Riverpod(keepAlive: true, name: r'$cryptoService')
-class Crypto extends _$Crypto with AsyncNotifierMixin {
+class CryptoService extends _$CryptoService with AsyncNotifierMixin {
   late KeyRepository _repo;
   late SecretKey _privateKey;
 
@@ -15,7 +15,7 @@ class Crypto extends _$Crypto with AsyncNotifierMixin {
   Future<void> build() async {
     _repo = ref.read($keyRepository);
 
-    ref.listen($authStream, (_, curr) async {
+    ref.listen($authStreamQuery, (_, curr) async {
       if (curr.isLoading) return;
       final val = curr.unwrapPrevious().value;
 
@@ -46,7 +46,7 @@ class Crypto extends _$Crypto with AsyncNotifierMixin {
       try {
         _privateKey = await _repo.upsert(password: password);
       } on Exception {
-        await ref.read(authMutation.notifier).logout(force: true);
+        await ref.read($authMutation.notifier).logout(force: true);
         rethrow;
       }
     });
@@ -60,7 +60,7 @@ class Crypto extends _$Crypto with AsyncNotifierMixin {
       try {
         _privateKey = await _repo.getOrElseCreate(password: password);
       } on Exception {
-        await ref.read(authMutation.notifier).logout(force: true);
+        await ref.read($authMutation.notifier).logout(force: true);
         rethrow;
       }
     });

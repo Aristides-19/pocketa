@@ -108,6 +108,6 @@ class SupabaseHandler {
 }
 
 @Riverpod(keepAlive: true, name: r'$supabaseHandler')
-SupabaseHandler supaHandler(Ref ref) {
+SupabaseHandler supabaseHandler(Ref ref) {
   return SupabaseHandler(ref, ref.read($logger));
 }

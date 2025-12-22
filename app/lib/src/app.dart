@@ -14,14 +14,14 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.read(routerProvider);
+    final router = ref.read($router);
 
     ref
-      ..listen($authStream, (_, curr) {
+      ..listen($authStreamQuery, (_, curr) {
         // TODO - Handle exceptions
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (curr.isLoading) return;
-          final toast = ref.read($toastService);
+          final toast = ref.read($toaster);
 
           final e = curr.error;
           if (e is Exception) {
@@ -65,17 +65,17 @@ class App extends ConsumerWidget {
           }
         });
       })
-      ..listen(authMutation, (_, curr) {
+      ..listen($authMutation, (_, curr) {
         if (curr.isLoading) return;
         final e = curr.error;
-        if (e is Exception) ref.read($toastService).showException(e);
+        if (e is Exception) ref.read($toaster).showException(e);
       })
       ..listen($cryptoService, (_, curr) {
         if (curr.isLoading) return;
 
         final e = curr.error;
         if (e is Exception) {
-          final toast = ref.read($toastService);
+          final toast = ref.read($toaster);
           if (e is PasswordRequiredException) {
             toast.showException(e, dismissAll: true, duration: 10);
             return;
