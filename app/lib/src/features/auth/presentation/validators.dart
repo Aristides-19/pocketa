@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:form_builder_validators/form_builder_validators.dart'
+    show FormBuilderValidators;
 import 'package:pocketa/src/localization/locale.dart';
 
-String? Function(String?) emailValidator() => FormBuilderValidators.compose([
-  FormBuilderValidators.required(),
-  FormBuilderValidators.email(),
-]);
+typedef V = FormBuilderValidators;
+
+String? Function(String?) emailValidator() =>
+    V.compose([V.required(), V.email()]);
 
 String? Function(String?) loginPasswordValidator() =>
-    FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      FormBuilderValidators.minLength(8),
-      FormBuilderValidators.maxLength(30),
-    ]);
+    V.compose([V.required(), V.minLength(8), V.maxLength(30)]);
 
-String? Function(String?) signupPasswordValidator() =>
-    FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      FormBuilderValidators.password(maxLength: 30, minSpecialCharCount: 0),
-    ]);
+String? Function(String?) signupPasswordValidator() => V.compose([
+  V.required(),
+  V.password(maxLength: 30, minSpecialCharCount: 0),
+]);
 
 String? Function(String?) confirmPasswordValidator(
   GlobalKey<FormBuilderState> formKey,
-) => FormBuilderValidators.compose([
-  FormBuilderValidators.required(),
+) => V.compose([
+  V.required(),
   (value) {
     final password = formKey.currentState?.fields['password']?.value;
     if (value != password) return LocaleKeys.auth_password_not_match.tr();
@@ -32,7 +28,5 @@ String? Function(String?) confirmPasswordValidator(
   },
 ]);
 
-String? Function(String?) usernameValidator() => FormBuilderValidators.compose([
-  FormBuilderValidators.required(),
-  FormBuilderValidators.username(maxLength: 20),
-]);
+String? Function(String?) usernameValidator() =>
+    V.compose([V.required(), V.username(maxLength: 20)]);
