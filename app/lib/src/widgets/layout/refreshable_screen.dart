@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// For scrollable screens that support pull-to-refresh. Most screens may use this to refresh all providers on screen.
 class RefreshableScreen extends StatelessWidget {
+  /// For scrollable screens that support pull-to-refresh.
+  /// Most screens may use this to refresh all providers on screen.
   const RefreshableScreen({
     super.key,
     required this.onRefresh,
@@ -12,7 +13,6 @@ class RefreshableScreen extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    return RefreshIndicator(onRefresh: onRefresh, child: child);
-  }
+  Widget build(BuildContext context) =>
+      RefreshIndicator(onRefresh: onRefresh, child: child);
 }

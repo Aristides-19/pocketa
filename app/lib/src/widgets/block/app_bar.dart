@@ -7,14 +7,14 @@ import 'package:pocketa/src/router/routes/routes.dart';
 class PAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PAppBar({super.key});
 
-  static final List<Map<String, String>> titles = [
-    {'title': AppInfo.appName, 'route': RoutePaths.home},
-    {
-      'title': LocaleKeys.nav_transactions.tr(),
-      'route': RoutePaths.transactions.path,
-    },
-    {'title': LocaleKeys.nav_insights.tr(), 'route': RoutePaths.insights},
-    {'title': LocaleKeys.nav_profile.tr(), 'route': RoutePaths.user},
+  static final titles = [
+    (title: AppInfo.appName, route: RoutePaths.home),
+    (
+      title: LocaleKeys.nav_transactions.tr(),
+      route: RoutePaths.transactions.path,
+    ),
+    (title: LocaleKeys.nav_insights.tr(), route: RoutePaths.insights),
+    (title: LocaleKeys.nav_profile.tr(), route: RoutePaths.user),
   ];
 
   @override
@@ -23,10 +23,12 @@ class PAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final currentLocation = GoRouterState.of(context).matchedLocation;
-    final title = titles.firstWhere(
-      (item) => item['route'] == currentLocation,
-      orElse: () => {'title': AppInfo.appName},
-    )['title']!;
+    final title = titles
+        .firstWhere(
+          (item) => item.route == currentLocation,
+          orElse: () => (title: AppInfo.appName, route: ''),
+        )
+        .title;
 
     return AppBar(
       elevation: 0,

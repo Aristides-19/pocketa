@@ -38,9 +38,11 @@ class SignupScreen extends HookConsumerWidget {
           const Logo(),
           const SizedBox(height: 20),
 
+          /// Signup Title
           Text(LocaleKeys.auth_signup.tr(), style: textTheme.displayMedium),
           const SizedBox(height: 50),
 
+          /// Email Field
           FormInput(
             name: 'email',
             label: LocaleKeys.auth_email.tr(),
@@ -51,6 +53,7 @@ class SignupScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 25),
 
+          /// Username Field
           FormInput(
             name: 'username',
             label: LocaleKeys.auth_username.tr(),
@@ -62,6 +65,7 @@ class SignupScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 25),
 
+          /// Password Field
           FormInput(
             name: 'password',
             label: LocaleKeys.auth_password.tr(),
@@ -74,6 +78,7 @@ class SignupScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 25),
 
+          /// Confirm Password Field
           FormInput(
             name: 'confirm_password',
             label: LocaleKeys.auth_confirm_password.tr(),
@@ -86,6 +91,7 @@ class SignupScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 50),
 
+          /// Signup Button
           Button(
             label: LocaleKeys.auth_signup.tr(),
             loading: authMutate.isLoading,
@@ -94,6 +100,7 @@ class SignupScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 35),
 
+          /// Have Account Label Button
           Center(
             child: LabelButton(
               disabled: authMutate.isLoading,

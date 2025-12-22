@@ -45,9 +45,11 @@ class LoginScreen extends HookConsumerWidget {
           const Logo(),
           const SizedBox(height: 20),
 
+          /// Login Title
           Text(LocaleKeys.auth_login.tr(), style: textTheme.displayMedium),
           const SizedBox(height: 50),
 
+          /// Email Field
           FormInput(
             name: 'email',
             label: LocaleKeys.auth_email.tr(),
@@ -58,6 +60,7 @@ class LoginScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 25),
 
+          /// Password Field
           FormInput(
             name: 'password',
             label: LocaleKeys.auth_password.tr(),
@@ -70,6 +73,7 @@ class LoginScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 50),
 
+          /// Login Button
           Button(
             label: LocaleKeys.auth_login.tr(),
             loading: authMutate.isLoading,
@@ -78,6 +82,7 @@ class LoginScreen extends HookConsumerWidget {
           ),
           const SizedBox(height: 35),
 
+          /// No Account Label Button
           Center(
             child: LabelButton(
               disabled: authMutate.isLoading,

@@ -5,6 +5,8 @@ import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class ErrorScreen extends HookWidget {
+  /// For displaying an error screen with a retry button.
+  /// This should be used for screens that may fail to load essential data to show content.
   const ErrorScreen({super.key, this.onRetry, this.title, this.message});
 
   final String? title;
@@ -25,17 +27,22 @@ class ErrorScreen extends HookWidget {
         child: Column(
           mainAxisAlignment: .center,
           children: [
+            /// Error Icon
             FaIcon(
               FontAwesomeIcons.circleExclamation,
               size: 74,
               color: theme.colorScheme.error,
             ),
             const SizedBox(height: 28),
+
+            /// Error Title
             Text(
               title ?? LocaleKeys.errors_screen_title.tr(),
               style: theme.textTheme.headlineMedium,
               textAlign: .center,
             ),
+
+            /// Error Message
             const SizedBox(height: 8),
             Text(
               message ?? LocaleKeys.errors_screen_message.tr(),
@@ -43,6 +50,8 @@ class ErrorScreen extends HookWidget {
               textAlign: .center,
             ),
             const SizedBox(height: 28),
+
+            /// Retry Button
             POutlinedButton(
               label: LocaleKeys.actions_retry.tr(),
               onPressed: () async {

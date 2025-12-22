@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ScrollableScreen extends StatelessWidget {
+  /// For screens that need to be scrollable.
   const ScrollableScreen({super.key, required this.children, this.padding});
 
   final List<Widget> children;

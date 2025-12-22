@@ -8,32 +8,33 @@ import 'package:pocketa/src/widgets/block/nav_item.dart';
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key});
 
-  static final List<Map<String, dynamic>> items = [
-    {
-      'icon': FontAwesomeIcons.house,
-      'route': RoutePaths.home,
-      'tooltip': LocaleKeys.nav_home.tr(),
-    },
-    {
-      'icon': FontAwesomeIcons.moneyBillTransfer,
-      'route': RoutePaths.transactions.path,
-      'tooltip': LocaleKeys.nav_transactions.tr(),
-    },
-    {
-      'icon': FontAwesomeIcons.chartLine,
-      'route': RoutePaths.insights,
-      'tooltip': LocaleKeys.nav_insights.tr(),
-    },
-    {
-      'icon': FontAwesomeIcons.solidUser,
-      'route': RoutePaths.user,
-      'tooltip': LocaleKeys.nav_profile.tr(),
-    },
+  static final items = [
+    (
+      icon: FontAwesomeIcons.house,
+      route: RoutePaths.home,
+      tooltip: LocaleKeys.nav_home.tr(),
+    ),
+    (
+      icon: FontAwesomeIcons.moneyBillTransfer,
+      route: RoutePaths.transactions.path,
+      tooltip: LocaleKeys.nav_transactions.tr(),
+    ),
+    (
+      icon: FontAwesomeIcons.chartLine,
+      route: RoutePaths.insights,
+      tooltip: LocaleKeys.nav_insights.tr(),
+    ),
+    (
+      icon: FontAwesomeIcons.solidUser,
+      route: RoutePaths.user,
+      tooltip: LocaleKeys.nav_profile.tr(),
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     final systemPadding = MediaQuery.of(context).viewPadding.bottom;
+    final theme = Theme.of(context);
 
     return Stack(
       alignment: .center,
@@ -43,12 +44,9 @@ class BottomBar extends StatelessWidget {
           height: 60 + systemPadding,
           padding: .only(bottom: systemPadding),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
+            color: theme.colorScheme.surface,
             border: Border(
-              top: BorderSide(
-                color: Theme.of(context).colorScheme.outline,
-                width: 1,
-              ),
+              top: BorderSide(color: theme.colorScheme.outline, width: 1),
             ),
           ),
 
@@ -61,9 +59,9 @@ class BottomBar extends StatelessWidget {
                   .sublist(0, items.length ~/ 2)
                   .map(
                     (item) => NavItem(
-                      icon: item['icon'],
-                      route: item['route'],
-                      tooltip: item['tooltip'],
+                      icon: item.icon,
+                      route: item.route,
+                      tooltip: item.tooltip,
                     ),
                   ),
               const SizedBox(width: 56),
@@ -72,9 +70,9 @@ class BottomBar extends StatelessWidget {
                   .sublist(items.length ~/ 2)
                   .map(
                     (item) => NavItem(
-                      icon: item['icon'],
-                      route: item['route'],
-                      tooltip: item['tooltip'],
+                      icon: item.icon,
+                      route: item.route,
+                      tooltip: item.tooltip,
                     ),
                   ),
             ],
