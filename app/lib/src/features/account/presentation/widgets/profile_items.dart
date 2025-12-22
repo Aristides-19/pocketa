@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pocketa/src/features/account/models/types.dart';
 
-class Item extends ConsumerWidget {
-  const Item({
+class ProfileItem extends ConsumerWidget {
+  const ProfileItem({
     super.key,
     required this.text,
     this.leading,
@@ -29,7 +30,7 @@ class Item extends ConsumerWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          padding: const .symmetric(vertical: 16, horizontal: 8),
           child: Row(
             children: [
               if (leading != null) ...[leading!, const SizedBox(width: 16)],
@@ -44,17 +45,10 @@ class Item extends ConsumerWidget {
   }
 }
 
-class ItemSection extends StatelessWidget {
-  const ItemSection({super.key, required this.section});
+class ProfileItemsSection extends StatelessWidget {
+  const ProfileItemsSection({super.key, required this.section});
 
-  final ({
-    String title,
-    List<
-      ({String title, Widget? leading, Widget? trailing, VoidCallback? onTap})
-    >
-    children,
-  })
-  section;
+  final ({String title, List<ProfileSection> children}) section;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +63,7 @@ class ItemSection extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         for (final itemData in section.children)
-          Item(
+          ProfileItem(
             text: itemData.title,
             leading: itemData.leading,
             trailing: itemData.trailing,

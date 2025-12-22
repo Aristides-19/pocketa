@@ -3,11 +3,11 @@ import 'package:flutter_boring_avatars/flutter_boring_avatars.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/constants/constants.dart';
+import 'package:pocketa/src/features/account/models/types.dart';
 import 'package:pocketa/src/features/account/presentation/widgets/widgets.dart';
 import 'package:pocketa/src/features/account/services/account_service.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/localization/locale.dart';
-import 'package:pocketa/src/utils/services/toaster_provider.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -16,7 +16,7 @@ class ProfileScreen extends ConsumerWidget {
   static final _sections = (
     profile: (
       title: LocaleKeys.profile_section_profile.tr(),
-      children: [
+      children: <ProfileSection>[
         (
           title: LocaleKeys.profile_personal_data.tr(),
           leading: const FaIcon(FontAwesomeIcons.userGear),
@@ -48,7 +48,7 @@ class ProfileScreen extends ConsumerWidget {
     ),
     currentAccount: (
       title: LocaleKeys.profile_section_current_account.tr(),
-      children: [
+      children: <ProfileSection>[
         (
           title: LocaleKeys.profile_edit_account.tr(),
           leading: const FaIcon(FontAwesomeIcons.tag),
@@ -59,7 +59,7 @@ class ProfileScreen extends ConsumerWidget {
     ),
     options: (
       title: LocaleKeys.profile_section_options.tr(),
-      children: [
+      children: <ProfileSection>[
         (
           title: LocaleKeys.profile_dark_mode.tr(),
           leading: const FaIcon(FontAwesomeIcons.moon),
@@ -126,23 +126,28 @@ class ProfileScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             const SizedBox(width: double.infinity, child: ProfileCard()),
 
+            // Profile Section
             const SizedBox(height: 24),
-            ItemSection(section: _sections.profile),
+            ProfileItemsSection(section: _sections.profile),
 
+            // Current Account Section
             const SizedBox(height: 16),
-            ItemSection(section: _sections.currentAccount),
+            ProfileItemsSection(section: _sections.currentAccount),
 
+            // Options Section
             const SizedBox(height: 16),
-            ItemSection(section: _sections.options),
+            ProfileItemsSection(section: _sections.options),
 
+            // Logout Button
             const SizedBox(height: 48),
-            Item(
+            ProfileItem(
               text: LocaleKeys.auth_logout.tr(),
               trailing: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
               onTap: () => ref.read(authMutation.notifier).logout(),
             ),
 
             const SizedBox(height: 10),
+            // App Version
             Text(
               'v${AppInfo.appVersion}',
               style: theme.textTheme.bodyLarge!.copyWith(
@@ -152,117 +157,6 @@ class ProfileScreen extends ConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class ProfileCard extends ConsumerWidget {
-  const ProfileCard({super.key});
-
-  Widget _buildSkeleton() {
-    return CommonCard(
-      child: Skeletonizer(
-        child: Row(
-          children: [
-            const Column(
-              crossAxisAlignment: .start,
-              children: [
-                ContainerSkeleton(width: 120, height: 20),
-                SizedBox(height: 6),
-                ContainerSkeleton(width: 150, height: 16),
-                SizedBox(height: 4),
-                ContainerSkeleton(width: 160, height: 16),
-              ],
-            ),
-            const Spacer(),
-            PIconButton(
-              icon: const FaIcon(FontAwesomeIcons.shuffle),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildError(WidgetRef ref, AsyncValue account) {
-    final theme = Theme.of(ref.context);
-
-    return CommonCard(
-      child: Row(
-        children: [
-          const SizedBox(width: 6),
-          FaIcon(FontAwesomeIcons.xmark, color: theme.colorScheme.error),
-
-          const SizedBox(width: 20),
-          Expanded(child: Text(LocaleKeys.profile_account_load_error.tr())),
-
-          // Retry Button
-          LabelButton(
-            label: LocaleKeys.actions_retry.tr(),
-            onPressed: () => ref.refresh(currentAccount),
-            color: theme.colorScheme.error,
-            loading: account.isLoading,
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final account = ref.watch(currentAccount);
-
-    ref.listen((currentAccount), (_, curr) {
-      if (curr.hasError && !curr.isLoading) {
-        final e = curr.error;
-        if (e is Exception) ref.read(toastService).showException(e);
-      }
-    });
-
-    return account.when(
-      loading: () => _buildSkeleton(),
-      error: (_, _) => _buildError(ref, account),
-      data: (account) => account == null
-          ? _buildSkeleton()
-          : CommonCard(
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: .start,
-                    children: [
-                      Text(account.name, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${LocaleKeys.profile_base_currency.tr()}: ${account.baseCurrency}',
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          color: theme.textTheme.bodyMedium?.color?.withAlpha(
-                            128,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${LocaleKeys.profile_conversion_currency.tr()}: ${account.conversionCurrency}',
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          color: theme.textTheme.bodyMedium?.color?.withAlpha(
-                            128,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  // Switch Account Button
-                  PIconButton(
-                    icon: const FaIcon(FontAwesomeIcons.shuffle),
-                    onPressed: () {},
-                    tooltip: LocaleKeys.profile_switch_account.tr(),
-                  ),
-                ],
-              ),
-            ),
     );
   }
 }
