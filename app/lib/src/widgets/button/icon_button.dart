@@ -9,7 +9,7 @@ class PIconButton extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     this.tooltip,
-    this.iconSize = 18,
+    this.iconSize = -1,
     this.disabled = false,
   });
 
@@ -21,6 +21,10 @@ class PIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconSize = this.iconSize > 0
+        ? this.iconSize
+        : Theme.of(context).iconTheme.size ?? 18;
+
     return Opacity(
       opacity: disabled ? 0.7 : 1.0,
       child: IconButton(

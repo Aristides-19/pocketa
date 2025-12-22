@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/account/models/types.dart';
 
-class ProfileItem extends ConsumerWidget {
+class ProfileItem extends StatelessWidget {
   const ProfileItem({
     super.key,
     required this.text,
@@ -18,7 +17,7 @@ class ProfileItem extends ConsumerWidget {
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Container(

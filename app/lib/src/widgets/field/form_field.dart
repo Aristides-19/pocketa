@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pocketa/src/constants/constants.dart';
+import 'package:pocketa/src/widgets/widgets.dart';
 
 class FormTextField extends HookWidget {
   const FormTextField({
@@ -48,12 +49,11 @@ class FormTextField extends HookWidget {
         contentPadding: const .symmetric(horizontal: 20, vertical: 18),
 
         suffixIcon: obscure
-            ? IconButton(
+            ? PIconButton(
                 icon: FaIcon(
                   isObscured.value
                       ? FontAwesomeIcons.eyeSlash
                       : FontAwesomeIcons.eye,
-                  size: iconTheme.size,
                   color: iconTheme.color,
                 ),
                 onPressed: () => isObscured.value = !isObscured.value,

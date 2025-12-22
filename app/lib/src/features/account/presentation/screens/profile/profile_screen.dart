@@ -22,21 +22,18 @@ class ProfileScreen extends ConsumerWidget {
           trailing: null,
           onTap: null,
         ),
-
         (
           title: LocaleKeys.profile_security.tr(),
           leading: const FaIcon(FontAwesomeIcons.shieldHalved),
           trailing: null,
           onTap: null,
         ),
-
         (
           title: LocaleKeys.profile_notifications.tr(),
           leading: const FaIcon(FontAwesomeIcons.bell),
           trailing: null,
           onTap: null,
         ),
-
         (
           title: LocaleKeys.profile_categories.tr(),
           leading: const FaIcon(FontAwesomeIcons.layerGroup),
