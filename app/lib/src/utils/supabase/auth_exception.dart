@@ -2,6 +2,7 @@ import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/utils/app_exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// [AppException] Wrapper for Exceptions thrown by Supabase Auth API [AuthException]
 abstract class AppAuthException implements AppException<AuthException> {
   const AppAuthException();
 
@@ -10,6 +11,8 @@ abstract class AppAuthException implements AppException<AuthException> {
   bool matches(AuthException e);
 }
 
+/// An exception thrown when an email is already in use during sign-up.
+/// - The [matches] method checks for the `email_exists` and `user_already_exists` error codes.
 class EmailInUseException extends AppAuthException {
   const EmailInUseException();
 
@@ -22,6 +25,8 @@ class EmailInUseException extends AppAuthException {
   String message() => LocaleKeys.errors_email_in_use_message.tr();
 }
 
+/// An exception thrown when an email has not been confirmed yet during login.
+/// - The [matches] method checks for the `email_not_confirmed` error code.
 class EmailNotConfirmedException extends AppAuthException {
   const EmailNotConfirmedException();
 
@@ -33,6 +38,8 @@ class EmailNotConfirmedException extends AppAuthException {
   String message() => '';
 }
 
+/// An exception thrown when provided credentials do not match any user in login.
+/// - The [matches] method checks for the `invalid_credentials` error code.
 class CredentialsMismatchException extends AppAuthException {
   const CredentialsMismatchException();
 
@@ -44,6 +51,8 @@ class CredentialsMismatchException extends AppAuthException {
   String message() => LocaleKeys.errors_credentials_mismatch_message.tr();
 }
 
+/// An exception thrown when the new password is the same as the old password during a password change.
+/// - The [matches] method checks for the `same_password` error code.
 class SamePasswordException extends AppAuthException {
   const SamePasswordException();
 
@@ -55,6 +64,8 @@ class SamePasswordException extends AppAuthException {
   String message() => '';
 }
 
+/// An exception thrown when sign-ups are disabled for the project.
+/// - The [matches] method checks for the `signup_disabled` error code.
 class SignUpDisabledException extends AppAuthException {
   const SignUpDisabledException();
 
@@ -66,6 +77,8 @@ class SignUpDisabledException extends AppAuthException {
   String message() => '';
 }
 
+/// An exception thrown when a provided password is considered weak during sign-up or password change.
+/// - The [matches] method checks for the `weak_password` error code or [AuthWeakPasswordException].
 class WeakPasswordException extends AppAuthException {
   const WeakPasswordException();
 
@@ -78,6 +91,8 @@ class WeakPasswordException extends AppAuthException {
   String message() => '';
 }
 
+/// An exception thrown when there is no valid session during an authenticated action.
+/// - The [matches] method checks for [AuthSessionMissingException].
 class SessionMissingException extends AppAuthException {
   const SessionMissingException();
 
@@ -89,6 +104,8 @@ class SessionMissingException extends AppAuthException {
   String message() => '';
 }
 
+/// An exception thrown when a rate limit is exceeded in authentication requests.
+/// - The [matches] method checks for the `over_request_rate_limit` error code.
 class RateLimitException extends AppAuthException {
   const RateLimitException();
 
@@ -100,6 +117,8 @@ class RateLimitException extends AppAuthException {
   String message() => LocaleKeys.errors_rate_limit_message.tr();
 }
 
+/// An exception thrown when a request times out.
+/// - The [matches] method checks for the `request_timeout` error code.
 class TimeoutException extends AppAuthException {
   const TimeoutException();
 
@@ -111,6 +130,8 @@ class TimeoutException extends AppAuthException {
   String message() => '';
 }
 
+/// An exception thrown when there is a network issue during an authentication request.
+/// - The [matches] method checks for [AuthRetryableFetchException].
 class AuthNetworkException extends AppAuthException {
   const AuthNetworkException();
 
@@ -122,6 +143,7 @@ class AuthNetworkException extends AppAuthException {
   String message() => LocaleKeys.errors_network_message.tr();
 }
 
+/// Equivalent to [UnknownException] but for AuthExceptions.
 class UnknownAuthException extends AppAuthException {
   UnknownAuthException(this._exception);
 

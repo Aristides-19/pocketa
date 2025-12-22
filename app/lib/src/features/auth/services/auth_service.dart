@@ -8,7 +8,7 @@ part 'auth_service.g.dart';
 
 // TODO - Add retry logic for network errors
 @Riverpod(keepAlive: true, name: r'$authStreamQuery')
-class AuthStream extends _$AuthStream {
+class AuthStreamQuery extends _$AuthStreamQuery {
   @override
   Stream<AuthState> build() {
     return ref.read($authRepository).authStateStream;

@@ -14,6 +14,7 @@ class SupabaseHandler {
   final Logger logger;
   final Ref ref;
 
+  /// Checks for non-Supabase typed exceptions and manages them.
   void _manageException(Exception e) {
     if (e is AppException) {
       logger.e('Non-Supabase App exception occurred', error: e);
@@ -28,6 +29,7 @@ class SupabaseHandler {
     throw UnknownException(e);
   }
 
+  /// Calls any function and handles exceptions. Ideal for calls outside of Postgrest or Auth Supabase API.
   Future<T> call<T>(
     Future<T> Function() funcAsync, {
     Set<AppException> exceptions = const {},
@@ -43,6 +45,10 @@ class SupabaseHandler {
     }
   }
 
+  /// Calls a Supabase Auth function and handles exceptions.
+  /// - It will check for [exceptions] provided first, then the default ones.
+  /// - If no match is found, it will throw [UnknownAuthException].
+  /// - If there are no [AuthException]s, it will be mapped to [UnknownException] or [NetworkException] if applies.
   Future<T> callAuth<T>(
     Future<T> Function() funcAsync, {
     Set<AppAuthException> exceptions = const {},
@@ -74,6 +80,10 @@ class SupabaseHandler {
     }
   }
 
+  /// Calls a Supabase Postgrest function and handles exceptions.
+  /// - It will check for [exceptions] provided first, then the default ones.
+  /// - If no match is found, it will throw [UnknownPGException].
+  /// - If there are no [PostgrestException]s, it will be mapped to [UnknownException] or [NetworkException] if applies.
   Future<T> callPG<T>(
     Future<T> Function() funcAsync, {
     Set<AppPGException> exceptions = const {},

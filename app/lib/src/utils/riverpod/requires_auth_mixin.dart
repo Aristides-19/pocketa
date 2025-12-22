@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 
-/// Providers dependent on `AuthStream` can extend this class to
+/// Providers dependent on [AuthStreamQuery] can extend this class to
 /// handle authenticated state changes. If there is no
 /// authenticated user, the state will be `null`.
 mixin RequiresAuthMixin<State> on AnyNotifier<AsyncValue<State?>, State?> {

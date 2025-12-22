@@ -5,8 +5,8 @@ import 'package:pocketa/src/constants/constants.dart';
 class POutlinedButton extends StatelessWidget {
   /// Button that displays an outlined button and handles tap events.
   /// It is not required to set disabled to true when loading, as loading will automatically disable the button.
-  /// - `[disabled]` indicates whether the button is disabled. It will not respond to taps, and will decrease its opacity.
-  /// - `[loading]` indicates whether to show a loading animation instead of the label. It will not respond to taps while loading.
+  /// - [disabled] indicates whether the button is disabled. It will not respond to taps, and will decrease its opacity.
+  /// - [loading] indicates whether to show a loading animation instead of the label. It will not respond to taps while loading.
   const POutlinedButton({
     super.key,
     required this.label,

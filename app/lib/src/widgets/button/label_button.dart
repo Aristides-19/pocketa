@@ -5,9 +5,9 @@ import 'package:pocketa/src/constants/constants.dart';
 class LabelButton extends StatelessWidget {
   /// Button that displays a text label and handles tap events.
   /// It is not required to set disabled to true when loading, as loading will automatically disable the button.
-  /// - `[disabled]` indicates whether the button is disabled. It will not respond to taps, and will decrease its opacity.
-  /// - `[loading]` indicates whether to show a loading animation instead of the label. It will not respond to taps while loading.
-  /// - `[color]` sets the text color of the label. Default to `[onSurface]` color from the theme.
+  /// - [disabled] indicates whether the button is disabled. It will not respond to taps, and will decrease its opacity.
+  /// - [loading] indicates whether to show a loading animation instead of the label. It will not respond to taps while loading.
+  /// - [color] sets the text color of the label. Default to [ColorScheme.onSurface] color from the theme.
   const LabelButton({
     super.key,
     required this.label,

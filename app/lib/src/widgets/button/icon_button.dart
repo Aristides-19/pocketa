@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class PIconButton extends StatelessWidget {
   /// Button that displays an icon and handles tap events.
-  /// - `[tooltip]` should be mandatory for accessibility.
-  /// - `[disabled]` indicates whether the button is disabled. It will not respond to taps, and will decrease its opacity.
+  /// - [tooltip] should be mandatory for accessibility.
+  /// - [disabled] indicates whether the button is disabled. It will not respond to taps, and will decrease its opacity.
   const PIconButton({
     super.key,
     required this.icon,

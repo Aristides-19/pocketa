@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
-/// Children must include [TextField] widgets and Submit Button. For full screens.
+/// Children must include [FormTextField] widgets and Submit Button. For full screens.
 class AppForm extends StatelessWidget {
   const AppForm({super.key, required this.formKey, required this.children});
 

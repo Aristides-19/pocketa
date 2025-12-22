@@ -49,6 +49,7 @@ linter:
     - implementation_imports
     - null_check_on_nullable_type_parameter
     - use_raw_strings
+    - comment_references
 
 analyzer:
   plugins:

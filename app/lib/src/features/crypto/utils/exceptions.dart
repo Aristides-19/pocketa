@@ -1,6 +1,8 @@
 import 'package:pocketa/src/localization/locale.dart';
 import 'package:pocketa/src/utils/app_exception.dart';
 
+/// An exception indicating that a password is required for encryption.
+/// It serves as a signal to redirect the user to login screen.
 class PasswordRequiredException extends AppException<Exception> {
   const PasswordRequiredException();
   @override
