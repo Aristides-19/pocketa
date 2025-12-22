@@ -43,7 +43,7 @@ class SignupScreen extends HookConsumerWidget {
           const SizedBox(height: 50),
 
           /// Email Field
-          FormInput(
+          FormTextField(
             name: 'email',
             label: LocaleKeys.auth_email.tr(),
             keyboardType: .emailAddress,
@@ -54,7 +54,7 @@ class SignupScreen extends HookConsumerWidget {
           const SizedBox(height: 25),
 
           /// Username Field
-          FormInput(
+          FormTextField(
             name: 'username',
             label: LocaleKeys.auth_username.tr(),
             keyboardType: .text,
@@ -66,7 +66,7 @@ class SignupScreen extends HookConsumerWidget {
           const SizedBox(height: 25),
 
           /// Password Field
-          FormInput(
+          FormTextField(
             name: 'password',
             label: LocaleKeys.auth_password.tr(),
             keyboardType: .visiblePassword,
@@ -79,7 +79,7 @@ class SignupScreen extends HookConsumerWidget {
           const SizedBox(height: 25),
 
           /// Confirm Password Field
-          FormInput(
+          FormTextField(
             name: 'confirm_password',
             label: LocaleKeys.auth_confirm_password.tr(),
             keyboardType: .visiblePassword,

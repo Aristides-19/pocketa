@@ -50,7 +50,7 @@ class LoginScreen extends HookConsumerWidget {
           const SizedBox(height: 50),
 
           /// Email Field
-          FormInput(
+          FormTextField(
             name: 'email',
             label: LocaleKeys.auth_email.tr(),
             keyboardType: .emailAddress,
@@ -61,7 +61,7 @@ class LoginScreen extends HookConsumerWidget {
           const SizedBox(height: 25),
 
           /// Password Field
-          FormInput(
+          FormTextField(
             name: 'password',
             label: LocaleKeys.auth_password.tr(),
             keyboardType: .visiblePassword,

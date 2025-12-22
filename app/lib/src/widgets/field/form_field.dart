@@ -4,8 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pocketa/src/constants/constants.dart';
 
-class FormInput extends HookWidget {
-  const FormInput({
+class FormTextField extends HookWidget {
+  const FormTextField({
     super.key,
     required this.label,
     required this.keyboardType,
