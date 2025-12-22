@@ -72,7 +72,7 @@ class LoginScreen extends HookConsumerWidget {
 
           Button(
             label: LocaleKeys.auth_login.tr(),
-            isLoading: authMutate.isLoading,
+            loading: authMutate.isLoading,
             onPressed: () => handleLogin(ref, formKey),
             width: double.infinity,
           ),
@@ -80,7 +80,7 @@ class LoginScreen extends HookConsumerWidget {
 
           Center(
             child: LabelButton(
-              isLoading: authMutate.isLoading,
+              disabled: authMutate.isLoading,
               label: LocaleKeys.auth_no_account.tr(),
               onPressed: () => context.push(RoutePaths.signup),
             ),

@@ -3,6 +3,10 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pocketa/src/constants/constants.dart';
 
 class Button extends StatelessWidget {
+  /// A normal button that handles tap events.
+  /// It is not required to set disabled to true when loading, as loading will automatically disable the button.
+  /// - `[disabled]` indicates whether the button is disabled. It will not respond to taps, and will decrease its opacity.
+  /// - `[loading]` indicates whether to show a loading animation instead of the label. It will not respond to taps while loading.
   const Button({
     super.key,
     required this.label,
@@ -10,7 +14,8 @@ class Button extends StatelessWidget {
     this.width = 160,
     this.height = 60,
     this.fontSize = 20,
-    this.isLoading = false,
+    this.loading = false,
+    this.disabled = false,
   });
 
   final String label;
@@ -18,7 +23,8 @@ class Button extends StatelessWidget {
   final double width;
   final double height;
   final double fontSize;
-  final bool isLoading;
+  final bool loading;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +43,31 @@ class Button extends StatelessWidget {
           ),
         ],
       ),
-      child: FilledButton(
-        onPressed: isLoading ? null : onPressed,
-        style: FilledButton.styleFrom(
-          minimumSize: Size(width, height),
-          backgroundColor: theme.colorScheme.primary,
-          shape: const RoundedRectangleBorder(
-            borderRadius: AppTheme.borderRadius,
+      child: Opacity(
+        opacity: disabled ? 0.7 : 1.0,
+        child: FilledButton(
+          onPressed: loading || disabled ? null : onPressed,
+          style: FilledButton.styleFrom(
+            minimumSize: Size(width, height),
+            backgroundColor: theme.colorScheme.primary,
+            shape: const RoundedRectangleBorder(
+              borderRadius: AppTheme.borderRadius,
+            ),
+            disabledBackgroundColor: theme.colorScheme.primary,
           ),
-          disabledBackgroundColor: theme.colorScheme.primary,
-        ),
-        child: isLoading
-            ? LoadingAnimationWidget.progressiveDots(
-                color: theme.colorScheme.onPrimary,
-                size: height / 2,
-              )
-            : Text(
-                label,
-                style: textTheme.titleMedium!.copyWith(
+          child: loading
+              ? LoadingAnimationWidget.progressiveDots(
                   color: theme.colorScheme.onPrimary,
-                  fontSize: fontSize,
+                  size: height / 2,
+                )
+              : Text(
+                  label,
+                  style: textTheme.titleMedium!.copyWith(
+                    color: theme.colorScheme.onPrimary,
+                    fontSize: fontSize,
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

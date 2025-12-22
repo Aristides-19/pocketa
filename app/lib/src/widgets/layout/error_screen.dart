@@ -53,7 +53,7 @@ class ErrorScreen extends HookWidget {
                   isLoading.value = false;
                 }
               },
-              isLoading: isLoading.value,
+              loading: isLoading.value,
               fontSize: 18,
               height: 54,
             ),

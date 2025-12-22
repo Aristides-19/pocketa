@@ -197,12 +197,12 @@ class ProfileCard extends ConsumerWidget {
           const SizedBox(width: 20),
           Expanded(child: Text(LocaleKeys.profile_account_load_error.tr())),
 
+          // Retry Button
           LabelButton(
             label: LocaleKeys.actions_retry.tr(),
             onPressed: () => ref.refresh(currentAccount),
             color: theme.colorScheme.error,
-            isLoading: account.isLoading,
-            showLoading: true,
+            loading: account.isLoading,
           ),
         ],
       ),
@@ -254,6 +254,7 @@ class ProfileCard extends ConsumerWidget {
                     ],
                   ),
                   const Spacer(),
+                  // Switch Account Button
                   PIconButton(
                     icon: const FaIcon(FontAwesomeIcons.shuffle),
                     onPressed: () {},

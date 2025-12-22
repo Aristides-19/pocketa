@@ -88,7 +88,7 @@ class SignupScreen extends HookConsumerWidget {
 
           Button(
             label: LocaleKeys.auth_signup.tr(),
-            isLoading: authMutate.isLoading,
+            loading: authMutate.isLoading,
             onPressed: () => handleSignup(ref, formKey),
             width: double.infinity,
           ),
@@ -96,7 +96,7 @@ class SignupScreen extends HookConsumerWidget {
 
           Center(
             child: LabelButton(
-              isLoading: authMutate.isLoading,
+              disabled: authMutate.isLoading,
               label: LocaleKeys.auth_have_account.tr(),
               onPressed: () => context.go(RoutePaths.login),
             ),
