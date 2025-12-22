@@ -16,6 +16,8 @@ class CryptoEngine {
     hashLength: 32,
   );
 
+  /// Derive a key from [password] with optional [salt] (creates new if null).
+  /// Returns a record of [KeyPayload] = (derivedKey, salt)
   Future<KeyPayload> deriveKey(String password, {List<int>? salt}) async {
     salt ??= _algorithm.newNonce();
     final key = await _kdf.deriveKeyFromPassword(
@@ -25,10 +27,12 @@ class CryptoEngine {
     return (derivedKey: key, salt: salt);
   }
 
+  /// Gen a private key. Returns a [SecretKey]
   Future<SecretKey> genPrivateKey() {
     return _algorithm.newSecretKey();
   }
 
+  /// Encrypt [privateKey] with [derivedKey]. Returns a [SecretBox].
   Future<SecretBox> encryptPrivateKey(
     SecretKey privateKey,
     SecretKey derivedKey,
@@ -39,6 +43,7 @@ class CryptoEngine {
     );
   }
 
+  /// Decrypt [encryptedPrivateKey] with [derivedKey]. Returns a [SecretKey]
   Future<SecretKey> decryptPrivateKey(
     SecretBox encryptedPrivateKey,
     SecretKey derivedKey,
@@ -48,10 +53,12 @@ class CryptoEngine {
     );
   }
 
+  /// Encrypt [plainText] with [privateKey]. Returns a [SecretBox]
   Future<SecretBox> encrypt(String plainText, SecretKey privateKey) {
     return _algorithm.encrypt(utf8.encode(plainText), secretKey: privateKey);
   }
 
+  /// Decrypt [secretBox] with [privateKey]. Returns a [String] as plain text
   Future<String> decrypt(SecretBox secretBox, SecretKey privateKey) async {
     final decryptedBytes = await _algorithm.decrypt(
       secretBox,

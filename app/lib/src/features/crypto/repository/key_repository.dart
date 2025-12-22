@@ -25,6 +25,8 @@ class KeyRepository {
 
   final _storageKey = 'private_key';
 
+  /// Update or insert a new [privateKey] derived from [password] in db and secure local storage.
+  /// - If null, it will generate a new one derived from [password].
   Future<SecretKey> upsert({required String password, SecretKey? privateKey}) {
     return _handler.callPG(() async {
       privateKey ??= await _engine.genPrivateKey();
@@ -52,6 +54,9 @@ class KeyRepository {
     });
   }
 
+  /// Get the user private key or create a new one if it doesn't exist calling [upsert].
+  /// - If [password] is provided, it will try to decrypt the key from Supabase.
+  /// - Throws [PasswordRequiredException] if no local key found and no password provided.
   Future<SecretKey> getOrElseCreate({String? password}) {
     return _handler.callPG(() async {
       // Session restore, try to get local key
@@ -101,6 +106,7 @@ class KeyRepository {
     }, exceptions: {const RPCNoDataFoundException()});
   }
 
+  /// Clears the locally stored private key.
   Future<void> clearLocalKey() {
     return _handler.call(() async {
       await _prefs.delete(key: _storageKey);

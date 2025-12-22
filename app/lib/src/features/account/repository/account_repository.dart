@@ -24,6 +24,7 @@ class AccountRepository {
   String get _selectFields =>
       'id, name, base_currency, conversion_currency, is_default, type';
 
+  /// Get all accounts as a [AccountPayload].
   Future<AccountPayload> getAll() async {
     return _handler.callPG(() async {
       final accounts = await _accountsdb
@@ -34,6 +35,7 @@ class AccountRepository {
     });
   }
 
+  /// Get an [Account] by its id. Returns `null` if not found.
   Future<Account?> get(String id) async {
     return _handler.callPG(() {
       return _accountsdb
@@ -45,8 +47,8 @@ class AccountRepository {
     });
   }
 
-  /// It'll create the account in the database and return the created account.
-  /// If isDefault is true, it'll set this account as the default one,
+  /// Create an account and return the created account.
+  /// If [isDefault] is true, it will set this account as the default one,
   /// unsetting any other default account.
   Future<Account> create({
     required String name,
@@ -69,6 +71,8 @@ class AccountRepository {
     }, exceptions: {const AccountLimitException()});
   }
 
+  /// Update an existing account and return the updated account.
+  /// There are no deletes in accounts, so there are no exceptions related to unexisting accounts.
   Future<Account> update(Account account) async {
     return _handler.callPG(() {
       return _accountsdb
@@ -85,12 +89,19 @@ class AccountRepository {
     }, exceptions: {const CurrencyUpdateException()});
   }
 
+  /// Set the current account locally.
+  /// This will not affect in cloud "current" account,
+  /// because in other devices it will pick the default account at startup.
   Future<void> setCurrent(Account account) async {
     return _handler.call(() async {
       await _prefs.setString(_currentAccountKey, account.id);
     });
   }
 
+  /// Get the current account. If no current account is set,
+  /// it will try to get the default account from the database.
+  /// - If no default account exists, it will create one.
+  /// - It is guaranteed that there is always a default account in database.
   Future<Account> getCurrentOrElseCreate() async {
     return _handler.callPG(() async {
       final currentAccountId = await _prefs.getString(_currentAccountKey);
@@ -115,13 +126,14 @@ class AccountRepository {
     });
   }
 
+  /// Clear the current account locally.
   Future<void> clearCurrent() async {
     return _handler.call(() async {
       await _prefs.remove(_currentAccountKey);
     });
   }
 
-  /// Call it when there are no accounts to create a default one.
+  /// Private. Call it when there are no accounts to create a default one.
   Future<Account> _createDefault() {
     return _handler.callPG(() async {
       final account = await create(

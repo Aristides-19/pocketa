@@ -15,6 +15,8 @@ class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
     _repo = ref.read($accountRepository);
   }
 
+  /// Create a new account. It will invalidate [AllAccountsQuery] and
+  /// [CurrentAccountQuery] so they get updated values.
   Future<void> create({
     required String name,
     required String baseCurrency,
@@ -34,6 +36,8 @@ class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
     });
   }
 
+  /// Update an existing account. It will invalidate [AllAccountsQuery] and
+  /// [CurrentAccountQuery] so they get updated values.
   Future<void> updateAc(Account account) async {
     await mutateState(() async {
       await _repo.update(account);
@@ -44,6 +48,8 @@ class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
     });
   }
 
+  /// Set the current account. It will invalidate [CurrentAccountQuery] and
+  /// [AllAccountsQuery] so they get updated values.
   Future<void> setCurrent(Account account) async {
     await mutateState(() async {
       await _repo.setCurrent(account);
