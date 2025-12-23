@@ -25,7 +25,6 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   }
 
   Future<void> logIn(String email, String password) async {
-    if (state.isLoading) return;
     await mutateState(() async {
       await _repo.logInWithEmail(email, password);
       await ref.read($cryptoService.notifier).init(password: password);
@@ -33,7 +32,6 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
   }
 
   Future<void> signUp(String username, String email, String password) async {
-    if (state.isLoading) return;
     await mutateState(() async {
       await _repo.signUp(username, email, password);
       await ref.read($cryptoService.notifier).createKey(password);
@@ -42,10 +40,9 @@ class AuthMutation extends _$AuthMutation with AsyncNotifierMixin {
 
   /// Use [force] to logout when it is critical to surpass the loading state
   Future<void> logout({bool force = false}) async {
-    if (state.isLoading && !force) return;
     await mutateState(() async {
       await _repo.logout();
-    });
+    }, checkLoading: !force);
   }
 
   Future<String?> getLastSessionEmail() async {
