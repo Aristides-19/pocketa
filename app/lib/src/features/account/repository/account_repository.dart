@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:pocketa/src/features/account/models/account.dart';
 import 'package:pocketa/src/features/account/models/account_payload.dart';
 import 'package:pocketa/src/features/account/utils/exceptions.dart';
@@ -29,7 +30,7 @@ class AccountRepository {
     return _handler.callPG(() async {
       final accounts = await _accountsdb
           .select(_selectFields)
-          .then((data) => data.map((p) => Account.fromJson(p)).toList());
+          .then((data) => data.map((p) => Account.fromJson(p)).toIList());
 
       return AccountPayload(accounts: accounts);
     });

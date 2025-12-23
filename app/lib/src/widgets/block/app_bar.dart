@@ -7,18 +7,12 @@ import 'package:pocketa/src/router/routes.dart';
 class PAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PAppBar({super.key});
 
-  static final titles = [
-    (title: AppInfo.appName, route: const HomeRoute().location),
-    (
-      title: LocaleKeys.nav_transactions.tr(),
-      route: const TransactionsRoute().location,
-    ),
-    (
-      title: LocaleKeys.nav_insights.tr(),
-      route: const InsightsRoute().location,
-    ),
-    (title: LocaleKeys.nav_profile.tr(), route: const ProfileRoute().location),
-  ];
+  static final titles = {
+    const HomeRoute().location: LocaleKeys.nav_home.tr(),
+    const TransactionsRoute().location: LocaleKeys.nav_transactions.tr(),
+    const InsightsRoute().location: LocaleKeys.nav_insights.tr(),
+    const ProfileRoute().location: LocaleKeys.nav_profile.tr(),
+  };
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -26,12 +20,7 @@ class PAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final currentLocation = GoRouterState.of(context).matchedLocation;
-    final title = titles
-        .firstWhere(
-          (item) => item.route == currentLocation,
-          orElse: () => (title: AppInfo.appName, route: ''),
-        )
-        .title;
+    final title = titles[currentLocation] ?? AppInfo.appName;
 
     return AppBar(
       elevation: 0,
