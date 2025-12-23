@@ -13,9 +13,6 @@
         "--enable-experiment=dot-shorthands"
       ],
       "group": "build",
-      "options": {
-        "cwd": "app"
-      }
     },
     {
       "label": "Watch Build Runner",
@@ -29,9 +26,6 @@
         "--enable-experiment=dot-shorthands"
       ],
       "group": "build",
-      "options": {
-        "cwd": "app"
-      },
       "presentation": {
         "echo": true,
         "reveal": "silent",
@@ -46,9 +40,6 @@
       "type": "shell",
       "command": "dart run easy_localization:generate -S assets/langs -O lib/src/localization -o locale_keys.g.dart -f keys; dart run easy_localization:generate -S assets/langs -O lib/src/localization",
       "group": "build",
-      "options": {
-        "cwd": "app"
-      },
       "presentation": {
         "echo": true,
         "reveal": "silent",
@@ -63,9 +54,6 @@
       "type": "shell",
       "command": "dart run easy_localization:audit -t assets/langs -s lib/src/localization",
       "group": "test",
-      "options": {
-        "cwd": "app"
-      }
     },
     {
       "label": "Build Generated Code",
@@ -79,19 +67,5 @@
         "isDefault": true
       }
     },
-    {
-      "label": "Generate SQL Init Script",
-      "type": "shell",
-      "command": "dart run services/supabase/init.dart",
-      "presentation": {
-        "echo": true,
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": false
-      },
-      "problemMatcher": []
-    }
   ]
 }
