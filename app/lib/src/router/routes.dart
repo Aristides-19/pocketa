@@ -126,3 +126,29 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
   Widget build(BuildContext context, GoRouterState state) =>
       const ProfileScreen();
 }
+
+@TypedGoRoute<AccountsRoute>(
+  path: '/accounts',
+  routes: [TypedGoRoute<AddAccountRoute>(path: 'add')],
+)
+@immutable
+class AccountsRoute extends GoRouteData with $AccountsRoute {
+  const AccountsRoute();
+
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AccountsScreen();
+}
+
+@immutable
+class AddAccountRoute extends GoRouteData with $AddAccountRoute {
+  const AddAccountRoute();
+
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      Container(color: Colors.white);
+}

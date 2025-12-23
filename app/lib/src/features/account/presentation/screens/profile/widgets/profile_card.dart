@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/account/services/account_service.dart';
 import 'package:pocketa/src/localization/locale.dart';
+import 'package:pocketa/src/router/routes.dart';
 import 'package:pocketa/src/utils/services/toaster_provider.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
@@ -108,7 +109,7 @@ class ProfileCard extends ConsumerWidget {
                   // Switch Account Button
                   PIconButton(
                     icon: const FaIcon(FontAwesomeIcons.shuffle),
-                    onPressed: () {},
+                    onPressed: () => const AccountsRoute().push(context),
                     tooltip: LocaleKeys.profile_switch_account.tr(),
                   ),
                 ],
