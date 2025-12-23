@@ -30,9 +30,15 @@
     "explorer.compactFolders": false,
     "dart.debugExternalPackageLibraries": false,
     "dart.debugSdkLibraries": false,
-    "editor.defaultFormatter": "Dart-Code.dart-code",
     "editor.codeActionsOnSave": {
-        "source.organizeImports": "always"
+      "source.organizeImports": "always"
+    },
+    "[dart]": {
+      "editor.defaultFormatter": "Dart-Code.dart-code"
+    },
+    "typescript.experimental.useTsgo": true,
+    "[typescript]": {
+      "editor.defaultFormatter": "oxc.oxc-vscode"
     }
   },
   "extensions": {
@@ -43,7 +49,7 @@
       "Dart-Code.flutter",
       "redhat.vscode-yaml",
       "KamranBekirov.flutter-pubgrade",
-      "esbenp.prettier-vscode"
+      "oxc.oxc-vscode"
     ]
   }
 }
