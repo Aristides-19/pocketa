@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boring_avatars/flutter_boring_avatars.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
-import 'package:pocketa/src/widgets/layout/error_screen.dart';
+import 'package:pocketa/src/widgets/widgets.dart';
 
 class AuthInfo extends ConsumerWidget {
   const AuthInfo({super.key});
