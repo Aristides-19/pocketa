@@ -61,6 +61,8 @@ class AccountMutation extends _$AccountMutation with AsyncNotifierMixin {
 }
 
 @Riverpod(keepAlive: true, name: r'$currentAccountQuery')
+/// Provides the current account for the authenticated user.
+/// It will be null if the user is not authenticated, or is recently logged in (this may be a loading state).
 class CurrentAccountQuery extends _$CurrentAccountQuery
     with RequiresAuthMixin<Account> {
   @override
@@ -72,6 +74,8 @@ class CurrentAccountQuery extends _$CurrentAccountQuery
 }
 
 @Riverpod(keepAlive: true, name: r'$allAccountsQuery')
+/// Provides all accounts for the current authenticated user.
+/// It will be null if the user is not authenticated, or is recently logged in (this may be a loading state).
 class AllAccountsQuery extends _$AllAccountsQuery
     with RequiresAuthMixin<AccountPayload> {
   @override
