@@ -1,5 +1,5 @@
-import "dotenv/config";
 import { defineConfig } from "@trigger.dev/sdk/v3";
+import "dotenv/config";
 
 export default defineConfig({
   project: process.env.PROJECT_REF!,
@@ -19,5 +19,5 @@ export default defineConfig({
       randomize: true,
     },
   },
-  dirs: ["./src/trigger"],
+  dirs: ["./src/currencies"],
 });
