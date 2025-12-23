@@ -7,8 +7,8 @@ import 'package:pocketa/src/router/routes.dart';
 import 'package:pocketa/src/utils/services/toaster_provider.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
-class ProfileCard extends ConsumerWidget {
-  const ProfileCard({super.key});
+class CurrentAccountCard extends ConsumerWidget {
+  const CurrentAccountCard({super.key});
 
   Widget _buildSkeleton() {
     return CommonCard(

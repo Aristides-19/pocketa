@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pocketa/src/features/auth/auth.dart';
 import 'package:pocketa/src/widgets/widgets.dart';
 
-class AuthInfo extends ConsumerWidget {
-  const AuthInfo({super.key});
+class ProfileInfo extends ConsumerWidget {
+  const ProfileInfo({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

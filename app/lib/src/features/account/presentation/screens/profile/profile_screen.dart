@@ -83,12 +83,12 @@ class ProfileScreen extends ConsumerWidget {
       },
       child: ScrollableScreen(
         children: [
-          // Auth Info
-          const Center(child: AuthInfo()),
+          // Profile Info
+          const Center(child: ProfileInfo()),
 
-          // Profile Card
+          // Current Account Card
           const SizedBox(height: 16),
-          const SizedBox(width: double.infinity, child: ProfileCard()),
+          const SizedBox(width: double.infinity, child: CurrentAccountCard()),
 
           // Profile Section
           const SizedBox(height: 24),
