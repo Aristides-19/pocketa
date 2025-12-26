@@ -7,11 +7,13 @@ class CommonCard extends StatelessWidget {
     required this.child,
     this.padding = const .symmetric(horizontal: 18, vertical: 12),
     this.selected = false,
+    this.onTap,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
   final bool selected;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,11 @@ class CommonCard extends StatelessWidget {
               : colorScheme.outline,
         ),
       ),
-      child: Padding(padding: padding, child: child),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: AppTheme.borderRadius,
+        child: Padding(padding: padding, child: child),
+      ),
     );
   }
 }
