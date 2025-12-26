@@ -8,6 +8,7 @@ import { Agent, request } from "undici";
 /** Save VES rate to USD/EUR to DB */
 export const SaveBcvRate = task({
   id: "ves-bcv-save-rate",
+  machine: "micro",
   run: async (payload: { currency: "USD" | "EUR"; selector: string; html: string }) => {
     try {
       const $ = cheerio.load(payload.html);
@@ -41,7 +42,14 @@ export const SaveBcvRate = task({
         })
         .select();
 
-      if (error) throw error;
+      if (error) {
+        if (error.code === "23505") {
+          logger.warn(`VES to ${payload.currency} rate for date ${date} already exists`);
+          return { rate, date };
+        }
+
+        throw error;
+      }
 
       logger.log(`Saved ${payload.currency} rate`, { data });
 
@@ -60,6 +68,7 @@ export const VesRatesScheduler = schedules.task({
     pattern: "0 0 * * *",
     timezone: "America/Caracas",
   },
+  machine: "micro",
   run: async () => {
     try {
       const { body } = await request("https://www.bcv.org.ve/", {
