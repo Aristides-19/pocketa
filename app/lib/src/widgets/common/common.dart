@@ -1,3 +1,4 @@
+export 'badge.dart';
 export 'card.dart';
 export 'list.dart';
 export 'skeletonizer.dart';
