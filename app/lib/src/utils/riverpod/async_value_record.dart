@@ -6,16 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 /// - If any of the [AsyncValue]s is loading, the combined [AsyncValue] will be in a loading state.
 extension AsyncValueRecord2<T1, T2> on (AsyncValue<T1>, AsyncValue<T2>) {
   AsyncValue<(T1, T2)> watch() {
-    if ($1.hasError) {
-      return AsyncError($1.error!, $1.stackTrace!);
-    }
-    if ($2.hasError) {
-      return AsyncError($2.error!, $2.stackTrace!);
-    }
+    if ($1 is AsyncLoading || $2 is AsyncLoading) return const AsyncLoading();
 
-    if ($1.isLoading || $2.isLoading) {
-      return const AsyncLoading();
-    }
+    if ($1 is AsyncError) return AsyncError($1.error!, $1.stackTrace!);
+    if ($2 is AsyncError) return AsyncError($2.error!, $2.stackTrace!);
 
     return AsyncData(($1.requireValue, $2.requireValue));
   }
@@ -28,19 +22,13 @@ extension AsyncValueRecord2<T1, T2> on (AsyncValue<T1>, AsyncValue<T2>) {
 extension AsyncValueRecord3<T1, T2, T3>
     on (AsyncValue<T1>, AsyncValue<T2>, AsyncValue<T3>) {
   AsyncValue<(T1, T2, T3)> watch() {
-    if ($1.hasError) {
-      return AsyncError($1.error!, $1.stackTrace!);
-    }
-    if ($2.hasError) {
-      return AsyncError($2.error!, $2.stackTrace!);
-    }
-    if ($3.hasError) {
-      return AsyncError($3.error!, $3.stackTrace!);
-    }
-
-    if ($1.isLoading || $2.isLoading || $3.isLoading) {
+    if ($1 is AsyncLoading || $2 is AsyncLoading || $3 is AsyncLoading) {
       return const AsyncLoading();
     }
+
+    if ($1 is AsyncError) return AsyncError($1.error!, $1.stackTrace!);
+    if ($2 is AsyncError) return AsyncError($2.error!, $2.stackTrace!);
+    if ($3 is AsyncError) return AsyncError($3.error!, $3.stackTrace!);
 
     return AsyncData(($1.requireValue, $2.requireValue, $3.requireValue));
   }
